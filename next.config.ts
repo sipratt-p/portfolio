@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Increase the maximum allowed size for static assets
+  experimental: {
+    largePageDataBytes: 512 * 1000000, // 512MB
+  },
   // Configure large media file handling
   async headers() {
     return [
