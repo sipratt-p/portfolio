@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 0, 0, 0;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+/* --- Force ALL backgrounds to display with Dark Reader enabled (site-wide) --- */
+[data-darkreader-mode] .bg-gradient-to-b,
+[data-darkreader-mode] .bg-gradient-to-br,
+[data-darkreader-mode] .bg-gradient-to-r,
+[data-darkreader-mode] .bg-gradient-to-t,
+[data-darkreader-mode] .bg-gradient-to-l,
+[data-darkreader-mode] .bg-gradient-to-tr,
+[data-darkreader-mode] .bg-gradient-to-tl,
+[data-darkreader-mode] .bg-gradient-to-bl,
+[data-darkreader-mode] .bg-gradient-to-br,
+[data-darkreader-mode] .bg-black,
+[data-darkreader-mode] .bg-white,
+[data-darkreader-mode] .bg-gray-50,
+[data-darkreader-mode] .bg-gray-100,
+[data-darkreader-mode] .bg-gray-200,
+[data-darkreader-mode] .bg-gray-300,
+[data-darkreader-mode] .bg-gray-400,
+[data-darkreader-mode] .bg-gray-500,
+[data-darkreader-mode] .bg-gray-600,
+[data-darkreader-mode] .bg-gray-700,
+[data-darkreader-mode] .bg-gray-800,
+[data-darkreader-mode] .bg-gray-900,
+[data-darkreader-mode] .bg-orange-500,
+[data-darkreader-mode] .bg-pink-500,
+[data-darkreader-mode] .bg-blue-500,
+[data-darkreader-mode] .bg-green-500,
+[data-darkreader-mode] .bg-yellow-500,
+[data-darkreader-mode] .bg-purple-500,
+[data-darkreader-mode] .bg-red-500,
+[data-darkreader-mode] .bg-indigo-500,
+[data-darkreader-mode] .aspect-video,
+[data-darkreader-mode] .object-cover,
+[data-darkreader-mode] .object-contain,
+[data-darkreader-mode] video,
+[data-darkreader-mode] .art-video-bg,
+[data-darkreader-mode] .art-gradient-bg,
+[data-darkreader-mode] section,
+[data-darkreader-mode] main,
+[data-darkreader-mode] .motion-div,
+[data-darkreader-mode] .motion-bg,
+[data-darkreader-mode] .fixed,
+[data-darkreader-mode] .absolute,
+[data-darkreader-mode] .relative {
+  background: unset !important;
+  background-image: unset !important;
+  filter: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+[data-darkreader-mode] video,
+[data-darkreader-mode] .aspect-video video {
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+[data-darkreader-mode] img,
+[data-darkreader-mode] .object-cover,
+[data-darkreader-mode] .object-contain {
+  filter: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+/* If you have custom classes for backgrounds, add them here as well */
+
