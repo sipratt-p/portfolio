@@ -15,6 +15,7 @@ export default function FractalTunnel() {
 
     // Make the canvas always fill the browser window
     function resize() {
+      if (!canvas) return;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
@@ -23,6 +24,7 @@ export default function FractalTunnel() {
 
     // Global time variable
     let time = 0;
+    let offset = 0;
 
     function animate() {
       // Get all control values
@@ -42,8 +44,10 @@ export default function FractalTunnel() {
 
       // Increment time
       time += 0.005;
+      offset = time * tunnelSpeed;
 
       // Draw trailing effect
+      if (!ctx || !canvas) return;
       ctx.fillStyle = `rgba(0, 0, 0, ${trailFade})`;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
