@@ -12,6 +12,20 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Configure large media file handling
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.(mp4|webm)$/i,
