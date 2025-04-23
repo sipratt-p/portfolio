@@ -7,7 +7,7 @@ export default function Ego() {
       {/* Full-screen Video */}
       <div className="fixed inset-0">
         <video
-          src="https://res.cloudinary.com/dsuu0y1qa/video/upload/v1745368649/ego_shhw0k.mp4"
+          src="https://res.cloudinary.com/dsuu0y1qa/video/upload/ego_shhw0k.mp4"
           className="w-full h-full object-cover"
           autoPlay
           loop
