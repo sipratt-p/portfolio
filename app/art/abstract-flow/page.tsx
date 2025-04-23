@@ -7,7 +7,7 @@ export default function AbstractFlow() {
       {/* Full-screen Video */}
       <div className="fixed inset-0">
         <video
-          src="https://res.cloudinary.com/dsuu0y1qa/video/upload/v1745368642/background_vyxhqk.mp4"
+          src="https://res.cloudinary.com/dsuu0y1qa/video/upload/background_vyxhqk.mp4"
           className="w-full h-full object-cover"
           autoPlay
           loop
