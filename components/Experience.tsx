@@ -95,7 +95,7 @@ export default function Experience() {
         style={{ opacity: gifOpacity }}
       >
         <video
-          src="/images/background.mp4"
+          src="/compressed/background.mp4"
           className="w-full h-full object-cover"
           autoPlay
           loop
@@ -111,7 +111,7 @@ export default function Experience() {
         style={{ opacity: gifOpacity }}
       >
         <video
-          src="/images/background.mp4"
+          src="/compressed/background.mp4"
           className="w-full h-full object-cover"
           autoPlay
           loop
