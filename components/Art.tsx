@@ -15,7 +15,7 @@ export default function Art({ className = "py-32" }: ArtProps) {
       {/* Video Background */}
       <video
         className="absolute inset-0 w-full h-full object-cover z-0"
-        src="/compressed/selfie.mp4"
+        src="https://res.cloudinary.com/dsuu0y1qa/video/upload/v1745368627/selfie_rwzhm3.mp4"
         autoPlay
         loop
         muted
@@ -25,7 +25,7 @@ export default function Art({ className = "py-32" }: ArtProps) {
       {/* Video Background */}
       <video
         className="absolute inset-0 w-full h-full object-cover z-10"
-        src="/compressed/selfie.mp4"
+        src="https://res.cloudinary.com/dsuu0y1qa/video/upload/v1745368627/selfie_rwzhm3.mp4"
         autoPlay
         loop
         muted
@@ -56,7 +56,7 @@ export default function Art({ className = "py-32" }: ArtProps) {
             <Link href="/art/headlands-journey" className="block group">
               <div className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden group group-hover:scale-110 transition-all duration-500">
                 <video
-                  src="/compressed/marin.mp4"
+                  src="https://res.cloudinary.com/dsuu0y1qa/video/upload/v1745368656/marin_fgijx2.mp4"
                   className="object-cover w-full h-full"
                   autoPlay
                   loop
@@ -151,7 +151,7 @@ export default function Art({ className = "py-32" }: ArtProps) {
             <Link href="/art/ego" className="block group">
               <div className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden group group-hover:scale-110 transition-all duration-500">
                 <video
-                  src="/compressed/ego.mp4"
+                  src="https://res.cloudinary.com/dsuu0y1qa/video/upload/v1745368649/ego_shhw0k.mp4"
                   className="object-cover w-full h-full"
                   autoPlay
                   loop
@@ -193,7 +193,7 @@ export default function Art({ className = "py-32" }: ArtProps) {
             <Link href="/art/impressionist-dream" className="block group">
               <div className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden group group-hover:scale-110 transition-all duration-500">
                 <video
-                  src="/compressed/impressionistdream.mp4"
+                  src="https://res.cloudinary.com/dsuu0y1qa/video/upload/v1745368663/impressionistdream_kcgyeh.mp4"
                   className="object-cover w-full h-full"
                   autoPlay
                   loop
@@ -235,7 +235,7 @@ export default function Art({ className = "py-32" }: ArtProps) {
             <Link href="/art/reflections-in-motion" className="block group">
               <div className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden group group-hover:scale-110 transition-all duration-500">
                 <video
-                  src="/compressed/selfie.mp4"
+                  src="https://res.cloudinary.com/dsuu0y1qa/video/upload/v1745368627/selfie_rwzhm3.mp4"
                   className="object-cover w-full h-full"
                   autoPlay
                   loop

@@ -7,7 +7,7 @@ export default function ReflectionsInMotion() {
       {/* Full-screen Video */}
       <div className="fixed inset-0">
         <video
-          src="/images/selfie.mp4"
+          src="https://res.cloudinary.com/dsuu0y1qa/video/upload/v1745368642/selfie_aqxvxz.mp4"
           className="w-full h-full object-cover"
           autoPlay
           loop

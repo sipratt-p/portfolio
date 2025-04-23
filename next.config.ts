@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
     unoptimized: true,
+    domains: ['res.cloudinary.com'],
   },
   // Increase the maximum allowed size for static assets
   experimental: {
