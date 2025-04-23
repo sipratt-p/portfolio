@@ -100,14 +100,14 @@ export default function Art({ className = "py-32" }: ArtProps) {
               className="block group"
             >
               <div className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden group group-hover:scale-110 transition-all duration-500">
-                <Image
-                  src="/images/background.gif"
-                  alt="Abstract Animation"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  priority
-                  unoptimized
+                <video
+                  src="https://res.cloudinary.com/dsuu0y1qa/video/upload/v1745368642/background_vyxhqk.mp4"
+                  className="object-cover w-full h-full"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 group-hover:from-purple-500/30 group-hover:to-pink-500/30 mix-blend-overlay transition-all duration-300" />
                 <div className="absolute inset-0 flex items-center justify-center">

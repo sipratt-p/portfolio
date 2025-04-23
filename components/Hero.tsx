@@ -24,7 +24,7 @@ const Hero: FC = () => {
         <video
           ref={videoRef}
           className="absolute inset-0 w-full h-full object-cover"
-          src="/marin.mp4"
+          src="https://res.cloudinary.com/dsuu0y1qa/video/upload/v1745368656/marin_fgijx2.mp4"
           autoPlay
           loop
           muted
