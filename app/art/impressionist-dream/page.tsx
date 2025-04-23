@@ -7,7 +7,7 @@ export default function ImpressionistDream() {
       {/* Full-screen Video */}
       <div className="fixed inset-0">
         <video
-          src="/impressionistdream.mp4"
+          src="https://res.cloudinary.com/dsuu0y1qa/video/upload/v1745368663/impressionistdream_kcgyeh.mp4"
           className="w-full h-full object-cover"
           autoPlay
           loop
