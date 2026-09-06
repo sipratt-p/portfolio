@@ -58,7 +58,7 @@ test('Large films and story are user-initiated, cancellable and isolated',()=>{
 });
 test('Tell Me Again is archived with local runtime/fonts, licenses and noindex',()=>{
  const p='public/experiences/tell-me-again/'; const s=read(p+'index.html');
- assert(s.includes('noindex,nofollow'));assert(s.includes('src="ink-full.js"'));assert(s.includes('href="fonts.css"'));
+ assert(s.includes('noindex,nofollow'));assert(s.includes('src="/experiences/tell-me-again/ink-full.js"'));assert(s.includes('href="/experiences/tell-me-again/fonts.css"'));
  assert(!/(?:src|href)=["']https?:/.test(s));assert(read(p+'fonts.css').includes('data:font/ttf;base64,'));
  for(const f of ['ink-full.js','inkjs-LICENSE.txt','EB-Garamond-OFL.txt','THIRD-PARTY.txt'])assert(statSync(p+f).size>100);
 });
@@ -70,4 +70,15 @@ test('Starting one player pauses its peers without touching the active player',a
  pauseOtherMedia(null,[a,b]);assert(a.paused && b.paused);
  const coordinator=read('components/portfolio/media-coordinator.tsx');assert(coordinator.includes("addEventListener('play',onPlay,true)"));assert(coordinator.includes('event.source===frame.contentWindow'));
  assert(read('app/layout.tsx').includes('<MediaCoordinator/>'));
+});
+
+// Vercel cleanUrls redirects index.html to an extensionless, slashless URL.
+test('Story assets survive Vercel clean URL redirects',()=>{
+ const html=read('public/experiences/tell-me-again/index.html');
+ for(const match of html.matchAll(/(?:src|href)="([^"]+)"/g)){
+  if(match[1].startsWith('data:'))continue;
+  const resolved=new URL(match[1],'https://www.sethpratt.com/experiences/tell-me-again');
+  assert(resolved.pathname.startsWith('/experiences/tell-me-again/'));
+  assert(statSync('public'+resolved.pathname).isFile());
+ }
 });
