@@ -1,0 +1,6 @@
+# Allow crawling so page-level noindex can be read on previews.
+# Indexing is enabled only in an explicitly approved production build.
+User-agent: *
+Allow: /
+
+Sitemap: https://www.sethpratt.com/sitemap.xml

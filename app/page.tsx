@@ -1,21 +1,9 @@
-import Hero from '../components/Hero'
-import About from '../components/About'
-import Projects from '../components/Projects'
-import Skills from '../components/Skills'
-import Experience from '../components/Experience'
-import Simulations from '../components/Simulations'
-import Art from '../components/Art'
+import { pageMetadata, SITE_URL, PERSON_ID } from '@/lib/seo';
+import JsonLd from '@/components/portfolio/json-ld';
+export const metadata = pageMetadata('/', 'AI Product Leader & Local AI Builder', 'Seth Pratt: AI Product Leader at NVIDIA, independent builder of AutoTalent and Dr. Grey AI, and hands-on researcher in local AI agents, models, and generative video.');
 
-export default function Home() {
-  return (
-    <main className="min-h-screen">
-      <Hero />
-      <About />
-      <Projects />
-      <Skills />
-      <Experience />
-      <Simulations />
-      <Art />
-    </main>
-  )
-}
+import { career } from '@/lib/portfolio';
+import PersonalProjects from '@/components/portfolio/personal-projects';
+import { ArrowRight, ArrowUpRight, MapPin } from 'lucide-react';
+export default function Home(){return <main id="main"><JsonLd data={{'@context':'https://schema.org','@type':'ProfilePage','@id':SITE_URL+'/#profile',url:SITE_URL+'/',mainEntity:{'@id':PERSON_ID}}}/><section className="hero wrap"><div className="intro-rise"><p className="eyebrow"><span className="eyebrow-dot"/>Product leadership · Applied AI</p><h1>Turning complex<br/>technology into<br/><span className="serif">useful products.</span></h1><p className="hero-copy">I’m Seth Pratt. I lead AI platforms, developer tools, and data products—connecting what technology can do with what people actually need.</p><div className="hero-actions"><a className="button-primary" href="#work">Explore my work <ArrowRight size={17} aria-hidden="true"/></a><a className="text-link" href="mailto:sipratt@gmail.com">Get in touch <ArrowUpRight size={16} aria-hidden="true"/></a></div></div><figure className="portrait-wrap intro-rise"><div className="portrait-frame"><img src="/images/profile.webp" alt="Seth Pratt" width="830" height="820" fetchPriority="high"/></div><figcaption className="portrait-caption"><strong>Product leader. Hands-on builder.</strong><span className="flex items-center gap-1"><MapPin size={12} aria-hidden="true"/>San Francisco</span></figcaption></figure></section><div className="wrap company-strip"><span className="eyebrow">Experience across</span><div className="companies">{['NVIDIA','lyft','intuit','facebook','VISA','Amgen'].map(x=><span key={x} className="company-word">{x}</span>)}</div></div><section id="work" className="section section-muted"><div className="wrap"><div className="section-heading"><div><p className="eyebrow">01 / Selected work</p><h2>Complex systems.<br/>Clearer experiences.</h2></div><p>From enterprise AI to internal search, a selection of the platforms I’ve helped bring to life.</p></div><div className="work-grid">{[{company:'NVIDIA',type:'Enterprise AI',name:'Making enterprise AI accessible',description:'Product experience for the NGC Catalog and analytics for the API Catalog.',image:'nvidiangc',slug:'enterprise-ai'},{company:'Lyft',type:'Developer productivity',name:'One place to find what matters',description:'Universal search across company knowledge, people, and internal tools.',image:'lyftproject',slug:'universal-search'},{company:'NVIDIA',type:'Autonomous systems',name:'Confidence before the road',description:'Test management and requirements traceability for autonomous vehicle features.',image:'kebana',slug:'av-validation'}].map(p=><a className="work-card" key={p.slug} href={'/work/'+p.slug}><div className="work-image"><img src={'/images/'+p.image+'.webp'} alt={p.name+' — product screenshot'} width="600" height="400" loading="lazy"/></div><div className="work-meta"><span>{p.company}</span><span>{p.type}</span></div><h3>{p.name}</h3><p>{p.description}</p><span className="text-link">Explore the project <ArrowUpRight size={15} aria-hidden="true"/></span></a>)}</div></div></section><div className="wrap earlier-work"><span>Also at Intuit</span><a href="/work/reconcile">Reconcile redesign <ArrowUpRight size={15} aria-hidden="true"/></a><a href="/work/experimentation">Analytics &amp; experimentation <ArrowUpRight size={15} aria-hidden="true"/></a></div>
+<PersonalProjects/><section id="about" className="section wrap about-grid"><div className="about-intro"><p className="eyebrow">03 / About</p><h2>Technical depth.<br/>A human perspective.</h2><p>I work at the intersection of product strategy, user experience, and engineering. My background spans AI, search, analytics, and enterprise software.</p><p>The common thread: making complex technology easier for people to put to work.</p><a className="text-link" href="https://www.linkedin.com/in/sethpratt/" target="_blank" rel="noreferrer">Connect on LinkedIn <ArrowUpRight size={16} aria-hidden="true"/><span className="sr-only"> (opens in a new tab)</span></a><div className="studio-note"><span className="eyebrow">Outside the roadmap</span><p>I also make short films, music videos, and creative experiments with AI.</p><a href="/studio" className="text-link">Step into the Studio <ArrowRight size={17} aria-hidden="true"/></a></div></div><div className="career"><h3 className="career-title">Experience</h3><ol>{career.map(job=><li key={job.company}><div className="career-top"><h4>{job.company}</h4><span>{job.years}</span></div><p className="career-role">{job.role}</p><p className="career-detail">{job.detail}</p></li>)}</ol></div></section></main>}

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "PORTFOLIO_PUBLIC_INDEXING=true npm run build",
+  "outputDirectory": "dist/client",
+  "framework": null,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/art/headlands-journey",
+      "destination": "/studio/headlands-journey",
+      "permanent": true
+    },
+    {
+      "source": "/art/abstract-flow",
+      "destination": "/studio/abstract-flow",
+      "permanent": true
+    },
+    {
+      "source": "/art/ego",
+      "destination": "/studio/ego",
+      "permanent": true
+    },
+    {
+      "source": "/art/impressionist-dream",
+      "destination": "/studio/impressionist-dream",
+      "permanent": true
+    },
+    {
+      "source": "/art/reflections-in-motion",
+      "destination": "/studio/reflections-in-motion",
+      "permanent": true
+    },
+    {
+      "source": "/simulations/fractal-tunnel",
+      "destination": "/studio#fractal-tunnel",
+      "permanent": true
+    },
+    {
+      "source": "/simulations/solar-system",
+      "destination": "/studio#solar-system",
+      "permanent": true
+    },
+    {
+      "source": "/art/dreams-of-marin",
+      "destination": "/studio/headlands-journey",
+      "permanent": true
+    },
+    {
+      "source": "/simulations",
+      "destination": "/studio#experiments",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
+}

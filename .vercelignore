@@ -1,0 +1,9 @@
+docs/
+tests/
+README.md
+.next/
+.vinext/
+.wrangler/
+dist/
+.git/
+*.log

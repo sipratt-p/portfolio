@@ -1,38 +1,14 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import StickyNav from "../components/StickyNav";
-import { Analytics } from '@vercel/analytics/react';
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
+import type { Metadata } from 'next';
+import './globals.css';
+import Header from '@/components/portfolio/header';
+import Footer from '@/components/portfolio/footer';
+import MediaCoordinator from '@/components/portfolio/media-coordinator';
+import { SITE_URL, identityGraph, indexingEnabled } from '@/lib/seo';
+import JsonLd from '@/components/portfolio/json-ld';
 export const metadata: Metadata = {
-  title: "Seth Pratt | Product Manager & Strategic Leader",
-  description: "Portfolio of Seth Pratt - Transforming ideas into impactful products through user-centered design and data-driven decision making",
+  metadataBase: new URL(SITE_URL),
+  title: {default:'Seth Pratt — AI Product Leader & Local AI Builder',template:'%s — Seth Pratt'},
+  description:'Seth Pratt is an AI Product Leader at NVIDIA and an independent builder of local AI agents, research tools, and creative systems.',
+  robots:{index:indexingEnabled,follow:indexingEnabled},icons:{icon:'/favicon.svg'}
 };
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <StickyNav />
-        {children}
-        <Analytics />
-      </body>
-    </html>
-  );
-}
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en" suppressHydrationWarning><head><script src="/theme-init.js"/></head><body><a href="#main" className="skip">Skip to content</a><JsonLd data={identityGraph}/><Header/><MediaCoordinator/>{children}<Footer/></body></html>}
