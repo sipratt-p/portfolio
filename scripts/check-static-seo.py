@@ -65,6 +65,7 @@ for path,p in pages.items():
             if u.fragment:assert unquote(u.fragment) in pages[dest].ids,(path,href,'Missing fragment')
         else: assert (ROOT/dest.lstrip('/')).is_file(),(path,href,'Missing target')
 assert pages['/'].videos==0
+assert pages['/'].meta.get('google-site-verification')==['eU3Mq1W15xn1LLI1cfJbt8kskPqNP2pAp2vR-5E10Lg'],'Missing Google ownership verification tag'
 sitemap=ElementTree.parse(ROOT/'sitemap.xml')
 urls=[e.text for e in sitemap.iter() if e.tag.endswith('}loc')]
 assert set(urls)=={ORIGIN+p for p in pages},'Sitemap mismatch'
@@ -76,5 +77,5 @@ for rule in redirects:
     assert rule['permanent']; u=urlsplit(rule['destination']); assert u.path in pages
     if u.fragment: assert u.fragment in pages[u.path].ids
 assert all(rule['destination']!='/' for rule in redirects)
-result={'pages':len(pages),'sitemap_urls':len(urls),'redirect_mappings':len(redirects),'mode':'public' if PUBLIC else 'noindex preview','checks':['unique titles/descriptions','self canonicals','OG metadata','H1','JSON-LD parse','Person relationships','breadcrumbs','internal links/fragments','no nested anchors','privacy patterns','sitemap coverage','legacy targets','no homepage video']}
+result={'pages':len(pages),'sitemap_urls':len(urls),'redirect_mappings':len(redirects),'mode':'public' if PUBLIC else 'noindex preview','checks':['unique titles/descriptions','self canonicals','OG metadata','H1','JSON-LD parse','Person relationships','breadcrumbs','internal links/fragments','no nested anchors','privacy patterns','sitemap coverage','legacy targets','no homepage video','Google ownership verification']}
 print(json.dumps(result,indent=2))
