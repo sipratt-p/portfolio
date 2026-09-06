@@ -26,3 +26,13 @@ test('Review fixes preserve responsive film proportions and short-screen navigat
  assert(css.includes('.film-start img,.film-player video{height:auto;min-height:0;max-height:min(74vh,740px)}'));
  assert(css.includes('.portfolio-menu{overflow-y:auto;overscroll-behavior:contain;max-height:100dvh}'));
 });
+
+test('Tab icons use the lowercase brand mark with cache-fresh SVG and raster fallbacks',()=>{
+ const layout=read('app/layout.tsx');
+ for(const name of ['favicon-sp.svg','favicon-sp-32.png','favicon.ico','apple-touch-icon.png']){
+  assert(layout.includes(name));assert(statSync('public/'+name).size>100);
+ }
+ const svg=read('public/favicon-sp.svg');assert(svg.includes('Seth Pratt — sp.'));
+ assert(svg.includes('#a86123'));assert(svg.includes('<path'));assert(!svg.includes('<text'));
+ const ico=readFileSync('public/favicon.ico');assert.equal(ico.readUInt16LE(2),1);assert.equal(ico.readUInt16LE(4),3);
+});
