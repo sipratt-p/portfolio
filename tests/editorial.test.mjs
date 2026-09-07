@@ -40,7 +40,9 @@ test('Indexing requires both explicit approval flag and Vercel production enviro
 test('Person identity links are profiles, not product-domain backlink markup',async()=>{
  const {identityGraph}=await import(dataUrl(compile('lib/seo.ts')));
  const person=identityGraph['@graph'].find(e=>e['@type']==='Person');
- assert.deepEqual(person.sameAs,['https://www.linkedin.com/in/sethpratt/','https://github.com/sipratt-p']);
+ assert.deepEqual(person.sameAs,['https://www.linkedin.com/in/sethpratt/', 'https://github.com/sipratt-p', 'https://www.crunchbase.com/person/seth-pratt-0f4e', 'https://www.pinterest.com/sethprattsf/', 'https://www.quora.com/profile/Seth-Pratt', 'https://x.com/sethprattsf', 'https://medium.com/@sethpratt']);
+ const footer=read('components/portfolio/footer.tsx');
+ for(const url of person.sameAs.slice(2))assert(!footer.includes(url),'Additional profiles must not become promoted footer links');
  assert(!JSON.stringify(identityGraph).includes('aggregateRating'));
 });
 

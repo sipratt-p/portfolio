@@ -17,7 +17,16 @@ export const identityGraph = {
   '@context': 'https://schema.org', '@graph': [
     { '@type': 'Person', '@id': PERSON_ID, name: 'Seth Pratt', url: `${SITE_URL}/`,
       jobTitle: 'AI Product Leader', worksFor: { '@type': 'Organization', name: 'NVIDIA' },
-      sameAs: ['https://www.linkedin.com/in/sethpratt/', 'https://github.com/sipratt-p'],
+      // User-confirmed public identities; deliberately not a promoted social feed.
+      sameAs: [
+        'https://www.linkedin.com/in/sethpratt/',
+        'https://github.com/sipratt-p',
+        'https://www.crunchbase.com/person/seth-pratt-0f4e',
+        'https://www.pinterest.com/sethprattsf/',
+        'https://www.quora.com/profile/Seth-Pratt',
+        'https://x.com/sethprattsf',
+        'https://medium.com/@sethpratt',
+      ],
       knowsAbout: ['AI product leadership', 'AI research', 'Local AI agents', 'Model evaluation', 'Generative video'] },
     { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, name: 'Seth Pratt', url: `${SITE_URL}/`, publisher: { '@id': PERSON_ID } }
   ]

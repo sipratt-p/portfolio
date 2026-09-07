@@ -29,10 +29,18 @@ test('Review fixes preserve responsive film proportions and short-screen navigat
 
 test('Tab icons use the lowercase brand mark with cache-fresh SVG and raster fallbacks',()=>{
  const layout=read('app/layout.tsx');
- for(const name of ['favicon-sp.svg','favicon-sp-32.png','favicon.ico','apple-touch-icon.png']){
+ for(const name of ['favicon-sp.svg','favicon-sp-32.png','favicon-sp-192.png','favicon.ico','apple-touch-icon.png']){
   assert(layout.includes(name));assert(statSync('public/'+name).size>100);
  }
  const svg=read('public/favicon-sp.svg');assert(svg.includes('Seth Pratt — sp.'));
  assert(svg.includes('#a86123'));assert(svg.includes('<path'));assert(!svg.includes('<text'));
  const ico=readFileSync('public/favicon.ico');assert.equal(ico.readUInt16LE(2),1);assert.equal(ico.readUInt16LE(4),3);
+});
+
+// Google recommends a square raster icon larger than 48 px at a stable URL.
+test('Search gets a stable high-resolution PNG of the same sp. brand mark',()=>{
+ const png=readFileSync('public/favicon-sp-192.png');
+ assert.equal(png.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
+ assert.equal(png.readUInt32BE(16),192);assert.equal(png.readUInt32BE(20),192);
+ assert(read('app/layout.tsx').includes("{url:'/favicon-sp-192.png',type:'image/png',sizes:'192x192'}"));
 });

@@ -10,13 +10,14 @@ PUBLIC='--public' in sys.argv
 class Page(HTMLParser):
     def __init__(self,text):
         super().__init__(convert_charrefs=True)
-        self.meta={}; self.canon=[]; self.ids=set(); self.links=[]; self.h1=0; self.title=''; self.json=[];self.script=None;self.in_title=False;self.a_depth=0;self.nested=False;self.videos=0;self.bodytext=[]
+        self.meta={}; self.canon=[]; self.icons=[]; self.ids=set(); self.links=[]; self.h1=0; self.title=''; self.json=[];self.script=None;self.in_title=False;self.a_depth=0;self.nested=False;self.videos=0;self.bodytext=[]
         self.feed(text)
     def handle_starttag(self,tag,attrs):
         a=dict(attrs)
         if a.get('id'): self.ids.add(a['id'])
         if tag=='meta': self.meta.setdefault(a.get('name',a.get('property','')),[]).append(a.get('content',''))
         if tag=='link' and a.get('rel')=='canonical': self.canon.append(a['href'])
+        if tag=='link' and a.get('rel')=='icon': self.icons.append(a)
         if tag=='h1': self.h1+=1
         if tag=='video': self.videos+=1
         if tag=='title': self.in_title=True
@@ -53,6 +54,8 @@ for path,p in pages.items():
     assert ('noindex' not in robots) if PUBLIC else ('noindex' in robots),(path,robots)
     person=[x for graph in p.json for x in graph.get('@graph',[]) if x.get('@type')=='Person']
     assert len(person)==1,(path,'Person schema')
+    assert person[0].get('sameAs')==['https://www.linkedin.com/in/sethpratt/', 'https://github.com/sipratt-p', 'https://www.crunchbase.com/person/seth-pratt-0f4e', 'https://www.pinterest.com/sethprattsf/', 'https://www.quora.com/profile/Seth-Pratt', 'https://x.com/sethprattsf', 'https://medium.com/@sethpratt'],(path,'User-confirmed identity profiles')
+    assert any(i.get('href')=='/favicon-sp-192.png' and i.get('type')=='image/png' and i.get('sizes')=='192x192' for i in p.icons),(path,'High-resolution favicon')
     if path.startswith(('/projects/','/notes/')):
         assert any(g.get('@type')=='BreadcrumbList' for g in p.json),(path,'Breadcrumb schema')
         assert 'source-note' in p.ids and 'source-title' in p.ids
@@ -77,5 +80,5 @@ for rule in redirects:
     assert rule['permanent']; u=urlsplit(rule['destination']); assert u.path in pages
     if u.fragment: assert u.fragment in pages[u.path].ids
 assert all(rule['destination']!='/' for rule in redirects)
-result={'pages':len(pages),'sitemap_urls':len(urls),'redirect_mappings':len(redirects),'mode':'public' if PUBLIC else 'noindex preview','checks':['unique titles/descriptions','self canonicals','OG metadata','H1','JSON-LD parse','Person relationships','breadcrumbs','internal links/fragments','no nested anchors','privacy patterns','sitemap coverage','legacy targets','no homepage video','Google ownership verification']}
+result={'pages':len(pages),'sitemap_urls':len(urls),'redirect_mappings':len(redirects),'mode':'public' if PUBLIC else 'noindex preview','checks':['unique titles/descriptions','self canonicals','OG metadata','H1','JSON-LD parse','Person relationships','breadcrumbs','internal links/fragments','no nested anchors','privacy patterns','sitemap coverage','legacy targets','no homepage video','Google ownership verification','seven confirmed identity profiles','high-resolution favicon']}
 print(json.dumps(result,indent=2))
