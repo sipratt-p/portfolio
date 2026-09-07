@@ -77,3 +77,15 @@ test('Field-note titles name the subject and cards use reader-facing summaries',
  assert(read('app/notes/page.tsx').includes('<FieldNotes compact/>'));
  assert(read('components/portfolio/header.tsx').includes("href:'/notes',name:'Notes'"));
 });
+
+test('AutoTalent leads with search agents and MCP without implying autonomous hiring decisions',()=>{
+ const p=independentProjects.find(p=>p.slug==='autotalent');
+ const card=read('components/portfolio/personal-projects.tsx');
+ assert(p.title.includes('agentic recruiting'));
+ assert(p.seoTitle.includes('Search Agents & MCP'));
+ for(const term of ['candidate search agents','MCP integrations']){assert(p.description.includes(term));assert(card.includes(term));}
+ assert(p.lede.includes('keeping recruiters in control'));
+ assert(p.sections.find(s=>s.id==='workflow').paragraphs.join(' ').includes('Model Context Protocol (MCP)'));
+ assert(p.workflow.includes('Review & approve'));
+ assert(p.basis.includes('confirmed September 6, 2026'));
+});

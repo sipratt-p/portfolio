@@ -18,21 +18,22 @@ export type Editorial = {
 };
 export const independentProjects: Editorial[] = [
   {
-    slug: 'autotalent', type: 'project', title: 'AutoTalent: recruiting as a working system.',
-    seoTitle: 'AutoTalent — Building an AI Recruiting Workflow', category: 'Independent product / Recruiting',
-    description: 'Seth Pratt’s AutoTalent project: AI-assisted candidate discovery, recruiter review, outreach, and pipeline workflows, with CLI and MCP interfaces.',
-    lede: 'Recruiting isn’t one search. It is a sequence of decisions: understand the role, find people, check the evidence, and decide what to do next. AutoTalent is my exploration of AI across that whole workflow.',
+    slug: 'autotalent', type: 'project', title: 'AutoTalent: agentic recruiting.',
+    seoTitle: 'AutoTalent — Agentic Recruiting, Search Agents & MCP', category: 'Independent product / Agentic recruiting',
+    description: 'Seth Pratt’s AutoTalent project: agentic recruiting with candidate search agents, MCP integrations, recruiter review, outreach, and pipeline workflows.',
+    lede: 'Recruiting isn’t one search. It is a sequence of decisions: understand the role, find people, check the evidence, and decide what to do next. AutoTalent brings search agents and MCP-connected tools into that workflow, while keeping recruiters in control of decisions.',
     takeaway: 'The useful unit of automation is a reviewable recruiting workflow—not a list of names or an agent with unlimited permission to act.',
-    facts: [{ label: 'My role', value: 'Independent builder & product direction' }, { label: 'Focus', value: 'Candidate discovery → recruiter decisions' }, { label: 'Interfaces', value: 'Web, CLI & MCP' }],
+    facts: [{ label: 'My role', value: 'Independent builder & product direction' }, { label: 'Focus', value: 'Search agents → recruiter review' }, { label: 'Interfaces', value: 'Web, CLI & MCP' }],
     workflowLabel: 'Publicly documented product workflow · simplified, not an infrastructure diagram',
-    workflow: ['Define a role', 'Discover candidates', 'Review & approve', 'Prepare outreach', 'Track the pipeline'],
+    workflow: ['Define a role', 'Search agents discover candidates', 'Review & approve', 'Prepare outreach', 'Track the pipeline'],
     sections: [
       { id: 'problem', title: 'The product problem', paragraphs: [
         'A recruiter needs more than a plausible match. They need to know why someone appeared, what is actually supported by that person’s history, and which step still needs judgment. Moving between search, candidate records, messaging, and pipeline tracking makes that context easy to lose.',
         'My interest is in joining those steps without hiding the decision. The role should remain the organizing context, rather than forcing the recruiter to reconstruct it every time a new tool is opened.'
       ] },
-      { id: 'workflow', title: 'From requisition to the next action', paragraphs: [
-        'AutoTalent’s public documentation exposes requisitions, candidate search and review, outreach, and pipeline operations. It also documents a CLI and Model Context Protocol (MCP) interface, so the product’s workflow can be used through agent tools rather than only through a graphical interface.',
+      { id: 'workflow', title: 'Search agents, MCP, and the next action', paragraphs: [
+        'Search agents handle candidate discovery around a role. Model Context Protocol (MCP) integrations let compatible AI assistants use recruiting tools, while the web app and CLI provide other ways to work with the product. Agentic recruiting is about connecting those tools into a useful workflow, not just adding a chat box.',
+        'AutoTalent’s public documentation covers requisitions, candidate search and review, outreach, and pipeline operations. The CLI and MCP interfaces make those operations accessible through agent tools rather than only through a graphical interface.',
         'That interface matters to the product design. A candidate is not just an answer in a conversation: it is a record that can be reviewed, approved or rejected, and used in a subsequent step. Publicly documented actions include pausing and resuming requisitions and approving or rejecting candidates.'
       ], links: [{ label: 'Read AutoTalent’s recruiting-agent documentation', href: 'https://autotalent.ai/docs' }, { label: 'Explore AutoTalent’s CLI and MCP interface', href: 'https://autotalent.ai/cli' }] },
       { id: 'evidence', title: 'What sourcing experiments taught me', paragraphs: [
@@ -46,14 +47,14 @@ export const independentProjects: Editorial[] = [
         'Can a paused workflow continue without losing the role and candidate context?'
       ] },
       { id: 'outcomes', title: 'What exists—and what I am not claiming', paragraphs: [
-        'The product and its public CLI/MCP documentation are available to explore. That is the concrete output of this project overview. I am not presenting a measured reduction in time-to-hire, hiring quality uplift, or customer adoption here; those need a defined dataset and a real evaluation, not a marketing estimate.',
+        'The agentic recruiting product and its public CLI/MCP documentation are available to explore. That is the concrete output of this project overview. I am not presenting a measured reduction in time-to-hire, hiring quality uplift, or customer adoption here; those need a defined dataset and a real evaluation, not a marketing estimate.',
         'The connection to my local AI work is the operating model: bounded tasks, explicit state, inspectable evidence, and a person who can intervene. Recruiting makes the need for those boundaries especially clear.'
       ] }
     ],
-    basis: 'Prepared September 5, 2026 from AutoTalent’s public product, CLI and documentation pages, and my August 2026 recruiting-pipeline wiki. The sourcing pilot is separate from the product.',
+    basis: 'Prepared September 5, 2026 from AutoTalent’s public product, CLI and documentation pages, and my August 2026 recruiting-pipeline wiki. Search-agent and MCP scope confirmed September 6, 2026. The sourcing pilot is separate from the product.',
     limitations: 'Independent project, not employer work. Product documentation describes capabilities, not independently verified hiring outcomes. This overview does not reproduce candidate records or private sourcing data.',
     related: [{ label: 'How I design long-running agents', href: '/notes/long-running-ai-agents' }, { label: 'Dr. Grey: a different problem of evidence and trust', href: '/projects/drgrey-ai' }],
-    product: { name: 'AutoTalent', url: 'https://autotalent.ai', description: 'Explore the recruiting product and its current capabilities.' }
+    product: { name: 'AutoTalent', url: 'https://autotalent.ai', description: 'Explore AutoTalent’s search agents, MCP integrations, and recruiting workflows.' }
   },
   {
     slug: 'drgrey-ai', type: 'project', title: 'Dr. Grey: making research easier to inspect.',
@@ -92,7 +93,7 @@ export const independentProjects: Editorial[] = [
     ],
     basis: 'Prepared September 5, 2026 from Dr. Grey’s public methodology and research pages, read-only inspection of the local application, and my UGC Factory experiment records. Product implementation is evolving.',
     limitations: 'Educational research product. This page provides no medical advice or clinical validation. It describes my independent product work, not a medical qualification or an employer-endorsed service.',
-    related: [{ label: 'AutoTalent: evidence in a recruiting workflow', href: '/projects/autotalent' }, { label: 'My local AI practice', href: '/local-ai' }],
+    related: [{ label: 'AutoTalent: agentic recruiting with reviewable evidence', href: '/projects/autotalent' }, { label: 'My local AI practice', href: '/local-ai' }],
     product: { name: 'Dr. Grey AI', url: 'https://drgrey.ai', description: 'Explore the research interface, sources, and methodology.' }
   }
 ];
@@ -139,7 +140,7 @@ export const notes: Editorial[] = [
     ],
     basis: 'Prepared September 5, 2026 from my video-pipeline operations wiki, evaluation-loop notes, Prime agent integration records, and the H3/LTX wrapper implementations. The concrete recovery examples are primarily from rendering; the permission boundaries are design principles for the broader agent practice.',
     limitations: 'Personal engineering practice, not a reliability SLA. Retry and supervision paths vary by driver. Private prompts, personal records, machine addresses, and operational credentials are not published.',
-    related: [{ label: 'Read the H3 and LTX evaluation findings', href: '/notes/evaluating-agentic-video' }, { label: 'See the AutoTalent product workflow', href: '/projects/autotalent' }, { label: 'Explore my local AI workbench', href: '/local-ai' }]
+    related: [{ label: 'Read the H3 and LTX evaluation findings', href: '/notes/evaluating-agentic-video' }, { label: 'See AutoTalent’s search agents and MCP workflow', href: '/projects/autotalent' }, { label: 'Explore my local AI workbench', href: '/local-ai' }]
   },
   {
     slug: 'evaluating-agentic-video', type: 'note', title: 'Evaluating H3 and LTX video renders', summary: 'What my rendering tests revealed about dialogue, lip sync, visual continuity, and selecting better takes.',
