@@ -55,3 +55,13 @@ test('Career copy includes Seth’s confirmed title and scope', () => {
   assert(data.includes("detail:'AI Research, enterprise AI"));
   assert(data.includes("detail:'Level 5 Autonomous Vehicles"));
 });
+
+test('Employer branding uses Meta while preserving historical employment context', () => {
+  const home = readFileSync('app/page.tsx', 'utf8');
+  const data = readFileSync('lib/portfolio.ts', 'utf8');
+  assert(home.includes("'intuit','Meta','VISA'"));
+  assert(!/facebook/i.test(home));
+  assert(data.includes("company:'Meta',role:'Product Management',years:'2015 — 2017'"));
+  assert(data.includes("detail:'Formerly Facebook. Consumer growth"));
+  assert(!data.includes("company:'Facebook'"));
+});

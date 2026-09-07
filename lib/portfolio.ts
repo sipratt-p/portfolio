@@ -11,7 +11,7 @@ export const career = [
   {company:'NVIDIA',role:'AI Product Leader',years:'2022 — Present',detail:'AI Research, enterprise AI, developer platforms, and autonomous vehicle validation.'},
   {company:'Lyft',role:'Senior Product Manager',years:'2019 — 2022',detail:'Level 5 Autonomous Vehicles · Universal search, developer productivity, and data infrastructure.'},
   {company:'Intuit',role:'Product Manager',years:'2017 — 2019',detail:'Search, small business finance, and experimentation platforms.'},
-  {company:'Facebook',role:'Product Management',years:'2015 — 2017',detail:'Consumer growth, experimentation, and analytics tooling.'},
+  {company:'Meta',role:'Product Management',years:'2015 — 2017',detail:'Formerly Facebook. Consumer growth, experimentation, and analytics tooling.'},
   {company:'Visa',role:'Associate Product Manager',years:'2014 — 2015',detail:'Payment gateways and enterprise product delivery.'},
   {company:'Amgen',role:'Project Manager',years:'2013 — 2014',detail:'Research operations and medical database resource planning.'},
 ] as const;
