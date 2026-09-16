@@ -97,6 +97,53 @@ export const independentProjects: Editorial[] = [
     related: [{ label: 'AutoTalent: agentic recruiting with reviewable evidence', href: '/projects/autotalent' }, { label: 'My local AI practice', href: '/local-ai' }],
     product: { name: 'Dr. Grey AI', url: 'https://drgrey.ai', description: 'Explore the research interface, sources, and methodology.' }
   }
+  ,
+  {
+    slug: 'cue', type: 'project', title: 'Cue: skip song by song inside a DJ mix.',
+    seoTitle: 'Cue — Song-by-Song Navigation for DJ Mixes and Mixtapes', category: 'Independent product / Music tools',
+    description: 'Seth Pratt’s Cue project: an iPhone mixtape player and an open-source engine that finds where each song starts inside a DJ mix, so Next on a car stereo jumps to the next song.',
+    lede: 'A DJ mix is one long file. If a song you hate comes on you scrub blind; if one you love comes on you cannot find it again. Cue finds the song starts and turns them into chapters that a phone, a car stereo and any chapter-aware player already understand.',
+    takeaway: 'The hard part is not playback. It is deciding where a song starts inside a beat-matched blend, and being honest about how often that decision lands within ten seconds of a human’s.',
+    facts: [{ label: 'My role', value: 'Independent builder & product direction' }, { label: 'Pieces', value: 'iPhone player (SwiftUI) · detection engine (Python, open source)' }, { label: 'Status', value: 'Engine public; the app runs on my phone, not yet on the App Store' }],
+    workflowLabel: 'From a mix file to a skippable mixtape · simplified from the current implementation',
+    workflow: ['Add a mix', 'Read or detect the tracklist', 'Place each song start', 'Write chapters into the file', 'Skip with the car controls'],
+    prepared: '2026-09-16',
+    featureImage: {src:'/projects/cue/cue-screens.jpg',alt:'Three iPhone screens of Cue: the mixtape library with a mix ready to listen, the same mix playing, and the app icon on the home screen.',caption:'Cue in the iOS simulator: the library and player, now playing, and the app icon. Stills from the UI-test recordings.',width:2000,height:1472},
+    sections: [
+      { id: 'problem', title: 'One file, many songs', paragraphs: [
+        'Mix platforms show a tracklist but will not let you skip, because licensing treats the mix as a single unit. On a phone or in a car that leaves two bad options: scrub blind, or listen through. Every song in a mix has a start; the file just does not know where.',
+        'Cue’s bet is that the start times are the product. Once a mix carries them as ordinary MP4 chapters, the rest is playback that iOS already does well: background audio, lock-screen titles, and the media buttons on a steering wheel.'
+      ] },
+      { id: 'player', title: 'The player', paragraphs: [
+        'The app is native SwiftUI for iOS 17 and later. Audio plays locally through AVPlayer with background playback, Now Playing information on the lock screen, and the standard Bluetooth media commands. There is no hosted service and no account. Song starts come from three places, in order of preference: chapters already embedded in the file, a timestamped tracklist pasted into the app, or marking them by hand while listening.',
+        'The car controls are the reason the app exists, so they are deterministic and tested. A single Next goes to the next marked song; two Next presses within 0.4 seconds go to the next mixtape; holding seek-forward for at least 0.65 seconds also goes to the next mixtape; Previous returns to the start of the current song, or to the previous song when already near the start. Cue uses the normal iOS media-command mechanism, so it cannot see raw Bluetooth presses or reprogram a stereo; double presses work only where the stereo sends two commands.'
+      ], table: { caption: 'Car controls · from the app’s README', headers: ['Input delivered by iOS', 'Cue action'], rows: [
+        ['One Next command', 'Next marked song, after a 0.4-second double-press window'],
+        ['Two Next commands within 0.4 s', 'Next mixtape, from 0:00'],
+        ['Seek-forward held for at least 0.65 s', 'Next mixtape, once'],
+        ['Previous command', 'Current song start, or the previous song when near the start'],
+        ['Play / Pause', 'Normal playback control']
+      ] } },
+      { id: 'engine', title: 'Finding the starts', paragraphs: [
+        'Detection runs on a Mac, not on the phone, through the open-source engine. It reads a tracklist when one exists: a text file beside the mix, or the page description when you hand it a URL. Timestamps in the tracklist are used as they are. Otherwise it combines three kinds of anchor. Audio fingerprinting says which song is playing and roughly when it was first heard; the provider is pluggable, with a licensed service for app use and an unofficial client kept for personal research only. A small transition detector trained on the public DJ Mix Dataset places the exact cut just before that. And free 30-second preview clips of the tracklist’s titles, aligned into the mix with tempo-tolerant chroma DTW, anchor songs when no fingerprint service is available.',
+        'A resolver combines the anchors, and the output is a plain m4a with MP4 chapters plus title, artist, date and genre tags. It is CPU only, about a minute per hour of audio on a laptop.'
+      ], links: [{ label: 'cue-engine on GitHub: code, accuracy tables and a demo', href: 'https://github.com/sipratt-p/cue-engine' }] },
+      { id: 'accuracy', title: 'Measured against DJ-published timestamps', paragraphs: [
+        'The engine is scored blind against timestamps DJs published for eight public mixes, 190 boundaries in all, boundaries only. Within 10 seconds, fingerprint offsets alone find 62 of 190; fingerprints plus the transition detector find 99. Within 30 seconds the figures are 131 and 144. Published disagreement between human annotators on DJ-mix boundaries is about 9 seconds, so on cut-style mixes (dancehall, hardstyle, jungle) the engine sits at the level of a human; long beat-matched house blends land in the right neighbourhood, around 25 seconds median, and are honestly ambiguous even for people.',
+        'Three things did not help, and are recorded as such: multimodal language models listening to the audio placed boundaries no better than a novelty curve and invented titles; snapping to a beat grid changed nothing against DJ-typed timestamps; retraining the detector on three times more minute-resolution labels gave no clear gain, because label precision is the limit.'
+      ], links: [{ label: 'The per-genre results and what they taught me', href: '/notes/finding-song-starts-in-dj-mixes' }] },
+      { id: 'demo', title: 'What it looks like', paragraphs: ['Fifty-seven seconds of the app: adding a mix, the detected song starts, and skipping through them. Recorded on the phone; sound starts only when you press play.'],
+        film: {title:'Cue on an iPhone',poster:'/projects/cue/cue-demo-poster.jpg',src:'/media/cue-demo.mp4',width:540,height:1174} },
+      { id: 'boundaries', title: 'What is bundled, and what I am not claiming', paragraphs: [
+        'The proof-of-concept build ships two complete mixes from an artist’s freely downloadable catalogue, converted to 128 kb/s AAC, with original artwork and source links preserved. A free download is not a general license to redistribute recordings in an App Store release; those examples would be removed before any public build. The app installs on my own phone with a free development profile. There is no App Store listing, no user study and no adoption claim.',
+        'What exists is the engine, its accuracy tables, and a player that does the job in my car. The open question is whether DJs would publish their own cue sheets so that listeners get the artist’s starts rather than a detector’s guess; that is a distribution question, not a technical one.'
+      ] }
+    ],
+    basis: 'Prepared September 16, 2026 from the Cue-iOS and cue-engine READMEs, the engine’s accuracy tables (eight public mixes, 190 DJ-published boundaries), UI-test screen recordings for the stills, and the engine’s demo recording. No new detection runs were made for this page.',
+    limitations: 'Personal project, not a shipped product. Accuracy figures are the engine’s own blind scores against DJ-published timestamps on eight mixes and do not generalise beyond those genres. No App Store release, no user study, and the bundled example mixes remain their owners’ work.',
+    related: [{ label: 'Field note: finding where songs start inside a DJ mix', href: '/notes/finding-song-starts-in-dj-mixes' }, { label: 'AutoTalent: agentic recruiting with reviewable evidence', href: '/projects/autotalent' }, { label: 'My local AI practice', href: '/local-ai' }],
+    product: { name: 'Cue', url: 'https://github.com/sipratt-p/cue-engine', description: 'The open-source engine: song-start detection for DJ mixes, with the accuracy tables and a demo of the app.' }
+  }
 ];
 
 export const notes: Editorial[] = [
@@ -820,5 +867,54 @@ export const notes: Editorial[] = [
   basis: 'Prepared September 16, 2026 from the scribe-bench repository: its results file, run logs, the autoresearch queue and decisions, and the paper draft kept alongside the code. Numbers are the recorded values from the September 11, 2026 run; nothing was re-run for this note.',
   limitations: 'Open mock data only, one hardware setup, and evolving scorers. The ASR table covers 57 consultations and the note-generation findings one model family. No clinician review of the scorers on this data, and no claim of clinical validity or transfer to real visits.',
   related: [{ label: 'scribe-bench: code, results and the paper draft', href: 'https://github.com/sipratt-p/scribe-bench' }, { label: 'The same evaluation discipline on coding agents', href: '/notes/local-agent-evaluations' }, { label: 'The workstation these models ran on', href: '/notes/local-model-performance-engineering' }]
+},
+{
+  slug: 'finding-song-starts-in-dj-mixes', type: 'note',
+  title: 'Finding where songs start inside a DJ mix', summary: 'What eight public mixes and 190 DJ-published timestamps taught me about fingerprints, transition detectors, and the limits of “correct”.',
+  seoTitle: 'Song-Start Detection in DJ Mixes — Fingerprints, Transition Detector & Measured Accuracy', category: 'Field note 08 / Audio machine learning',
+  description: 'Seth Pratt’s measurements of song-start detection inside DJ mixes: fingerprint offsets, a transition detector, preview alignment, per-genre accuracy against DJ-published timestamps, and the approaches that did not help.',
+  lede: 'The product question behind Cue is simple: where does each song start inside a mix? Answering it well turned out to be a measurement problem first. There is no ground truth, only the timestamps DJs publish, and even humans disagree by about nine seconds.',
+  takeaway: 'Report accuracy by genre and by tolerance window, against the labels people actually publish. A single number would have hidden that cut-style mixes are solved and beat-matched blends are not.',
+  facts: [{ label: 'Data', value: '8 public mixes · 190 DJ-published boundaries' }, { label: 'Method', value: 'Fingerprints + transition detector + preview alignment' }, { label: 'Code', value: 'cue-engine, open source, CPU only' }],
+  workflowLabel: 'The resolver’s order of evidence · a published timestamp always wins over a detector',
+  workflow: ['Read the tracklist', 'Fingerprint the mix', 'Align preview clips', 'Place the cut', 'Score against DJ timestamps'],
+  prepared: '2026-09-16',
+  sections: [
+    { id: 'labels', title: 'The label is a human guess too', paragraphs: [
+      'DJ mixes have no canonical boundaries. A beat-matched blend can run thirty seconds with two songs audible; the DJ who typed the tracklist picked one moment. Published inter-annotator disagreement on DJ-mix boundaries is about 9 seconds, so any score within that band is at the level of a person, and precision beyond it is not measurable with these labels.',
+      'That shaped the evaluation: boundaries scored within 10, 20 and 30 seconds of the DJ’s timestamp, per mix and per genre, with the fingerprint-only baseline reported beside the full system on the same mixes.'
+    ] },
+    { id: 'anchors', title: 'Three anchors that know different things', paragraphs: [
+      'Fingerprinting identifies which song is playing and roughly when it was first heard, but its offsets are late and jittery inside a blend. A small transition detector, trained on the public DJ Mix Dataset, does not know which song is which but is good at where the cut is; placed just before the fingerprint’s first sighting it gives the exact start. Free 30-second preview clips of the tracklist’s titles, aligned into the mix with tempo-tolerant chroma DTW, anchor songs with no fingerprint service at all; published tracklists name remixes correctly and set the song count when nothing fingerprints.',
+      'A resolver combines them with a fixed order of trust: a DJ-typed timestamp beats everything, then fingerprint plus detector, then alignment, then the detector alone.'
+    ] },
+    { id: 'results', title: 'Per-genre results', paragraphs: ['Boundaries within each window, per mix, against the DJ’s published timestamps. The last column is what fingerprint offsets alone achieve within 10 seconds on the same mix.'], table: { caption: 'Blind scores against DJ-published timestamps · eight public mixes · from the app README, September 2026', headers: ['Mix (genre)', 'Songs', 'Within 10 s', 'Within 20 s', 'Within 30 s', 'Median error', 'Fingerprints alone, within 10 s'], rows: [
+      ['Dancehall', '24', '20', '21', '23', '6 s', '17'],
+      ['Ragga jungle', '19', '10', '16', '17', '10 s', '6'],
+      ['Peak-time house', '21', '4', '7', '7', '39 s', '4'],
+      ['Live set, 2.5 h melodic house', '28', '9', '11', '19', '24 s', '9'],
+      ['Melodic house live set', '18', '10', '12', '14', '10 s', '6'],
+      ['B2B progressive live set', '18', '7', '9', '11', '22 s', '3'],
+      ['Berlin house and techno', '13', '5', '7', '9', '19 s', '2'],
+      ['Euphoric hardstyle, 50 tracks', '49', '34', '40', '44', '3 s', '15'],
+      ['All', '190', '99', '123', '144', '', '62']
+    ] } },
+    { id: 'reading', title: 'How to read that table', paragraphs: [
+      'Cut-style mixes are solved to the limit of the labels: hardstyle at a 3-second median, dancehall at 6. Long beat-matched house blends are not: a 39-second median on peak-time house means the engine is in the right neighbourhood and no better, and the fingerprint baseline is nearly as good there because the blend itself is the ambiguity. Reporting one aggregate, 99 of 190 within 10 seconds, would have hidden both facts.',
+      'Without any fingerprint service, preview alignment plus the page’s titles scores 20 of 24 within 20 seconds on the dancehall mix, and is weak on remixes, where the preview clip is a different recording. The detector alone, with no catalogue, is well behind fingerprints on catalogue songs and is the fallback of last resort.'
+    ] },
+    { id: 'negative', title: 'What did not help, measured', paragraphs: ['Three ideas were tried and recorded as negative results rather than dropped quietly:'], bullets: [
+      'Multimodal language models listening to the audio placed boundaries no better than a novelty curve, and invented song titles.',
+      'Snapping boundaries to a beat grid changed nothing against DJ-typed timestamps.',
+      'Retraining the transition detector on three times more minute-resolution labels gave no clear gain. Label precision, not data volume, is the limit.'
+    ] },
+    { id: 'product', title: 'What the measurement changed in the product', paragraphs: [
+      'The player treats a detected start as a draft: marks can be corrected by hand while listening, and a pasted tracklist or embedded chapters always override detection. The engine writes ordinary MP4 chapters so that nothing about the mix file is proprietary, and the right long-term source of truth is the DJ publishing a cue sheet, not a better detector.',
+      'The fingerprint provider is a boundary I keep explicit: one service is licensed for application use, the unofficial client is personal-use only and stays out of any distributed build. Being precise about that is part of publishing the engine at all.'
+    ], links: [{ label: 'cue-engine on GitHub', href: 'https://github.com/sipratt-p/cue-engine' }, { label: 'The Cue project page', href: '/projects/cue' }] }
+  ],
+  basis: 'Prepared September 16, 2026 from the cue-engine repository, its README accuracy tables, the Cue-iOS README’s detection-accuracy section and the resolver code. All figures are the recorded blind scores; no mixes were re-run for this note.',
+  limitations: 'Eight mixes and 190 boundaries in a handful of genres, scored against DJ-published timestamps that are themselves approximate. The per-genre rows are single mixes, not genre averages. Fingerprint results depend on the provider and the catalogue it covers.',
+  related: [{ label: 'Cue: the player and the engine', href: '/projects/cue' }, { label: 'The same evaluation discipline on coding agents', href: '/notes/local-agent-evaluations' }, { label: 'How I evaluate video renders', href: '/notes/evaluating-agentic-video' }]
 }
 ];
