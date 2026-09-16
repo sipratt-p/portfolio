@@ -13,6 +13,7 @@ export type Editorial = {
   workflow: string[]; workflowLabel: string;
   featureImage?: {src:string;alt:string;caption:string;width:number;height:number};
   sourceTitle?: string; disclosure?: string;
+  prepared?: string; updated?: string;
   sections: Section[]; basis: string; limitations: string;
   related: ReadingLink[]; product?: { name: string; url: string; description: string };
 };
@@ -169,12 +170,23 @@ export const notes: Editorial[] = [
         'In a June 12 Dr. Grey UGC experiment, selecting the best of two takes by lip-sync confidence brought back lip-smacking that the earlier single-take version did not have. The selected take scored better on correspondence between mouth movement and audio. That did not mean it sounded better.',
         'The LTX path could regenerate audio for each take, so the selector was not comparing the same soundtrack against different visuals. A better correspondence score could accompany a worse listening experience. Even a GOOD quality label did not remove the problem.',
         'The recorded remedy was to keep the candidate takes, reassemble from the cleaner ones, and investigate a separate mouth-noise penalty. That penalty was a proposed durable fix in those notes, not a validated universal solution. The durable lesson is already usable: do not optimize take selection on lip-sync alone.'
-      ], links: [{ label: 'The Dr. Grey product behind those UGC experiments', href: '/projects/drgrey-ai' }] },
+      ], links: [{ label: 'The Dr. Grey product behind those UGC experiments', href: '/projects/drgrey-ai' }, { label: 'The gate and the best-of-K code behind this experiment', href: 'https://github.com/sipratt-p/ugc-factory-core' }] },
       { id: 'sequence', title: 'Evaluate the edit, not just its ingredients', paragraphs: [
         'The April LTX cross-version experiments found that per-frame face quality improved while some assembled transitions became much worse on flow-discontinuity measurements. A more elaborate splice and re-encode path was a suspect, not a proven isolated cause.',
         'Last-frame conditioning improved several measured first transitions in that experiment. It did not establish that every later seam was fixed. This is why I retain shot-level, boundary-level, and whole-sequence evidence rather than reducing a film to one average score.',
         'For multi-character stories, the LTX wrapper now runs script preflight by default. Its post-render visual check is advisory; it reports skipped validation when the VLM is unavailable. The separate regeneration tool can retry flagged beats. Those paths should not be described as a universal blocking visual gate.'
       ] },
+      { id: 'code', title: 'The evaluators are now public', paragraphs: [
+        'Both evaluation stacks described above are on GitHub, with their thresholds and the record of how far each can be trusted. video-rsi is the H3-side suite: thirteen deterministic ffmpeg checks, ten speech and audio checks on one whisper transcript plus speaker embeddings, a VLM-as-judge tier, a 22-rule pre-render prompt lint, and the post-render hook that writes the sidecar. Its README states, check by check, whether a threshold was calibrated against human-judged clips, validated in a repair run, left as a heuristic, or kept advisory.',
+        'ugc-factory-core is the LTX side: the SyncNet lip-sync and transcription gate (LSE-C at least 2.0, LSE-D at most 9.0, word error rate at most 0.4) with adaptive retry, the script lint, best-of-K selection from disjoint seed banks, the scoring fleet, and the autoresearch runners behind a 22-experiment leaderboard. On one overnight batch the gate passed 11 of 12, 12 of 14, 12 of 14 and 13 of 14 segments across four synthetic personas; the June take-selection lesson above is written up there as a known trap. The personas, voice references, renders and client scripts are not in either repository.'
+      ], table: { caption: 'Calibration status of the published video-rsi checks · from the repository README, September 2026', headers: ['Check', 'Status', 'Evidence'], rows: [
+        ['motion_energy, loudness', 'Calibrated', 'Thresholds carried from an earlier gate script tuned on reviewed clips'],
+        ['script_coverage, extraneous_speech', 'Validated gates', 'Thresholds from the whisper QC gate used in an episode repair run'],
+        ['prompt_echo', 'Heuristic gate, phenomenon confirmed', 'The 13 flagged transcripts literally contain the casting guard sentence'],
+        ['voice_consistency (ECAPA)', 'Uncalibrated, advisory', 'Per-reference means from 0.16 to 0.67 overlap; the ordering tracks reference quality'],
+        ['All Tier 2 VLM verdicts', 'Uncalibrated', 'No labelled set yet; some FAILs are the judge complaining about frame count'],
+        ['lipsync.py', 'Advisory only', 'Flagged both clips a human caught, and failed two the same reviewer approved']
+      ] }, links: [{ label: 'video-rsi: the evaluation suite and its calibration record', href: 'https://github.com/sipratt-p/video-rsi' }, { label: 'ugc-factory-core: the LTX pipeline with its gates', href: 'https://github.com/sipratt-p/ugc-factory-core' }] },
       { id: 'limits', title: 'Know what the evaluator cannot tell you', paragraphs: ['My evaluation records include important qualifications:'], bullets: [
         'The 26 speech flags and 13 prompt-echo flags may overlap. Adding them does not give a count of unique failed videos.',
         'ECAPA voice-similarity thresholds and several VLM thresholds were uncalibrated in the recorded sweep; they are diagnostic signals, not identity-accuracy percentages.',
@@ -187,8 +199,9 @@ export const notes: Editorial[] = [
         'The final step remains watching and listening. Automated evaluation narrows the search and catches repeatable failures; it does not replace taste, pacing, or the judgment that a scene is worth keeping.'
       ], links: [{ label: 'Watch a recent H3 UGC example', href: '/studio/h3-ugc' }, { label: 'Watch Fable, an H3 and ACE-Step song film', href: '/studio/fable' }] }
     ],
-    basis: 'Prepared September 5, 2026 from the August 15 H3 59-clip report, H3 evaluation hook, LTX Validator Toolkit, April 7 cross-version experiments, June 10 enhancement records, and June 12 take-selection feedback. Existing records were reviewed; no new renders or evaluation runs were performed for this article.',
+    basis: 'Prepared September 5, 2026 from the August 15 H3 59-clip report, H3 evaluation hook, LTX Validator Toolkit, April 7 cross-version experiments, June 10 enhancement records, and June 12 take-selection feedback. Existing records were reviewed; no new renders or evaluation runs were performed for this article. Calibration table and code links added September 16, 2026 from the published repositories.',
     limitations: 'Small, evolving, self-run production experiments—not an independent model benchmark. Metrics, recipes, inputs and reviewer judgments differ across dates. No claim of calibrated evaluator accuracy or fully automatic acceptance is made.',
+    updated: '2026-09-16',
     related: [{ label: 'How the rendering agent survives a failed job', href: '/notes/long-running-ai-agents' }, { label: 'Browse finished films in the Studio', href: '/studio' }, { label: 'Why I also evaluate the coding harness', href: '/notes/local-agent-evaluations' }]
   },
   {
@@ -210,6 +223,15 @@ export const notes: Editorial[] = [
         'An August 27 comparison used the same Prime agent harness and four hard tasks: a POSIX regex engine, replicated text, an asynchronous DAG orchestrator, and a streaming JSON parser. Three runs of one Qwen configuration produced the scores below.',
         'Even this small table is more useful than displaying only the best result. It also needs its intervention record: two runaway fuzz subprocesses were interrupted across these runs; the agent adapted and completed those tasks. “No derailments” would not mean “no human assistance.”'
       ], table: { caption: 'Historical local run · Qwen3.8-Flash-Next-Uncensored FP8 + MTP4 · August 27, 2026', headers: ['Run', 'Score across four tasks', 'Interpretation'], rows: [['1', '392/400', 'Observed result'], ['2', '359/400', 'Observed result'], ['3', '389/400', 'Observed result'], ['Mean', '380/400', 'Three runs, not a general capability rating']] } },
+      { id: 'suite', title: 'The suite, the runners and the numbers are public', paragraphs: [
+        'The task set, the direct-API and harness-assisted runners, and 82 result records are on GitHub as coding-agent-bench, together with the four harness failures described on this page and how the scoring was fixed. The table below is the same four-task, three-run protocol applied to the other local configurations I ran on the two-GPU workstation between August and September 2026. Each row is three complete runs; the interpretation column carries what the score alone would hide.',
+        'The five-task direct-API suite in the same repository is a different measurement and its scores are out of 500: Ornith-1.5-35B in bf16 scored 489, a Qwen3.8-27B MTPLX build 483, Claude Opus 4.6 483, and DeepSeek V4-Flash 459 to 481 depending on the serving stack. Those numbers should not be placed in the table below.'
+      ], table: { caption: 'Four hard tasks, same agent harness, three runs each · two RTX PRO 6000 · August–September 2026', headers: ['Model and serving path', 'Runs (/400)', 'Mean', 'What the mean hides'], rows: [
+        ['Qwen3.8-Flash-Next, FP8, TP2, MTP depth 4', '392 / 359 / 389', '380', 'Zero degenerate generations; two runaway test subprocesses were interrupted and the agent adapted'],
+        ['GLM-5.3-Flash TR3-4bpw, 8K thinking budget', '389 / 359 / 369', '372', 'Needed a thinking-budget proxy; without one it reasoned for 65,536 tokens and scored 4/100'],
+        ['DeepSeek V4-Flash (abliterated), DSpark drafts', '287 / 197 / 382', '289', 'Three degenerate generations in twelve tasks; spec decoding and the ablation were not isolated'],
+        ['Qwen3.8-Flash-Next, NVFP4, one GPU', '274 / 359 / 268', '300', 'Parity on two tasks, a consistent partial on one, a collapse on the JSON parser in two runs']
+      ] }, links: [{ label: 'coding-agent-bench: tasks, runners and 82 result records', href: 'https://github.com/sipratt-p/coding-agent-bench' }, { label: 'The results table with every run', href: 'https://github.com/sipratt-p/coding-agent-bench/blob/main/results/RESULTS.md' }] },
       { id: 'comparisons', title: 'Do not let a harness limit become a model verdict', paragraphs: [
         'A timeout, output-length limit, malformed tool exchange, and incorrect implementation are different events. I keep inconclusive runs visible and separate from completed-task scores. They still matter operationally—someone waiting for an answer experienced an unfinished task—but they are not interchangeable evidence of reasoning failure.',
         'Some older comparison tables assigned a low floor to interrupted or missing-artifact runs. I would not reuse those totals as a clean model ranking. The statuses, final files, and intervention notes need to travel with the score.'
@@ -231,8 +253,9 @@ export const notes: Editorial[] = [
         'The decision the evidence supports, and the claims it cannot support.'
       ] }
     ],
-    basis: 'Prepared September 5, 2026 from my August 26 answer-extraction incident, August 27 Prime head-to-head run tables and intervention notes, and local-model operating records. The 17→97 correction is a recorded re-score, not a new run for this page.',
+    basis: 'Prepared September 5, 2026 from my August 26 answer-extraction incident, August 27 Prime head-to-head run tables and intervention notes, and local-model operating records. The 17→97 correction is a recorded re-score, not a new run for this page. Cross-model table and code links added September 16, 2026 from the published repository.',
     limitations: 'Four difficult coding tasks are a narrow sample. These historical results do not establish a general model ranking, statistical significance, or present-day vendor capability. No new benchmark was run for this article.',
+    updated: '2026-09-16',
     related: [{ label: 'My local AI practice and hardware', href: '/local-ai' }, { label: 'The same evaluation problem in H3 and LTX video', href: '/notes/evaluating-agentic-video' }, { label: 'Building long-running task-specific agents', href: '/notes/long-running-ai-agents' }]
   },
   {
@@ -378,6 +401,10 @@ export const notes: Editorial[] = [
         {
           "label": "The original autoresearch pattern — Andrej Karpathy",
           "href": "https://github.com/karpathy/autoresearch"
+        },
+        {
+          "label": "My LTX autoresearch runners and the 22-experiment leaderboard, now public",
+          "href": "https://github.com/sipratt-p/ugc-factory-core"
         }
       ]
     },
@@ -440,7 +467,8 @@ export const notes: Editorial[] = [
       ]
     }
   ],
-  "basis": "Prepared September 5, 2026 from the LTX autoresearch implementation and experiment wiki, April 5 and April 7 results, June quality-gate and take-selection records, H3 evaluation hooks and operating notes, and the Music3, Fable and Second Winter project archives. The link above credits Karpathy’s original autoresearch pattern.",
+  "basis": "Prepared September 5, 2026 from the LTX autoresearch implementation and experiment wiki, April 5 and April 7 results, June quality-gate and take-selection records, H3 evaluation hooks and operating notes, and the Music3, Fable and Second Winter project archives. The link above credits Karpathy’s original autoresearch pattern. Code link added September 16, 2026.",
+  "updated": "2026-09-16",
   "limitations": "This is a selective account of personally tested tools, not an exhaustive catalogue or a controlled comparison between vendors. Recipes and evaluators evolved over time. Historical LTX results are not relabeled as LTX 2.5 results. No new renders or benchmark runs were performed for this article.",
   "related": [
     {
@@ -577,6 +605,93 @@ export const notes: Editorial[] = [
       ]
     },
     {
+      "id": "serving",
+      "title": "What actually serves on the workstation",
+      "paragraphs": [
+        "The launch recipes behind this note are public as blackwell-serving-kit, with the DeepSeek work in its own repository. The table is the measured state of each configuration on the two-GPU workstation between April and September 2026: one launcher per row, the single-stream decode rate, and the aggregate rate at the concurrency noted. Rows are not interchangeable: different models, quantizations, engines and dates.",
+        "Two of the findings in the repository are worth stating here. The peer-to-peer workaround described above cost nothing measurable on the DeepSeek serve (185.2 tokens per second with P2P disabled against 185.7 with it on), and a two-minute probe now runs after every kernel update before any engine flag is blamed. And the GLM-5.3-Flash NVFP4 checkpoint did not fit for two independent reasons that are written up separately: a quantization that left the attention stack in BF16, and an SM120 sparse-attention kernel that asserts on models without rotary position dimensions."
+      ],
+      "table": {
+        "caption": "Measured serving configurations · two RTX PRO 6000 (SM120) unless noted · April–September 2026 · from the blackwell-serving-kit README",
+        "headers": [
+          "Model",
+          "Format and engine",
+          "Single stream",
+          "Aggregate"
+        ],
+        "rows": [
+          [
+            "Qwen3.8-Flash-Next (125B, 6B active, 51B n-gram table)",
+            "FP8, vLLM TP2, table offloaded to host RAM, MTP depth 4",
+            "233.8 tokens/s (113.9 without MTP)",
+            "1,712 tokens/s at 16 streams"
+          ],
+          [
+            "Qwen3.8-Flash-Next, one GPU",
+            "NVFP4, same image with a one-file loader patch",
+            "90.6 tokens/s",
+            "496 tokens/s at 16"
+          ],
+          [
+            "DeepSeek V4-Flash",
+            "NVFP4, community B12X vLLM build with the MTP fix",
+            "108.8 to 150.6 tokens/s (+38% from MTP)",
+            "—"
+          ],
+          [
+            "DeepSeek V4-Flash",
+            "FP8, DSpark speculative build",
+            "182 to 186 tokens/s",
+            "201 tokens/s at 4"
+          ],
+          [
+            "Ornith-1.5-35B-A3B",
+            "bf16, stock vLLM, one GPU",
+            "179.5 tokens/s",
+            "3,444 tokens/s at 128, not saturated"
+          ],
+          [
+            "Ornith-1.5-397B",
+            "NVFP4, vLLM TP2, expert tensors offloaded to pinned RAM",
+            "10.9 tokens/s",
+            "12.5 tokens/s at 4, PCIe-bound"
+          ],
+          [
+            "GLM-5.3-Flash",
+            "TR3 4-bit experts, the author’s vLLM fork",
+            "108 to 117 tokens/s",
+            "105 to 185 tokens/s at 4"
+          ],
+          [
+            "MiniMax M2.7",
+            "NVFP4, SGLang with b12x kernels",
+            "120 to 127 tokens/s",
+            "408 tokens/s at 16"
+          ],
+          [
+            "Qwen3.8-27B on a Mac Studio M3 Ultra",
+            "oQ4e, oMLX dual-ANE prefill and MTP",
+            "81 tokens/s on code, 59 on prose",
+            "78 tokens/s at 4; prefill +22% at 32K"
+          ]
+        ]
+      },
+      "links": [
+        {
+          "label": "blackwell-serving-kit: launchers, patches, the P2P probe and the write-ups",
+          "href": "https://github.com/sipratt-p/blackwell-serving-kit"
+        },
+        {
+          "label": "dsv4-flash-nvfp4-sm120: the DeepSeek kit and the MTP investigation",
+          "href": "https://github.com/sipratt-p/dsv4-flash-nvfp4-sm120"
+        },
+        {
+          "label": "omlx-dualane-recipe: the Mac Studio reproduction pack",
+          "href": "https://github.com/sipratt-p/omlx-dualane-recipe"
+        }
+      ]
+    },
+    {
       "id": "evaluators",
       "title": "Better evaluators required software work, not just more GPU",
       "paragraphs": [
@@ -637,7 +752,8 @@ export const notes: Editorial[] = [
       ]
     }
   ],
-  "basis": "Prepared September 5, 2026 from the April concurrent-prefill experiment and timing runner, DeepSeek SM120 bring-up records, the Qwen campaign artifact manifest, the August multi-GPU correctness incident, the August 27 launch-book sweep and quality checks, GLM thinking-budget notes, and current LTX evaluator code.",
+  "basis": "Prepared September 5, 2026 from the April concurrent-prefill experiment and timing runner, DeepSeek SM120 bring-up records, the Qwen campaign artifact manifest, the August multi-GPU correctness incident, the August 27 launch-book sweep and quality checks, GLM thinking-budget notes, and current LTX evaluator code. Serving table and code links added September 16, 2026 from the published repositories.",
+  "updated": "2026-09-16",
   "limitations": "All numbers are historical observations from my own hardware and evolving harnesses; none were remeasured for this article. Different suites, checkpoint revisions, cache states and adapter generations are not interchangeable. Kernel contributions are credited as integration and local engineering rather than sole authorship of upstream implementations. The chronology is incomplete and does not support a total-hours claim.",
   "related": [
     {
@@ -653,5 +769,56 @@ export const notes: Editorial[] = [
       "href": "/local-ai"
     }
   ]
+},
+{
+  slug: 'ambient-clinical-documentation-open-weights', type: 'note',
+  title: 'Ambient clinical documentation on open weights', summary: 'What seven speech recognizers, a LoRA fine-tune and a claim-level verifier did on open mock consultations, and where fluency metrics hide the damage.',
+  seoTitle: 'Ambient Clinical Scribe Evaluation — Open Data, ASR, LoRA & a Verifier', category: 'Field note 07 / Clinical speech-to-note',
+  description: 'Seth Pratt’s scribe-bench study: seven ASR systems, note generation, LoRA fine-tuning and a claim-level verifier evaluated on PriMock57 and ACI-Bench with clinician-defined scorers.',
+  lede: 'Ambient clinical documentation is a product category built on a pipeline: transcribe the visit, attribute who said what, write the note, check the note. I wanted to know how far open data and open-weight models get on each stage, and which measurements tell the truth about them.',
+  takeaway: 'Overlap metrics reward fluency. Clinician-defined dimensions catch what fluency hides: misattributed speakers, missing follow-ups, and claims the transcript never supported.',
+  facts: [{ label: 'Data', value: 'PriMock57 & ACI-Bench (mock consultations, CC BY 4.0)' }, { label: 'Systems', value: '7 ASR stacks · Qwen3.8-27B notes · LoRA · verifier' }, { label: 'Status', value: 'Non-commercial study, code and paper draft public' }],
+  workflowLabel: 'The study pipeline · each stage scored on held-out splits before the next one used its output',
+  workflow: ['Transcribe & diarize', 'Score the transcript', 'Generate the note', 'Verify each claim', 'Accept only what held on test'],
+  prepared: '2026-09-16',
+  sections: [
+    { id: 'question', title: 'A pipeline, not a model', paragraphs: [
+      'The commercial products in this space are judged on the note. But the note inherits every error made upstream: a dropped medication name in transcription, a line attributed to the doctor that the patient said, a follow-up instruction that never made it into the summary. I built scribe-bench to measure those stages separately, on data anyone can download, with open-weight models on my own hardware.',
+      'Everything in the study is a mock or synthetic consultation: PriMock57 (57 recorded mock primary-care visits with transcripts and notes) and ACI-Bench, MTS-Dialog and MedSynth for note generation and fine-tuning. No real patients, no proprietary data, and no claim that the results transfer to a clinic. The point was the evaluation method.'
+    ] },
+    { id: 'asr', title: 'Transcription: the medical-term miss rate is its own number', paragraphs: [
+      'Seven speech-recognition stacks ran on the 57 PriMock57 consultations, scored on word error rate, the miss rate on medical terms specifically, diarization error where the system produced speaker turns, and the share of words attributed to the wrong speaker. Word error rate alone would rank the top three systems as roughly equal. The medical-term column does not.',
+      'The last row is a reminder that a capable model in the wrong mode is a different system: the same family that transcribes competently as a dedicated recognizer produced an 88 percent diarization error when prompted as a chat model.'
+    ], table: { caption: 'PriMock57, 57 consultations · from the scribe-bench results file, September 2026', headers: ['System', 'Word error rate', 'Medical-term miss', 'Diarization error', 'Misattributed words'], rows: [
+      ['MOSS-Transcribe-Diarize 0.9B', '10.3%', '8.4%', '11.4%', '1.0%'],
+      ['Sortformer + Parakeet v3', '11.2%', '15.1%', '11.1%', '1.3%'],
+      ['Canary-Qwen 2.5B', '11.6%', '9.6%', 'no diarization', 'not applicable'],
+      ['Nemotron Nano Omni, chat prompt', '27.2%', '15.7%', '88%', '32%']
+    ] } },
+    { id: 'notes', title: 'Note generation: the fine-tune that looked like an improvement', paragraphs: [
+      'Qwen3.8-27B wrote visit notes from three transcript sources: the human transcript, the raw ASR output, and a corrected ASR output. The gap between the first and the second is the ceiling on what better transcription buys the note.',
+      'One epoch of LoRA fine-tuning on open transcript-and-note pairs lifted ROUGE-L by nine points, which is the kind of result that gets announced. The clinician-defined scorers told the other half: speaker misattributions doubled to tripled, and recall of follow-up instructions went down. The tuned model had learned the shape of a note faster than the discipline of one.',
+      'A second lesson from the same runs: if you want the note to cite the transcript, the citations have to be in the fine-tuning targets. Tuning on uncited notes erased the grounding behaviour the base model had shown.'
+    ] },
+    { id: 'verifier', title: 'A claim-level verifier, and what its recall does not mean', paragraphs: [
+      'The last stage splits a note into claims and checks each against the transcript. On three held-out splits the verifier recalled 98.7 to 99.6 percent of errors that had been injected into notes deliberately.',
+      'Injected errors are not natural errors. The number says the verifier catches the classes of mistake we knew to inject; it does not say how many of a model’s own mistakes it catches, which needs a labelled set of real generation errors. That distinction is written next to the number in the repository, because a verifier presented without it becomes a false guarantee.',
+      'Speaker attribution had its own check: several LLM judges scored the same 74 notes for who-said-what, and their agreement is measured rather than assumed.'
+    ] },
+    { id: 'loop', title: 'An overnight loop that only keeps what survives the test slice', paragraphs: [
+      'Configuration search ran as an autoresearch loop in the pattern I use for video: a bounded set of knobs (prompting, ASR variant, correction, role mapping, scaffolding), one change per trial, and acceptance only if the candidate improved on the validation slice and did not regress on the test slice. The queue of trials and the decisions are part of the repository.',
+      'The loop is a search over configurations, not training. Its value was disqualifying plausible ideas quickly: several prompting scaffolds that improved fluency scores were rejected because they raised the misattribution rate.'
+    ] },
+    { id: 'limits', title: 'What this study cannot claim', paragraphs: ['The boundaries are the same ones I would want to read on anyone else’s evaluation:'], bullets: [
+      'Mock consultations are cleaner than real ones. Real audio has cross-talk, accents, background noise and longer visits.',
+      'The clinician-defined scorers are modelled on published evaluation dimensions, not reviewed by clinicians on this data.',
+      'ROUGE and BERTScore are reported because they are standard, not because they are trusted.',
+      'The verifier’s recall is on injected errors only.',
+      'This is a non-commercial study to understand the problem space. It is not a product, and nothing here is clinical advice.'
+    ] }
+  ],
+  basis: 'Prepared September 16, 2026 from the scribe-bench repository: its results file, run logs, the autoresearch queue and decisions, and the paper draft kept alongside the code. Numbers are the recorded values from the September 11, 2026 run; nothing was re-run for this note.',
+  limitations: 'Open mock data only, one hardware setup, and evolving scorers. The ASR table covers 57 consultations and the note-generation findings one model family. No clinician review of the scorers on this data, and no claim of clinical validity or transfer to real visits.',
+  related: [{ label: 'scribe-bench: code, results and the paper draft', href: 'https://github.com/sipratt-p/scribe-bench' }, { label: 'The same evaluation discipline on coding agents', href: '/notes/local-agent-evaluations' }, { label: 'The workstation these models ran on', href: '/notes/local-model-performance-engineering' }]
 }
 ];
