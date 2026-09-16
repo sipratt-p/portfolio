@@ -8,8 +8,8 @@ const compile = p => transpileModule(read(p),{compilerOptions:{module:ModuleKind
 const dataUrl = code => `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`;
 const {notes,independentProjects} = await import(dataUrl(compile('lib/editorial.ts')));
 test('Original editorial content has sources, limitations, unique slugs and working local relationships',()=>{
- assert.equal(notes.length,6); assert.equal(independentProjects.length,2);
- const all = [...notes,...independentProjects]; assert.equal(new Set(all.map(e=>e.slug)).size,8);
+ assert.equal(notes.length,7); assert.equal(independentProjects.length,2);
+ const all = [...notes,...independentProjects]; assert.equal(new Set(all.map(e=>e.slug)).size,9);
  for(const e of all){
   assert(e.basis.length>100); assert(e.limitations.length>80); assert(e.sections.length>=5);
   const count=e.sections.flatMap(s=>s.paragraphs).join(' ').split(/\s+/).length;assert(count>=280,`${e.slug}: ${count} words`);
@@ -70,7 +70,7 @@ test('Inference post keeps source dates, suite boundaries, upstream credit and m
 });
 
 test('Field-note titles name the subject and cards use reader-facing summaries',()=>{
- const expected=['Building long-running local AI agents','Evaluating H3 and LTX video renders','Benchmarking local coding agents','Fable: experiments in creative expression','LTX, H3, Music3 and ACE-Step: what I learned','Optimizing local AI: kernels, prefill and decode'];
+ const expected=['Building long-running local AI agents','Evaluating H3 and LTX video renders','Benchmarking local coding agents','Fable: experiments in creative expression','LTX, H3, Music3 and ACE-Step: what I learned','Optimizing local AI: kernels, prefill and decode','Ambient clinical documentation on open weights'];
  assert.deepEqual(notes.map(n=>n.title),expected);
  for(const n of notes){assert(n.summary.length>70);assert(!n.summary.includes('Seth Pratt'));}
  assert(read('components/portfolio/field-notes.tsx').includes('note.summary ?? note.description'));
@@ -88,4 +88,16 @@ test('AutoTalent leads with search agents and MCP without implying autonomous hi
  assert(p.sections.find(s=>s.id==='workflow').paragraphs.join(' ').includes('Model Context Protocol (MCP)'));
  assert(p.workflow.includes('Review & approve'));
  assert(p.basis.includes('confirmed September 6, 2026'));
+});
+
+test('Published repositories are linked from the notes they back, with dates on the additions',()=>{
+ const by=slug=>JSON.stringify(notes.find(n=>n.slug===slug));
+ assert(by('local-agent-evaluations').includes('github.com/sipratt-p/coding-agent-bench'));
+ for(const repo of ['blackwell-serving-kit','dsv4-flash-nvfp4-sm120','omlx-dualane-recipe'])assert(by('local-model-performance-engineering').includes('github.com/sipratt-p/'+repo),repo);
+ for(const repo of ['video-rsi','ugc-factory-core'])assert(by('evaluating-agentic-video').includes('github.com/sipratt-p/'+repo),repo);
+ assert(by('creative-ai-tools-autoresearch').includes('github.com/sipratt-p/ugc-factory-core'));
+ for(const slug of ['local-agent-evaluations','local-model-performance-engineering','evaluating-agentic-video','creative-ai-tools-autoresearch'])assert.equal(notes.find(n=>n.slug===slug).updated,'2026-09-16',slug);
+ const clinical=notes.find(n=>n.slug==='ambient-clinical-documentation-open-weights');assert(clinical);assert.equal(clinical.prepared,'2026-09-16');
+ const c=JSON.stringify(clinical);for(const term of ['PriMock57','ACI-Bench','10.3%','nine points','98.7 to 99.6','Injected errors are not natural errors','Non-commercial','nothing here is clinical advice','github.com/sipratt-p/scribe-bench'])assert(c.includes(term),term);
+ assert(read('components/portfolio/editorial-page.tsx').includes('entry.updated'));
 });

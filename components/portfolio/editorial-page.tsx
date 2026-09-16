@@ -5,6 +5,7 @@ import JsonLd from './json-ld';
 import FilmPlayer from './film-player';
 import ChunkedFilmPlayer from './chunked-film-player';
 import InteractiveStory from './interactive-story';
+const longDate = (iso: string) => new Date(iso + 'T00:00:00Z').toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric', timeZone:'UTC'});
 function ReadingLinks({links}:{links:ReadingLink[]}) {
   return <ul className="editorial-links">{links.map(link => <li key={link.href}><a href={link.href}>{link.label}{link.href.startsWith('https:') ? <ArrowUpRight size={15} aria-hidden="true"/> : <ArrowRight size={15} aria-hidden="true"/>}</a></li>)}</ul>;
 }
@@ -27,7 +28,7 @@ export default function EditorialPage({entry}:{entry:Editorial}) {
     <JsonLd data={schema}/><JsonLd data={breadcrumbs([{name:'Home',path:'/'},parent,{name:entry.product?.name ?? entry.title,path}])}/>
     <nav aria-label="Breadcrumb" className="editorial-breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href={parent.path}>{parent.name}</a><span aria-hidden="true">/</span><span>{entry.product?.name ?? 'Field note'}</span></nav>
     <header className="editorial-heading"><p className="eyebrow">{entry.category}</p><h1>{entry.title}</h1><p className="editorial-lede">{entry.lede}</p>
-      <p className="editorial-byline"><a href="/#about">Seth Pratt</a><span aria-hidden="true"> · </span>Prepared <time dateTime="2026-09-05">September 5, 2026</time></p>
+      <p className="editorial-byline"><a href="/#about">Seth Pratt</a><span aria-hidden="true"> · </span>Prepared <time dateTime={entry.prepared ?? '2026-09-05'}>{longDate(entry.prepared ?? '2026-09-05')}</time>{entry.updated && <><span aria-hidden="true"> · </span>Updated <time dateTime={entry.updated}>{longDate(entry.updated)}</time></>}</p>
       <dl className="editorial-facts">{entry.facts.map(f => <div key={f.label}><dt>{f.label}</dt><dd>{f.value}</dd></div>)}</dl>
     </header>
     <div className="editorial-takeaway"><p className="eyebrow">The central idea</p><p>{entry.takeaway}</p></div>
