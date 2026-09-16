@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 import { transpileModule, ModuleKind, ScriptTarget } from 'typescript';
 import { spawnSync } from 'node:child_process';
 const read = p => readFileSync(p,'utf8');
@@ -8,8 +8,8 @@ const compile = p => transpileModule(read(p),{compilerOptions:{module:ModuleKind
 const dataUrl = code => `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`;
 const {notes,independentProjects} = await import(dataUrl(compile('lib/editorial.ts')));
 test('Original editorial content has sources, limitations, unique slugs and working local relationships',()=>{
- assert.equal(notes.length,7); assert.equal(independentProjects.length,2);
- const all = [...notes,...independentProjects]; assert.equal(new Set(all.map(e=>e.slug)).size,9);
+ assert.equal(notes.length,8); assert.equal(independentProjects.length,3);
+ const all = [...notes,...independentProjects]; assert.equal(new Set(all.map(e=>e.slug)).size,11);
  for(const e of all){
   assert(e.basis.length>100); assert(e.limitations.length>80); assert(e.sections.length>=5);
   const count=e.sections.flatMap(s=>s.paragraphs).join(' ').split(/\s+/).length;assert(count>=280,`${e.slug}: ${count} words`);
@@ -27,6 +27,7 @@ test('Agent evaluations do not hide human intervention or turn timeouts into a v
 test('Project pages retain descriptive product links without assigning medical credentials',()=>{
  assert.equal(independentProjects[0].product.url,'https://autotalent.ai');
  assert.equal(independentProjects[1].product.url,'https://drgrey.ai');
+ assert.equal(independentProjects[2].product.url,'https://github.com/sipratt-p/cue-engine');
  assert(JSON.stringify(independentProjects[1]).includes('not a claim to medical authorship'));
  const personal=read('components/portfolio/personal-projects.tsx');assert(personal.includes('<article'));assert(personal.includes("'/projects/'+p.slug"));assert(personal.includes("'https://'+p.domain"));
 });
@@ -70,7 +71,7 @@ test('Inference post keeps source dates, suite boundaries, upstream credit and m
 });
 
 test('Field-note titles name the subject and cards use reader-facing summaries',()=>{
- const expected=['Building long-running local AI agents','Evaluating H3 and LTX video renders','Benchmarking local coding agents','Fable: experiments in creative expression','LTX, H3, Music3 and ACE-Step: what I learned','Optimizing local AI: kernels, prefill and decode','Ambient clinical documentation on open weights'];
+ const expected=['Building long-running local AI agents','Evaluating H3 and LTX video renders','Benchmarking local coding agents','Fable: experiments in creative expression','LTX, H3, Music3 and ACE-Step: what I learned','Optimizing local AI: kernels, prefill and decode','Ambient clinical documentation on open weights','Finding where songs start inside a DJ mix'];
  assert.deepEqual(notes.map(n=>n.title),expected);
  for(const n of notes){assert(n.summary.length>70);assert(!n.summary.includes('Seth Pratt'));}
  assert(read('components/portfolio/field-notes.tsx').includes('note.summary ?? note.description'));
@@ -100,4 +101,15 @@ test('Published repositories are linked from the notes they back, with dates on 
  const clinical=notes.find(n=>n.slug==='ambient-clinical-documentation-open-weights');assert(clinical);assert.equal(clinical.prepared,'2026-09-16');
  const c=JSON.stringify(clinical);for(const term of ['PriMock57','ACI-Bench','10.3%','nine points','98.7 to 99.6','Injected errors are not natural errors','Non-commercial','nothing here is clinical advice','github.com/sipratt-p/scribe-bench'])assert(c.includes(term),term);
  assert(read('components/portfolio/editorial-page.tsx').includes('entry.updated'));
+});
+
+test('Cue has a sourced project page, a homepage card, its media, and a field note with the per-genre table',()=>{
+ const p=independentProjects.find(p=>p.slug==='cue');assert(p);const s=JSON.stringify(p);
+ for(const term of ['190','99','62','about 9 seconds','not yet on the App Store','MP4 chapters','0.4 seconds','freely downloadable','/media/cue-demo.mp4','/projects/cue/cue-screens.jpg'])assert(s.includes(term),term);
+ assert.equal(p.prepared,'2026-09-16');
+ for(const f of ['public/projects/cue/cue-screens.jpg','public/projects/cue/cue-demo-poster.jpg','public/media/cue-demo.mp4'])assert(statSync(f).size>10000,f);
+ assert(statSync('public/media/cue-demo.mp4').size<25000000);
+ const card=read('components/portfolio/personal-projects.tsx');assert(card.includes("slug:'cue'"));assert(card.includes('three of the projects'));
+ const n=notes.find(n=>n.slug==='finding-song-starts-in-dj-mixes');assert(n);const t=JSON.stringify(n);
+ for(const term of ['Euphoric hardstyle','Peak-time house','39 s','did not help','novelty curve','beat grid','personal-use only','/projects/cue'])assert(t.includes(term),term);
 });
