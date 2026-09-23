@@ -821,5 +821,59 @@ export const notes: Editorial[] = [
   basis: 'Prepared September 16, 2026 from the scribe-bench repository: its results file, run logs, the autoresearch queue and decisions, and the paper draft kept alongside the code. Numbers are the recorded values from the September 11, 2026 run; nothing was re-run for this note.',
   limitations: 'Open mock data only, one hardware setup, and evolving scorers. The ASR table covers 57 consultations and the note-generation findings one model family. No clinician review of the scorers on this data, and no claim of clinical validity or transfer to real visits.',
   related: [{ label: 'scribe-bench: code, results and the paper draft', href: 'https://github.com/sipratt-p/scribe-bench' }, { label: 'The same evaluation discipline on coding agents', href: '/notes/local-agent-evaluations' }, { label: 'The workstation these models ran on', href: '/notes/local-model-performance-engineering' }]
+},
+{
+  slug: 'refusal-ablation-measured', type: 'note',
+  title: 'Refusal ablation, measured', summary: 'What removing the refusal direction from a mixture-of-experts model cost in capability, which implementation choice decided it, and what a community “abliterated” upload actually did.',
+  seoTitle: 'Abliteration Measured — Refusal Ablation on MoE Models, Capability Cost & Community Uploads', category: 'Field note 09 / Model adaptation',
+  description: 'Seth Pratt’s refusal-ablation-eval study: refusal-direction ablation on Ornith-1.5-35B-A3B with matched benign controls and a coding-suite gate, a dense-model confirmation, and two open items.',
+  lede: 'Abliteration, the removal of a refusal direction from a model’s weights, is easy to claim and rarely measured. I ran it on a mixture-of-experts model with a matched benign control and a capability gate, and found that the recipe detail nobody benchmarks is the one that decides whether the model survives.',
+  takeaway: 'Done right, refusal ablation on this model cost nothing measurable. Done the way the original recipe does it, it removed the refusals and broke the parser. The only way to tell the two apart is to measure both.',
+  facts: [{ label: 'Study model', value: 'Ornith-1.5-35B-A3B (MoE, 3B active), bf16' }, { label: 'Gate', value: '5-task coding suite, same engine as the base' }, { label: 'Status', value: 'Scripts, prompts and results public; no weights' }],
+  workflowLabel: 'The measurement loop · every variant probed on the same prompts and gated on the same suite',
+  workflow: ['Find the direction', 'Edit the weights', 'Probe refusals both ways', 'Gate on the coding suite', 'A/B against the upload'],
+  prepared: '2026-09-23',
+  sections: [
+    { id: 'question', title: 'A label on an upload is not a measurement', paragraphs: [
+      'Refusal-direction ablation follows a published result: instruction-tuned models mediate refusal through a single direction in the residual stream, and projecting that direction out of the weights removes the behaviour. Model hubs are full of uploads that claim to have done it. Almost none of them show what it cost, and I had seen enough “abliterated” builds produce nonsense to want the numbers.',
+      'The study model is Ornith-1.5-35B-A3B, a 35B hybrid-attention mixture-of-experts model with 3B active parameters, in bf16, served by oMLX on a Mac Studio and by vLLM on two RTX PRO 6000 GPUs. Three things made it a measurement rather than a demonstration: a benign prompt set matched topic for topic to the refusal set, so over-refusal and under-refusal are both visible; a capability gate, the five-task coding suite from my coding-agent-bench, run against the base and every variant on the same engine; and a check of the one community upload of this model against its base.'
+    ] },
+    { id: 'direction', title: 'The direction is there from the early-mid stack', paragraphs: [
+      'Thirty-two refusal-triggering prompts and thirty-two benign counterparts run through the chat template, and the residual stream at the last prompt token is recorded after every layer. Each layer gets its own mean-difference direction, scored by how far apart the two projected sets sit in pooled-standard-deviation units.',
+      'The separation is not confined to the late layers where it peaks. It passes four standard deviations at layer 13 and six by layer 24, peaking at 6.43 on layer 32 of 40. That shape is the reason the late-layers-only variant below fails: a refusal signal present from the middle of the stack cannot be removed by editing the top of it.'
+    ], table: { caption: 'Per-layer separation of refusal and benign prompts, pooled-standard-deviation units · from the direction scan in the repository', headers: ['Layer', '0', '6', '13', '18', '24', '28', '32', '36', '39'], rows: [
+      ['Separation', '0.94', '2.23', '4.29', '5.62', '6.00', '6.23', '6.43', '6.06', '5.71']
+    ] } },
+    { id: 'matrix', title: 'The embedding edit is what breaks the model', paragraphs: [
+      'The winning configuration applies each layer’s own direction to every projection that writes into the residual stream, on all forty layers, and leaves the token embedding alone. Refusals go from ten or eleven of twelve to zero, the matched benign set produces no false refusals, and the coding suite stays at 489/500, identical to the base task for task. Decode and prefill speed are unchanged.',
+      'The original recipe also edits the token embedding. Applied that way, the same directions still reach zero refusals but drop the suite to 400/500: four tasks are untouched and the recursive-descent parser collapses from 98 to 13. Reducing the edit scale to 0.85 and 0.70 leaves the parser at 13 and 11. It is structural, not dosage. Restricting the edit to layers 20 and above brings the refusals back to ten of twelve and still breaks the parser, and a single global direction from the best layer, applied everywhere, is too weak: eleven of twelve becomes nine.',
+      'The community upload of this model, which claims all-forty-layer directional ablation and shows no benchmarks on its card, refuses ten of twelve prompts. That is the base rate. It was a no-op.'
+    ], table: { caption: 'Ornith-1.5-35B-A3B · same stack, same probes, same suite · from the repository results', headers: ['Variant', 'Refused harmful /12', 'False refusals /12', 'Coding suite /500', 'Parser task /100'], rows: [
+      ['Base bf16 (control)', '11 (10 on a second run)', '0', '489', '98'],
+      ['One global direction, no embedding edit', '9', '0', '–', '–'],
+      ['Per-layer directions plus the embedding edit', '0', '0', '400', '13'],
+      ['Same, scale 0.85 / 0.70', '–', '–', '–', '13 / 11'],
+      ['Per-layer, all layers, no embedding edit (shipped)', '0', '0', '489', '98'],
+      ['Per-layer, no embedding edit, layers 20 and above only', '10', '0', '–', '11'],
+      ['Community “abliterated” upload', '10', '0', '–', '–']
+    ] } },
+    { id: 'confirmation', title: 'A dense model tells the same story', paragraphs: [
+      'A same-recipe pair of Qwen3.8-27B builds, an abliterated model and its non-abliterated sibling from the same forge with the same quantization layout, scores 483/500 each, identical task for task, at the same speed. Earlier results that had me calling abliterated Qwen junk, with suite scores between 30 and 67 percent, traced to bad conversions and a broken CUDA path, not to the ablation. Blaming the technique for an infrastructure fault is the kind of mistake the gate exists to catch.'
+    ] },
+    { id: 'open', title: 'Two open items, kept visible', paragraphs: [
+      'The same per-layer directions ported to the Hugging Face safetensors checkpoint and served by vLLM scored 379/500 against a 489 base on the same engine, with the parser at 13 and the trie at 72. The candidates are the stacked-expert edit in the HF path, the speculative-decoding draft head being edited with the global direction, or a packing mismatch. It is not root-caused, and the repository says so rather than quietly dropping the row.',
+      'Separately, a community-abliterated DeepSeek-V4-Flash derailed three times in twelve agentic tasks, producing runs of begin-of-sentence tokens followed by off-distribution text, where the non-ablated comparison model had none. Speculative decoding and the ablation edit were not isolated in that run, so it stays an observation, not a finding.'
+    ] },
+    { id: 'discipline', title: 'What I would insist on before trusting an abliteration', paragraphs: ['The repository holds the scripts, the prompt set and the measurements. No weights are distributed. What it really contributes is the discipline around the technique:'], bullets: [
+      'Confirm the base model refuses the probe set before measuring the variant, or you will prove an ablation that did nothing.',
+      'Judge the final answer, not the reasoning trace; these models deliberate about refusing and then comply, or the reverse. Keep the token budget generous or truncated thinking scores as a refusal.',
+      'Run a benign set matched by topic, so over-refusal is measured and not assumed away.',
+      'Gate on a capability suite against the base on the same engine, and accept the variant only within a few points.',
+      'A/B every community upload against its base before believing the card.'
+    ] }
+  ],
+  basis: 'Prepared September 23, 2026 from the refusal-ablation-eval repository: the probe tables, the direction scan, the coding-suite result files and the run notes from August 2026. Numbers are the recorded values; nothing was re-run for this note.',
+  limitations: 'One mixture-of-experts model studied in depth and one dense confirmation. Twelve probe prompts per side, judged by a marker list on the final answer, and a five-task coding suite as the only capability gate. The Hugging Face port loss and the DeepSeek derailments are open. No weights are published, and nothing here is a safety recommendation.',
+  related: [{ label: 'refusal-ablation-eval: scripts, prompt set and measurements', href: 'https://github.com/sipratt-p/refusal-ablation-eval' }, { label: 'The coding suite used as the gate', href: '/notes/local-agent-evaluations' }, { label: 'The workstation and serving setups', href: '/notes/local-model-performance-engineering' }]
 }
 ];
