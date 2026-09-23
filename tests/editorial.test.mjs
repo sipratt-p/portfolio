@@ -96,7 +96,9 @@ test('Published repositories are linked from the notes they back, with dates on 
  for(const repo of ['blackwell-serving-kit','dsv4-flash-nvfp4-sm120','omlx-dualane-recipe'])assert(by('local-model-performance-engineering').includes('github.com/sipratt-p/'+repo),repo);
  for(const repo of ['video-rsi','ugc-factory-core'])assert(by('evaluating-agentic-video').includes('github.com/sipratt-p/'+repo),repo);
  assert(by('creative-ai-tools-autoresearch').includes('github.com/sipratt-p/ugc-factory-core'));
- for(const slug of ['local-agent-evaluations','local-model-performance-engineering','evaluating-agentic-video','creative-ai-tools-autoresearch'])assert.equal(notes.find(n=>n.slug===slug).updated,'2026-09-16',slug);
+ for(const [slug,when] of Object.entries({'local-agent-evaluations':'2026-09-23','local-model-performance-engineering':'2026-09-16','evaluating-agentic-video':'2026-09-16','creative-ai-tools-autoresearch':'2026-09-16'}))assert.equal(notes.find(n=>n.slug===slug).updated,when,slug);
+ for(const repo of ['refusal-ablation-eval','model-comparison'])assert(by('local-agent-evaluations').includes('github.com/sipratt-p/'+repo),repo);
+ assert(by('local-agent-evaluations').includes('489/500'));
  const clinical=notes.find(n=>n.slug==='ambient-clinical-documentation-open-weights');assert(clinical);assert.equal(clinical.prepared,'2026-09-16');
  const c=JSON.stringify(clinical);for(const term of ['PriMock57','ACI-Bench','10.3%','nine points','98.7 to 99.6','Injected errors are not natural errors','Non-commercial','nothing here is clinical advice','github.com/sipratt-p/scribe-bench'])assert(c.includes(term),term);
  assert(read('components/portfolio/editorial-page.tsx').includes('entry.updated'));

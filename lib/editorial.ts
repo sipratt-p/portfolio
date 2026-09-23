@@ -231,7 +231,7 @@ export const notes: Editorial[] = [
         ['GLM-5.3-Flash TR3-4bpw, 8K thinking budget', '389 / 359 / 369', '372', 'Needed a thinking-budget proxy; without one it reasoned for 65,536 tokens and scored 4/100'],
         ['DeepSeek V4-Flash (abliterated), DSpark drafts', '287 / 197 / 382', '289', 'Three degenerate generations in twelve tasks; spec decoding and the ablation were not isolated'],
         ['Qwen3.8-Flash-Next, NVFP4, one GPU', '274 / 359 / 268', '300', 'Parity on two tasks, a consistent partial on one, a collapse on the JSON parser in two runs']
-      ] }, links: [{ label: 'coding-agent-bench: tasks, runners and 82 result records', href: 'https://github.com/sipratt-p/coding-agent-bench' }, { label: 'The results table with every run', href: 'https://github.com/sipratt-p/coding-agent-bench/blob/main/results/RESULTS.md' }] },
+      ] }, links: [{ label: 'coding-agent-bench: tasks, runners and 82 result records', href: 'https://github.com/sipratt-p/coding-agent-bench' }, { label: 'The results table with every run', href: 'https://github.com/sipratt-p/coding-agent-bench/blob/main/results/RESULTS.md' }, { label: 'model-comparison: local open-weight models against Codex and Claude Code on six work prompts', href: 'https://github.com/sipratt-p/model-comparison' }] },
       { id: 'comparisons', title: 'Do not let a harness limit become a model verdict', paragraphs: [
         'A timeout, output-length limit, malformed tool exchange, and incorrect implementation are different events. I keep inconclusive runs visible and separate from completed-task scores. They still matter operationally—someone waiting for an answer experienced an unfinished task—but they are not interchangeable evidence of reasoning failure.',
         'Some older comparison tables assigned a low floor to interrupted or missing-artifact runs. I would not reuse those totals as a clean model ranking. The statuses, final files, and intervention notes need to travel with the score.'
@@ -243,8 +243,9 @@ export const notes: Editorial[] = [
       { id: 'adaptation', title: 'Abliteration and fine-tuning need separate tests', paragraphs: [
         'I work with fine-tuning, LoRAs, and abliteration as part of model adaptation. Changing refusal behavior is not the same as improving reasoning, tool use, or instruction following. A model that responds more often can still produce worse answers.',
         'I therefore treat behavior and task performance as separate evaluation axes and compare adaptations with their base model under matched conditions. A label on a model upload is not evidence that an adaptation worked. Neither is a single successful demonstration.',
-        'This is also why I value open-weight models and inspectable tools: they let me investigate the cause of a change instead of treating every result as an opaque property of a product name.'
-      ] },
+        'This is also why I value open-weight models and inspectable tools: they let me investigate the cause of a change instead of treating every result as an opaque property of a product name.',
+        'Measured on Ornith-1.5-35B-A3B, a 35B mixture-of-experts model with 3B active parameters: per-layer refusal directions on all forty layers, with the token embedding left alone, took refusals from ten or eleven of twelve prompts to zero with no false refusals on the matched benign set, and the five-task coding suite stayed at 489/500, identical task for task. The same directions applied with the token-embedding edit from the original recipe also removed the refusals but dropped the suite to 400/500, with the recursive-descent parser collapsing from 98 to 13; reducing the scale did not rescue it. The only community “abliterated” upload of that model at the time turned out to be a no-op.'
+      ], links: [{ label: 'refusal-ablation-eval: scripts, prompt set and measurements (no weights)', href: 'https://github.com/sipratt-p/refusal-ablation-eval' }] },
       { id: 'checklist', title: 'What belongs beside every result', paragraphs: ['My minimum useful evaluation record includes:'], bullets: [
         'The task, input set, final artifact, and exact grading procedure.',
         'The model and serving configuration, with the date of the run.',
@@ -255,7 +256,7 @@ export const notes: Editorial[] = [
     ],
     basis: 'Prepared September 5, 2026 from my August 26 answer-extraction incident, August 27 Prime head-to-head run tables and intervention notes, and local-model operating records. The 17→97 correction is a recorded re-score, not a new run for this page. Cross-model table and code links added September 16, 2026 from the published repository.',
     limitations: 'Four difficult coding tasks are a narrow sample. These historical results do not establish a general model ranking, statistical significance, or present-day vendor capability. No new benchmark was run for this article.',
-    updated: '2026-09-16',
+    updated: '2026-09-23',
     related: [{ label: 'My local AI practice and hardware', href: '/local-ai' }, { label: 'The same evaluation problem in H3 and LTX video', href: '/notes/evaluating-agentic-video' }, { label: 'Building long-running task-specific agents', href: '/notes/long-running-ai-agents' }]
   },
   {
