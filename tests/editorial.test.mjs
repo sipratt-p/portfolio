@@ -8,8 +8,8 @@ const compile = p => transpileModule(read(p),{compilerOptions:{module:ModuleKind
 const dataUrl = code => `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`;
 const {notes,independentProjects} = await import(dataUrl(compile('lib/editorial.ts')));
 test('Original editorial content has sources, limitations, unique slugs and working local relationships',()=>{
- assert.equal(notes.length,7); assert.equal(independentProjects.length,2);
- const all = [...notes,...independentProjects]; assert.equal(new Set(all.map(e=>e.slug)).size,9);
+ assert.equal(notes.length,8); assert.equal(independentProjects.length,2);
+ const all = [...notes,...independentProjects]; assert.equal(new Set(all.map(e=>e.slug)).size,10);
  for(const e of all){
   assert(e.basis.length>100); assert(e.limitations.length>80); assert(e.sections.length>=5);
   const count=e.sections.flatMap(s=>s.paragraphs).join(' ').split(/\s+/).length;assert(count>=280,`${e.slug}: ${count} words`);
@@ -70,7 +70,7 @@ test('Inference post keeps source dates, suite boundaries, upstream credit and m
 });
 
 test('Field-note titles name the subject and cards use reader-facing summaries',()=>{
- const expected=['Building long-running local AI agents','Evaluating H3 and LTX video renders','Benchmarking local coding agents','Fable: experiments in creative expression','LTX, H3, Music3 and ACE-Step: what I learned','Optimizing local AI: kernels, prefill and decode','Ambient clinical documentation on open weights'];
+ const expected=['Building long-running local AI agents','Evaluating H3 and LTX video renders','Benchmarking local coding agents','Fable: experiments in creative expression','LTX, H3, Music3 and ACE-Step: what I learned','Optimizing local AI: kernels, prefill and decode','Ambient clinical documentation on open weights','Refusal ablation, measured'];
  assert.deepEqual(notes.map(n=>n.title),expected);
  for(const n of notes){assert(n.summary.length>70);assert(!n.summary.includes('Seth Pratt'));}
  assert(read('components/portfolio/field-notes.tsx').includes('note.summary ?? note.description'));
@@ -96,8 +96,16 @@ test('Published repositories are linked from the notes they back, with dates on 
  for(const repo of ['blackwell-serving-kit','dsv4-flash-nvfp4-sm120','omlx-dualane-recipe'])assert(by('local-model-performance-engineering').includes('github.com/sipratt-p/'+repo),repo);
  for(const repo of ['video-rsi','ugc-factory-core'])assert(by('evaluating-agentic-video').includes('github.com/sipratt-p/'+repo),repo);
  assert(by('creative-ai-tools-autoresearch').includes('github.com/sipratt-p/ugc-factory-core'));
- for(const slug of ['local-agent-evaluations','local-model-performance-engineering','evaluating-agentic-video','creative-ai-tools-autoresearch'])assert.equal(notes.find(n=>n.slug===slug).updated,'2026-09-16',slug);
+ for(const [slug,when] of Object.entries({'local-agent-evaluations':'2026-09-23','local-model-performance-engineering':'2026-09-16','evaluating-agentic-video':'2026-09-16','creative-ai-tools-autoresearch':'2026-09-16'}))assert.equal(notes.find(n=>n.slug===slug).updated,when,slug);
+ for(const repo of ['refusal-ablation-eval','model-comparison'])assert(by('local-agent-evaluations').includes('github.com/sipratt-p/'+repo),repo);
+ assert(by('local-agent-evaluations').includes('489/500'));
  const clinical=notes.find(n=>n.slug==='ambient-clinical-documentation-open-weights');assert(clinical);assert.equal(clinical.prepared,'2026-09-16');
  const c=JSON.stringify(clinical);for(const term of ['PriMock57','ACI-Bench','10.3%','nine points','98.7 to 99.6','Injected errors are not natural errors','Non-commercial','nothing here is clinical advice','github.com/sipratt-p/scribe-bench'])assert(c.includes(term),term);
  assert(read('components/portfolio/editorial-page.tsx').includes('entry.updated'));
+});
+
+test('Refusal ablation note carries the matrix, the gate and the open items',()=>{
+ const n=notes.find(n=>n.slug==='refusal-ablation-measured');assert(n);assert.equal(n.prepared,'2026-09-23');
+ const s=JSON.stringify(n);for(const term of ['489/500','400/500','98 to 13','no-op','483/500','379/500','github.com/sipratt-p/refusal-ablation-eval','No weights are distributed','matched'])assert(s.includes(term),term);
+ assert(n.sections.some(sec=>sec.table&&sec.table.rows.length>=7));
 });
