@@ -820,5 +820,62 @@ export const notes: Editorial[] = [
   basis: 'Prepared September 16, 2026 from the scribe-bench repository: its results file, run logs, the autoresearch queue and decisions, and the paper draft kept alongside the code. Numbers are the recorded values from the September 11, 2026 run; nothing was re-run for this note.',
   limitations: 'Open mock data only, one hardware setup, and evolving scorers. The ASR table covers 57 consultations and the note-generation findings one model family. No clinician review of the scorers on this data, and no claim of clinical validity or transfer to real visits.',
   related: [{ label: 'scribe-bench: code, results and the paper draft', href: 'https://github.com/sipratt-p/scribe-bench' }, { label: 'The same evaluation discipline on coding agents', href: '/notes/local-agent-evaluations' }, { label: 'The workstation these models ran on', href: '/notes/local-model-performance-engineering' }]
+},
+{
+  slug: 'private-local-ai-assistant', type: 'note',
+  title: 'A private AI assistant, tested end to end', summary: 'What a clean-install test with network captures found in a local AI app built for privacy, what it took to fix, and how a benchmark picked its model.',
+  seoTitle: 'Private Local AI Assistant — End-to-End Test, Tor & VPN Leak Captures, Model Benchmark', category: 'Field note 10 / Private local AI',
+  description: 'Seth Pratt’s Confidential Research Platform: a local AI assistant with encrypted chats and private web search over Tor or WireGuard, tested end to end with network captures and a 14-model benchmark.',
+  lede: 'Confidential Research is a desktop app that runs an open model on your own computer, encrypts the chats you save and, when you allow it, searches the web through Tor or your own VPN. Before calling it ready I tested it the way a new user meets it: a clean profile, every screen driven automatically, and the app’s network connections captured at the system level while it searched.',
+  takeaway: 'A privacy feature is a claim about network traffic, so the test has to capture the traffic. The earlier build passed hundreds of unit tests while its Tor mode fetched pages from the real IP address.',
+  facts: [{ label: 'Stack', value: 'Rust + Tauri 2 · Svelte 5 · llama.cpp in-process' }, { label: 'Private search', value: 'Built-in Tor or in-app WireGuard, no admin rights' }, { label: 'Status', value: 'Beta on Linux · open source (AGPL-3.0)' }],
+  workflowLabel: 'How each fix was accepted · the same automated run, plus a capture of the app’s connections',
+  workflow: ['Clean profile', 'Drive every screen', 'Capture connections', 'Fix', 'Re-run and re-capture'],
+  prepared: '2026-09-24',
+  sections: [
+    { id: 'test', title: 'The test: a new user and a packet-level witness', paragraphs: [
+      'The harness drives the real desktop app through WebDriver: it installs, chats, turns on private search, creates an encrypted chat and restarts, taking a screenshot at each step. While the app searched, a root-level socket capture listed every remote endpoint it had open, and each address was looked up in the Tor Project’s relay directory.',
+      'The capture matters because it does not trust the app. A badge that says Tor, a log line that says the tunnel is up and a passing unit test are all things the code says about itself. The socket table is what the operating system says.'
+    ] },
+    { id: 'found', title: 'What the first run found', paragraphs: [
+      'The earlier build did not work as a product, and its privacy features protected no one. The Tor leak came down to one line: the HTTP client was given the Tor proxy and then told to ignore proxies, which in the current version of the library clears the proxy it had just been given. Pages went out directly while Tor sat idle.'
+    ], table: { caption: 'Clean-profile run on the earlier build · September 24, 2026', headers: ['Area', 'Result', 'What happened'], rows: [
+      ['First-run install', 'Broken', 'The installer stepped through its screens without downloading anything'],
+      ['Chat', 'Broken', 'Raw reasoning shown, answers cut off at 512 tokens, everyday questions refused'],
+      ['Web search over Tor', 'Leaked the real IP', 'Page fetches bypassed Tor; the capture showed direct connections to the sites'],
+      ['VPN', 'Never routed', 'Needed root to create a network device and sent no traffic through it'],
+      ['Encryption', 'Could not be enabled', 'Setting a passphrase always failed; saved chats were plain text on disk']
+    ] } },
+    { id: 'fixed', title: 'After the fixes: evidence instead of assertions', paragraphs: [
+      'Tor is now built in, and searches go to DuckDuckGo’s onion service, so the query never reaches an exit relay. In the re-run, every remote endpoint the app opened during a search was a Tor relay and none was a website. The VPN is WireGuard running inside the app, with no admin rights and no system changes. Its only non-loopback socket is the WireGuard connection, so if the tunnel drops, requests fail instead of leaking.',
+      'Saved chats are encrypted with the user’s passphrase. After a session, a search of the whole profile directory for the chat’s name, question and answer found nothing. Documents attached to an encrypted chat go into an encrypted index: questions about a PDF lease were answered exactly, citing the page, with none of the lease text readable on disk.'
+    ] },
+    { id: 'models', title: 'Choosing the model with the app’s own benchmark', paragraphs: [
+      'The benchmark runs 32 cases through the app’s real prompts, each model’s own chat template and the same inference loop: answering from given sources with correct citations, saying so when the sources do not contain the answer, conflicting sources, a prompt-injection trap inside a source, a Spanish source, formatting and date arithmetic. Every model ran twice with fixed seeds, and every failure was read by hand. Several were the scorer’s fault rather than the model’s, and the scorer was fixed before any ranking was trusted.',
+      'The table is not the whole decision. Small models do well on grounded answering, which is what this benchmark measures, while larger models are far ahead on general knowledge and reasoning. So setup recommends Qwen3.8 27B wherever it fits, a 2-bit version of it on 12 to 16 GB graphics cards, and the small Gemma 4 E4B only on 8 GB machines.'
+    ], table: { caption: 'Grounded-answer benchmark · 32 cases × 2 seeds · 8 of the 14 models tested · one RTX PRO 6000', headers: ['Model', 'Score', 'Tokens/s'], rows: [
+      ['Gemma 4 E4B', '98.4%', '223'],
+      ['Qwen3.8 27B', '96.9%', '56'],
+      ['Qwen3.6 35B-A3B', '96.9%', '182'],
+      ['Qwen3.8 27B, 2-bit', '93.8%', '75'],
+      ['Qwen3.5 9B', '93.8%', '163'],
+      ['Ornith 1.5 35B-A3B', '92.2%', '184'],
+      ['Nemotron 3.5 Lightning 30B-A3B', '84.4%', '248'],
+      ['MiniCPM5 2B', '75.0%', '308']
+    ] } },
+    { id: 'search', title: 'Which search engines answer over Tor', paragraphs: [
+      'Search over Tor is its own problem, because most engines treat Tor exits as bots. Probed through a stock Tor client over three rounds of fresh circuits, DuckDuckGo’s onion service and the Wikipedia API answered every time. Bing returned HTTP 200 with results unrelated to the query, which is worse than an error. Brave, Startpage, Qwant, Mojeek, MetaGer and Yahoo returned CAPTCHAs, rate limits or errors. The app uses the onion service plus Wikipedia on Tor, and DuckDuckGo plus Wikipedia over a VPN.'
+    ] },
+    { id: 'limits', title: 'What this does not claim', paragraphs: ['The boundaries, stated the way I would want to read them on anyone else’s privacy tool:'], bullets: [
+      'Linux is the tested platform. Mac and Windows builds are not produced yet.',
+      'There has been no external security audit.',
+      'Private search hides your address from websites. It does not hide from your internet provider that you use Tor, and it cannot protect identifying details you type into a question.',
+      'Nothing here protects against malware already on the computer.',
+      'The benchmark measures grounded answering, citation and abstention on 32 cases, not general intelligence, and every speed comes from one workstation.'
+    ] }
+  ],
+  basis: 'Prepared September 24, 2026 from the confidential-research-platform repository: the results document, the end-to-end harness, the benchmark cases and rescored results, and the socket captures recorded during the runs. Numbers are the recorded values from those runs.',
+  limitations: 'One workstation for every speed, Linux only, a 32-case benchmark weighted toward grounded answering, and no independent audit of the privacy claims beyond the captures described here.',
+  related: [{ label: 'confidential-research-platform: code, results and runbook', href: 'https://github.com/sipratt-p/confidential-research-platform' }, { label: 'The same evaluation discipline on coding agents', href: '/notes/local-agent-evaluations' }, { label: 'Explore the local AI workbench', href: '/local-ai' }]
 }
 ];
