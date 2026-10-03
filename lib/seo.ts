@@ -28,6 +28,9 @@ export const identityGraph = {
         'https://medium.com/@sethpratt',
       ],
       knowsAbout: ['AI product leadership', 'AI research', 'Local AI agents', 'Model evaluation', 'Generative video'] },
+    // Seth's own company and product (cross-linked from decosa.ai and everdust.ai, which use the same ids).
+    { '@type': 'Organization', '@id': 'https://decosa.ai/#organization', name: 'Decosa', url: 'https://decosa.ai',
+      founder: { '@id': PERSON_ID }, brand: { '@type': 'Brand', name: 'Everdust', url: 'https://everdust.ai/' } },
     { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, name: 'Seth Pratt', url: `${SITE_URL}/`, publisher: { '@id': PERSON_ID } }
   ]
 };
