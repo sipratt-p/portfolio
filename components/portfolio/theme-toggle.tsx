@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect, useId, useState } from 'react';
-import { Moon } from 'lucide-react';
-import { Switch } from '@/components/ui/switch';
+import { useEffect, useState } from 'react';
+import { Moon, Sun } from 'lucide-react';
 
+/** Light/dark switch. Follows the system until the visitor chooses; the choice is saved locally. */
 export default function ThemeToggle() {
-  const id = useId();
   const [dark, setDark] = useState(false);
   const [ready, setReady] = useState(false);
 
@@ -26,15 +25,20 @@ export default function ThemeToggle() {
     };
     sync();
     setReady(true);
+    // Keep every toggle on the page (desktop bar and mobile bar) showing the same state.
+    const observer = new MutationObserver(() => setDark(root.classList.contains('dark')));
+    observer.observe(root, { attributes: true, attributeFilter: ['class'] });
     system.addEventListener('change', sync);
     window.addEventListener('storage', onStorage);
     return () => {
+      observer.disconnect();
       system.removeEventListener('change', sync);
       window.removeEventListener('storage', onStorage);
     };
   }, []);
 
-  function changeTheme(next: boolean) {
+  function toggle() {
+    const next = !dark;
     const preference = next ? 'dark' : 'light';
     document.documentElement.classList.toggle('dark', next);
     document.documentElement.dataset.themePreference = preference;
@@ -42,8 +46,7 @@ export default function ThemeToggle() {
     try { localStorage.setItem('sethpratt-theme', preference); } catch { /* Keep working without storage. */ }
   }
 
-  return <div className="theme-toggle">
-    <label htmlFor={id}><Moon size={15} aria-hidden="true"/><span>Dark<span className="sr-only"> mode</span></span></label>
-    <Switch id={id} checked={dark} onCheckedChange={changeTheme} disabled={!ready} aria-label="Dark mode"/>
-  </div>;
+  return <button type="button" className="theme-btn" onClick={toggle} disabled={!ready} aria-pressed={dark} aria-label="Dark mode" title={dark ? 'Switch to light mode' : 'Switch to dark mode'}>
+    {dark ? <Sun aria-hidden="true"/> : <Moon aria-hidden="true"/>}
+  </button>;
 }

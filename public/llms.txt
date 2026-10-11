@@ -1,0 +1,63 @@
+# Seth Pratt
+
+> Applied AI Product Leader, currently on NVIDIA's GenAI platform. Seth builds AI systems and measures what they actually do: open benchmarks for clinical scribes and coding agents, large open models served on workstation GPUs, and physics simulations at 100 million particles, built with a small studio of AI agents across five machines.
+
+Every number on the site links to the file it came from. Negative results and retractions are kept. Contact: sipratt@gmail.com.
+
+## Start here
+- [Start here](https://www.sethpratt.com/start): five things to read, in order (about 18 minutes)
+- [scribe-bench case study](https://www.sethpratt.com/work/scribe-bench): scribe-bench, an open benchmark for ambient clinical documentation: a LoRA fine-tune raised ROUGE-L by 8.6 points while misattributions rose and follow-up recall fell; a claim verifier caught 98.7–99.6% of injected errors.
+- [Résumé](https://www.sethpratt.com/resume): career at NVIDIA, Lyft, Intuit, Meta and Visa, plus independent work
+
+## Work
+- [When ROUGE goes up and the notes get worse](https://www.sethpratt.com/work/scribe-bench): scribe-bench, an open benchmark for ambient clinical documentation: a LoRA fine-tune raised ROUGE-L by 8.6 points while misattributions rose and follow-up recall fell; a claim verifier caught 98.7–99.6% of injected errors.
+- [When the lip-sync score picked the worse take](https://www.sethpratt.com/work/video-evals): Measurement gates for AI-generated video: why ranking takes on SyncNet alone rewarded mouth noise, which image generators lip-sync, and a four-tier suite whose first 59-clip sweep caught 26 extra-speech failures.
+- [coding-agent-bench](https://www.sethpratt.com/writing/local-agent-evaluations): 82 scored runs of local models and agent harnesses on a fixed task set, and the grading bugs that had to be fixed before any number meant anything. (82 runs · task set v4; grading bug: 17 → 97/100)
+- [From benchmark to a live visit copilot](https://www.sethpratt.com/work/scribe-bench#copilot): The scribe-bench pipeline turned into a live copilot that listens to a visit, suggests questions, and drafts a cited note and EHR fields for review. Measured on synthetic visits only. (speaker labels 99.71%; 0/419 wrong EHR fields; ~$0.07 per visit)
+- [Serving 100B+ open models on two workstation GPUs](https://www.sethpratt.com/writing/local-model-performance-engineering): NVFP4 and FP8, expert offload and speculative decoding on 2× RTX PRO 6000 Blackwell and a Mac Studio, with the traps written down. Three public recipe repos. (+38% decode with MTP; MTP depth 4: 113.9 → 242.5 tok/s)
+- [A game tuned by AI playtesters](https://www.sethpratt.com/lab/step-inside#a-handful): A Handful, a VR physics game, went through 21 revisions scored each round by cold-play AI tester panels and scripted bots. The panel plateaued short of its target, and we say so. (panel 5.11 → 7.72; target 8.5, not reached)
+- [Refusal ablation, measured](https://www.sethpratt.com/writing/refusal-ablation-measured): Refusal-direction ablation on a mixture-of-experts model with a matched benign set and a capability gate, plus an A/B of a community “abliterated” upload. (refusals 10–11/12 → 0; coding 489/500, as base)
+- [Confidential Research Platform](https://www.sethpratt.com/writing/private-local-ai-assistant): A local, encrypted AI assistant with private search over Tor or your own VPN, tested end to end from clean installs with packet captures. (584 tests; 32-case model benchmark)
+- [Cue](https://www.sethpratt.com/work/cue): A mixtape app for iPhone and an open engine that finds where each song starts inside a DJ mix, scored against DJ-published timestamps. (99/190 starts within 10 s)
+- [AutoTalent](https://www.sethpratt.com/work/autotalent): Agentic recruiting: candidate search agents, MCP integrations, and workflows for outreach and pipeline management, with recruiters in control of decisions. (web · CLI · MCP)
+- [Dr. Grey AI](https://www.sethpratt.com/work/drgrey-ai): An evidence-focused research tool for exploring supplements, clinical studies and health topics, with evidence grading. (live; evidence grading)
+- [ElmoSEO](https://elmoseo.com): An SEO service for the age of AI search. Live, with paying customers. (live · paying customers)
+- [Everdust](https://everdust.ai): A physics-driven music visualizer and playground for Vision Pro, iPhone and Mac, where every world is a live simulation. The Lab pieces live here. (App Store release pending)
+- [Create](https://everdust.ai): Describe a world, get a playable simulation: a language model writes a recipe from registered physics primitives, and a validator checks it before it runs. (20/20 playable in our eval; ~$0.29 per game)
+- [Archive](https://www.sethpratt.com/work/archive): earlier product case studies
+
+## Writing
+- [Testing a VR game: our bots knew the answer, a person in a headset didn’t](https://www.sethpratt.com/writing/testing-a-vr-game) (2026-10-11): A VR game with half a million bot episodes and four billion invariant checks a night, the headset sessions where nearly every problem escaped them, and how each escape became a new eval.
+- [Watching a language model think](https://www.sethpratt.com/writing/watching-a-language-model-think) (2026-10-10): We pulled real numbers out of Qwen language models and turned them into films, VR scenes and the live figures on this page. Some pictures showed real mechanisms; some were artefacts of the drawing; one well-known result didn’t reproduce at all.
+- [What running a team of AI agents taught me about applied AI in product management](https://www.sethpratt.com/writing/running-a-team-of-ai-agents) (2026-10-10): Three weeks of two lead AI agents and their helpers, told as six stories about clear asks, interruptions, handoffs, ownership, quality and where the human stays.
+- [When the metric says yes and your eyes say no](https://www.sethpratt.com/writing/when-the-metric-says-yes) (2026-10-10): The automatic gates every render passes, what they caught, the bugs inside the gates themselves, and a nebula that beat its shape metric and still looked like a sock puppet.
+- [One sim, seven platforms: porting with agents and tests](https://www.sethpratt.com/writing/one-sim-seven-platforms) (2026-10-10): How AI agents turn a web prototype into native code for Vision Pro, iPhone, iPad, Mac, Apple TV and Quest without porting it twice, and the tests that make that safe.
+- [Tuning a game with panels of AI playtesters](https://www.sethpratt.com/writing/tuning-a-game-with-ai-playtesters) (2026-10-10): Twenty-one revisions of a VR physics game, scored by cold AI tester panels and noisy bots: what moved the scores, where the judges disagreed, and what only a human caught.
+- [Autoresearch at home: eight search-and-score loops, and where the scorer lied](https://www.sethpratt.com/writing/autoresearch-at-home) (2026-10-10): Eight loops that generate candidates, score them against evals on local GPUs and keep the winners, from video and games to strange attractors and artificial life, and every place the scorer turned out to be wrong.
+- [Chaos with nothing to orbit](https://www.sethpratt.com/writing/chaos-with-nothing-to-orbit) (2026-10-09): A seven-term chaotic system with no resting point anywhere in space, found by a GPU search and checked at 64-bit precision, and what we can and can’t claim about it.
+- [Create: a language model, a parts list and a validator](https://www.sethpratt.com/writing/create-constrained-generation) (2026-10-06): How Everdust’s Create turns a sentence into a playable game: the model writes data from registered parts, and a validator proves every game can be won and lost before anyone sees it.
+- [Tuning an AI recruiting agent: what we measured and what moved](https://www.sethpratt.com/writing/tuning-autotalent) (2026-09-29): How AutoTalent’s sourcing agent was tuned with measurements: a live production test, where each round’s time and money went, a fast judgment model that became a gate instead of a scorer, and a coding agent that overbuilt.
+- [A private AI assistant, tested end to end](https://www.sethpratt.com/writing/private-local-ai-assistant) (2026-09-24): What a clean-install test with network captures found in a local AI app built for privacy, what it took to fix, and how a benchmark picked its model.
+- [Benchmarking local coding agents](https://www.sethpratt.com/writing/local-agent-evaluations) (2026-09-17): Lessons from repeated coding tasks, model adaptation, and a grading bug that changed the result without changing the answer.
+- [Ambient clinical documentation on open weights](https://www.sethpratt.com/writing/ambient-clinical-documentation-open-weights) (2026-09-16): What seven speech recognizers, a LoRA fine-tune and a claim-level verifier did on open mock consultations, and where fluency metrics hide the damage.
+- [Finding where songs start inside a DJ mix](https://www.sethpratt.com/writing/finding-song-starts-in-dj-mixes) (2026-09-15): What eight public mixes and 190 DJ-published timestamps taught me about fingerprints, transition detectors, and the limits of “correct”.
+- [Fable: experiments in creative expression](https://www.sethpratt.com/writing/fable-creative-experiments) (2026-09-03): The films, songs, and interactive stories that emerged when I gave an AI collaborator creative freedom on my local hardware.
+- [LTX, H3, Music3 and ACE-Step: what I learned](https://www.sethpratt.com/writing/creative-ai-tools-autoresearch) (2026-09-03): Where each tool proved useful, where it fell short, and how evaluators guide my next creative experiment.
+- [Optimizing local AI: kernels, prefill and decode](https://www.sethpratt.com/writing/local-model-performance-engineering) (2026-08-27): Measured tradeoffs in local inference, from Blackwell compatibility and speculative decoding to more trustworthy evaluations.
+- [Building long-running local AI agents](https://www.sethpratt.com/writing/long-running-ai-agents) (2026-08-25): How I design task-specific agents that can resume work, recover from failures, and know when to ask for help.
+- [Evaluating H3 and LTX video renders](https://www.sethpratt.com/writing/evaluating-agentic-video) (2026-08-22): What my rendering tests revealed about dialogue, lip sync, visual continuity, and selecting better takes.
+- [Refusal ablation, measured](https://www.sethpratt.com/writing/refusal-ablation-measured) (2026-08-21): What removing the refusal direction from a mixture-of-experts model cost in capability, which implementation choice decided it, and what a community “abliterated” upload actually did.
+
+## Lab
+- [The Lab](https://www.sethpratt.com/lab): physics simulations, discovered lifeforms and live worlds; the app they live in is Everdust (https://everdust.ai)
+- [Strange Attractors](https://www.sethpratt.com/lab/strange-attractors): Famous strange attractors rendered at 100 million particles and more, and eight new ones found by a GPU search through 2.5 billion random flows. Every one was re-checked in full 64-bit precision, and the audit retracted two of our own.
+- [Cosmos](https://www.sethpratt.com/lab/cosmos): Galaxies colliding, black holes feeding and merging, dying stars and storm-banded planets. These are our own simulations, inspired by real targets: N-body gravity, hydrodynamics and a general-relativistic ray tracer.
+- [Life at Every Scale](https://www.sethpratt.com/lab/life): From atoms to organisms: molecular machines built from real Protein Data Bank structures, true all-atom molecular dynamics, and artificial lifeforms discovered by a quality-diversity search.
+- [Inside the Machine](https://www.sethpratt.com/lab/inside-the-machine): What AI models actually do, drawn from their real weights, activations and samples rather than from illustrations: a network grokking, a prediction locking in layer by layer, a search that did not help.
+- [Step Inside](https://www.sethpratt.com/lab/step-inside): Live worlds for phone and Vision Pro: a garden where light crawls at walking pace, a game about where you came from, and calm loops of light and water.
+
+## Elsewhere
+- GitHub: https://github.com/sipratt-p
+- LinkedIn: https://www.linkedin.com/in/sethpratt/
+- X: https://x.com/sethprattsf
+- How these pages are written: https://www.sethpratt.com/how-i-write

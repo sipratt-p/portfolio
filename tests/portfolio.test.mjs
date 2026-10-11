@@ -1,30 +1,38 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync,readdirSync,statSync} from 'node:fs';
+import {readFileSync,readdirSync,statSync,existsSync} from 'node:fs';
 import path from 'node:path';
+import { PRIV } from './private-terms.mjs';
 const read=p=>readFileSync(p,'utf8');
 const sources=(dir)=>readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?sources(path.join(dir,e.name)):[path.join(dir,e.name)]).filter(p=>p.endsWith('.tsx'));
 test('All portfolio navigation uses native anchors, not the broken client router',()=>{
  for(const p of [...sources('app'),...sources('components/portfolio')]){const s=read(p);assert(!s.includes("from 'next/link'"),p);assert(!s.includes('<Link'),p);}
- for(const href of ['/#work','/#about','/#building','/studio'])assert(read('components/portfolio/header.tsx').includes(href));
+ const site=read('lib/site.ts');for(const href of ["'/work'","'/lab'","'/writing'","'/about'"])assert(site.includes('href: '+href),href);
+ const header=read('components/portfolio/header.tsx');assert(header.includes('href="/resume"'));assert(header.includes('Get in touch'));assert(!header.includes('/#'),'no anchor-only nav items');
 });
-test('Homepage provides real personal project links and no video elements',()=>{
- assert(!read('app/page.tsx').includes('<video'));
- const s=read('components/portfolio/personal-projects.tsx');for(const domain of ['autotalent.ai','drgrey.ai'])assert(s.includes(domain));
+test('Homepage has the decided positioning, the shipped row, and no video elements of its own',()=>{
+ const home=read('app/page.tsx');
+ assert(!home.includes('<video'));
+ assert(home.includes('I build AI systems and <em>measure</em> what they actually do.'));
+ assert(home.includes('Applied AI product leader, currently on NVIDIA’s GenAI platform.'));
+ assert(home.includes('href="/start">Start here'));assert(!/10 minutes/.test(home));
+ const work=read('lib/work.ts');for(const domain of ['everdust.ai','elmoseo.com','cue-engine'])assert(work.includes(domain),domain);
+ for (const d of PRIV ? PRIV.domains : []) assert(!work.includes(d));
 });
 test('Playback is opt-in, with native controls and no autoplay or looping',()=>{
  const s=read('components/portfolio/film-player.tsx');assert(s.includes('!started?'));assert(s.includes('onClick={()=>setStarted(true)}'));assert(s.includes('preload="none"'));assert(s.includes('controls playsInline'));assert(!/autoPlay|\bloop\b/.test(s));
 });
-test('Six new full-length viewing files are present and within static asset limits',()=>{
- for(const slug of ['bridge-fight','matrix-bullet-time','h3-ugc','fable','the-keeper','second-winter']){
+test('The Fable series films stay in its note; the retired Studio films are gone',()=>{
+ for(const slug of ['bridge-fight','matrix-bullet-time','h3-ugc','george-dwight-ai','ego','selfie','marin'])assert(!existsSync(`public/media/${slug}.mp4`),slug);
+ for(const slug of ['fable','the-keeper','second-winter']){
   const size=statSync(`public/media/${slug}.mp4`).size;assert(size>1000000);assert(size<25000000);assert(statSync(`public/studio/${slug}.jpg`).size>1000);
  }
 });
 
 test('Review fixes preserve responsive film proportions and short-screen navigation access',()=>{
  const css=read('app/globals.css');
- assert(css.includes('.film-start img,.film-player video{height:auto;min-height:0;max-height:min(74vh,740px)}'));
- assert(css.includes('.portfolio-menu{overflow-y:auto;overscroll-behavior:contain;max-height:100dvh}'));
+ assert(/\.film-start img,\.film-player video\{[^}]*height:auto;min-height:0;max-height:min\(74vh,740px\)/.test(css));
+ assert(/\.drawer\{[^}]*overflow-y:auto;overscroll-behavior:contain;max-height:100dvh/.test(css));
 });
 
 test('Tab icons use the lowercase brand mark with cache-fresh SVG and raster fallbacks',()=>{

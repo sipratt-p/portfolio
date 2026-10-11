@@ -1,0 +1,14 @@
+{
+  "video": "attn-xi.mp4",
+  "frames": 330,
+  "general_flashes_per_s_mean": 0,
+  "general_flashes_per_s_worst_tile": 0,
+  "red_flashes_per_s": 0,
+  "max_dY_mean_per_frame": 0.0089,
+  "mean_Y_range": [
+    0.0128,
+    0.0663
+  ],
+  "brightness_reversals": 1,
+  "verdict": "PASS"
+}

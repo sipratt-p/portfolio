@@ -1,0 +1,1 @@
+{"video": "nebula-ring.mp4 (EVD-NB_01 Ring Nebula SDR, 93 s \u2192 3 s across the 96 s wrap, 1 s crossfade, 1920x1080 30 fps)", "frames": 180, "general_flashes_per_s_mean": 0, "general_flashes_per_s_worst_tile": 0, "red_flashes_per_s": 0, "max_dY_mean_per_frame": 0.0004, "mean_Y_range": [0.0648, 0.0663], "brightness_reversals": 1, "verdict": "PASS"}

@@ -41,17 +41,19 @@ test('Shared layout initializes the theme before page content', () => {
   assert(layout.indexOf('src="/theme-init.js"') < layout.indexOf('<body>'));
   assert(layout.includes('suppressHydrationWarning'));
   const header = readFileSync('components/portfolio/header.tsx', 'utf8');
-  assert.equal((header.match(/<ThemeToggle\/>/g) || []).length, 1);
+  // One toggle in the desktop bar and one beside the mobile menu button; they stay in sync.
+  assert.equal((header.match(/<ThemeToggle\/>/g) || []).length, 2);
   const toggle = readFileSync('components/portfolio/theme-toggle.tsx', 'utf8');
-  assert(toggle.includes("from '@/components/ui/switch'"));
+  assert(toggle.includes('MutationObserver'));
   assert(toggle.includes('aria-label="Dark mode"'));
+  assert(toggle.includes('aria-pressed={dark}'));
   assert(toggle.includes("localStorage.setItem('sethpratt-theme', preference)"));
   assert(toggle.includes("system.removeEventListener('change', sync)"));
   assert(toggle.includes("window.removeEventListener('storage', onStorage)"));
 });
 test('Career copy includes Seth’s confirmed title and scope', () => {
   const data = readFileSync('lib/portfolio.ts', 'utf8');
-  assert(data.includes("company:'NVIDIA',role:'AI Product Leader'"));
+  assert(data.includes("company:'NVIDIA',role:'Applied AI Product Leader'"));
   assert(data.includes("detail:'AI Research, enterprise AI"));
   assert(data.includes("detail:'Level 5 Autonomous Vehicles"));
 });
@@ -59,7 +61,8 @@ test('Career copy includes Seth’s confirmed title and scope', () => {
 test('Employer branding uses Meta while preserving historical employment context', () => {
   const home = readFileSync('app/page.tsx', 'utf8');
   const data = readFileSync('lib/portfolio.ts', 'utf8');
-  assert(home.includes("'intuit','Meta','VISA'"));
+  assert(home.includes('Lyft, Intuit, Meta and Visa'));
+  assert(!home.includes('company-word'), 'no fake text-logo strip');
   assert(!/facebook/i.test(home));
   assert(data.includes("company:'Meta',role:'Product Management',years:'2015 — 2017'"));
   assert(data.includes("detail:'Formerly Facebook. Consumer growth"));

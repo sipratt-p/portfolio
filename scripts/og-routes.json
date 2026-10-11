@@ -1,0 +1,306 @@
+[
+ {
+  "path": "/",
+  "title": "I build AI systems and measure what they actually do.",
+  "em": "measure",
+  "eyebrow": "Applied AI · Evals · Agents · Simulation",
+  "line": "Seth Pratt · Applied AI Product Leader",
+  "portrait": true,
+  "key": "home"
+ },
+ {
+  "path": "/start",
+  "title": "Start here: five things, in reading order",
+  "eyebrow": "Start here",
+  "line": "About 18 minutes, flagship first",
+  "key": "start"
+ },
+ {
+  "path": "/work",
+  "title": "Everything here has a run behind it.",
+  "em": "run",
+  "eyebrow": "Work",
+  "line": "Evals · Agents · Inference · Products",
+  "key": "work"
+ },
+ {
+  "path": "/work/archive",
+  "title": "Earlier product work",
+  "eyebrow": "Work · Archive",
+  "line": "NVIDIA · Lyft · Intuit",
+  "key": "work-archive"
+ },
+ {
+  "path": "/work/scribe-bench",
+  "title": "When ROUGE goes up and the notes get worse",
+  "em": "get worse",
+  "eyebrow": "Case study · Evals",
+  "line": "ROUGE-L +8.6 · +0.11 misattributions/note · verifier 98.7–99.6%",
+  "key": "work-scribe-bench"
+ },
+ {
+  "path": "/work/video-evals",
+  "title": "When the lip-sync score picked the worse take",
+  "em": "worse",
+  "eyebrow": "Case study · Evals",
+  "line": "4 tiers · 54 checks · 26 of 59 clips: extra speech",
+  "key": "work-video-evals"
+ },
+ {
+  "path": "/work/autotalent",
+  "title": "AutoTalent: agentic recruiting",
+  "eyebrow": "Work · Products",
+  "line": "web · CLI · MCP",
+  "key": "work-autotalent"
+ },
+ {
+  "path": "/work/drgrey-ai",
+  "title": "Dr. Grey: making research easier to inspect",
+  "eyebrow": "Work · Products",
+  "line": "live · evidence grading",
+  "key": "work-drgrey-ai"
+ },
+ {
+  "path": "/work/cue",
+  "title": "Cue: skip song by song inside a DJ mix",
+  "eyebrow": "Work · Products",
+  "line": "99/190 starts within 10 s",
+  "key": "work-cue"
+ },
+ {
+  "path": "/lab",
+  "title": "The Lab",
+  "em": "Lab",
+  "eyebrow": "Physics, lifeforms and live worlds",
+  "line": "The same measurement habit, pointed at light and gravity",
+  "room": "lab",
+  "image": "attr-discoveries-ii",
+  "key": "lab"
+ },
+ {
+  "path": "/lab/strange-attractors",
+  "title": "Strange Attractors",
+  "em": "Attractors",
+  "eyebrow": "The Lab · Series 01",
+  "line": "Discoveries II — 84 s seamless loop · 160M particles · 4K60 HDR",
+  "room": "lab",
+  "image": "attr-discoveries-ii",
+  "key": "lab-strange-attractors"
+ },
+ {
+  "path": "/lab/cosmos",
+  "title": "Cosmos",
+  "em": "Cosmos",
+  "eyebrow": "The Lab · Series 02",
+  "line": "Galaxy collisions — 34–40M particles · Antennae, Mice, Milky Way + Andromeda",
+  "room": "lab",
+  "image": "cosmos-galaxy-collisions",
+  "key": "lab-cosmos"
+ },
+ {
+  "path": "/lab/life",
+  "title": "Life at Every Scale",
+  "em": "Every Scale",
+  "eyebrow": "The Lab · Series 03",
+  "line": "The Power Plant — complexes I–IV and ATP synthase from real PDB structures",
+  "room": "lab",
+  "image": "molecular-power-plant",
+  "key": "lab-life"
+ },
+ {
+  "path": "/lab/inside-the-machine",
+  "title": "Inside the Machine",
+  "em": "Machine",
+  "eyebrow": "The Lab · Series 04",
+  "line": "The Click — test accuracy jumps from ~11% to 100% as beads snap onto four rings",
+  "room": "lab",
+  "image": "machine-click",
+  "key": "lab-inside-the-machine"
+ },
+ {
+  "path": "/lab/step-inside",
+  "title": "Step Inside",
+  "em": "Inside",
+  "eyebrow": "The Lab · Series 05",
+  "line": "Slower Light — a moonlit garden where light crawls at about 3 m/s, rendered with exact aberration and Doppler",
+  "room": "lab",
+  "image": "slower-light",
+  "key": "lab-step-inside"
+ },
+ {
+  "path": "/writing",
+  "title": "Notes with the numbers left in.",
+  "em": "numbers",
+  "eyebrow": "Writing",
+  "line": "Evals · Agents · Inference · Lab",
+  "key": "writing"
+ },
+ {
+  "path": "/writing/long-running-ai-agents",
+  "title": "Building long-running local AI agents",
+  "eyebrow": "Writing · Aug 2026",
+  "line": "How I design task-specific agents that can resume work, recover from failures, and know when to ask for help.",
+  "key": "writing-long-running-ai-agents"
+ },
+ {
+  "path": "/writing/evaluating-agentic-video",
+  "title": "Evaluating H3 and LTX video renders",
+  "eyebrow": "Writing · Aug 2026",
+  "line": "In an August 15 sweep, all 59 H3 clips passed basic integrity checks, yet 26 were flagged for extraneous speech and 13 for prompt echo (flags may overlap).",
+  "key": "writing-evaluating-agentic-video"
+ },
+ {
+  "path": "/writing/local-agent-evaluations",
+  "title": "Benchmarking local coding agents",
+  "eyebrow": "Writing · Sep 2026",
+  "line": "An extractor bug executed an unfinished draft from the reasoning trace: the recorded score was 17/100; re-scoring the identical final-answer bytes produced 97/100.",
+  "key": "writing-local-agent-evaluations"
+ },
+ {
+  "path": "/writing/fable-creative-experiments",
+  "title": "Fable: experiments in creative expression",
+  "eyebrow": "Writing · Sep 2026",
+  "line": "The films, songs, and interactive stories that emerged when I gave an AI collaborator creative freedom on my local hardware.",
+  "key": "writing-fable-creative-experiments"
+ },
+ {
+  "path": "/writing/creative-ai-tools-autoresearch",
+  "title": "LTX, H3, Music3 and ACE-Step: what I learned",
+  "eyebrow": "Writing · Sep 2026",
+  "line": "An April 5 LTX set found no transcription errors on an 18-word line and a word error rate of 0.083 on a 22-word line.",
+  "key": "writing-creative-ai-tools-autoresearch"
+ },
+ {
+  "path": "/writing/local-model-performance-engineering",
+  "title": "Optimizing local AI: kernels, prefill and decode",
+  "eyebrow": "Writing · Aug 2026",
+  "line": "After a system update, direct cross-GPU copies mismatched in all 20 recorded trials while host-staged copies matched in all 20, though the driver reported peer access as available.",
+  "key": "writing-local-model-performance-engineering"
+ },
+ {
+  "path": "/writing/ambient-clinical-documentation-open-weights",
+  "title": "Ambient clinical documentation on open weights",
+  "eyebrow": "Writing · Sep 2026",
+  "line": "On 57 mock consultations, MOSS-Transcribe-Diarize and Sortformer + Parakeet v3 had similar word error rates (10.3%, 11.2%) but medical-term miss rates of 8.4% and 15.1%.",
+  "key": "writing-ambient-clinical-documentation-open-weights"
+ },
+ {
+  "path": "/writing/finding-song-starts-in-dj-mixes",
+  "title": "Finding where songs start inside a DJ mix",
+  "eyebrow": "Writing · Sep 2026",
+  "line": "Against 190 DJ-published boundaries in eight public mixes, the full system placed 99 within 10 seconds and 144 within 30; fingerprints alone placed 62 within 10.",
+  "key": "writing-finding-song-starts-in-dj-mixes"
+ },
+ {
+  "path": "/writing/refusal-ablation-measured",
+  "title": "Refusal ablation, measured",
+  "eyebrow": "Writing · Aug 2026",
+  "line": "Ablating per-layer directions on all forty layers, without editing the token embedding, cut refusals from ten or eleven of twelve to zero; the coding suite stayed at 489/500.",
+  "key": "writing-refusal-ablation-measured"
+ },
+ {
+  "path": "/writing/private-local-ai-assistant",
+  "title": "A private AI assistant, tested end to end",
+  "eyebrow": "Writing · Sep 2026",
+  "line": "The earlier build passed hundreds of unit tests while its Tor mode fetched pages from the real IP address.",
+  "key": "writing-private-local-ai-assistant"
+ },
+ {
+  "path": "/writing/chaos-with-nothing-to-orbit",
+  "title": "Chaos with nothing to orbit",
+  "eyebrow": "Writing · Oct 2026",
+  "line": "Pruning one term at a time under a strict 64-bit test took the original 15-term system to a 7-term core, and changed its character: the original has ordinary fixed points, the core has none.",
+  "room": "lab",
+  "image": "conch-post",
+  "key": "writing-chaos-with-nothing-to-orbit"
+ },
+ {
+  "path": "/writing/watching-a-language-model-think",
+  "title": "Watching a language model think",
+  "eyebrow": "Writing · Oct 2026",
+  "line": "In Qwen3-1.7B the answer to “The Colosseum is in…” locks in at layer 21 of 28 (Germany 69% at layer 19, Rome 85.5% at layer 21). Qwen3.8-27B, 16 times larger, decides later, at layer 57 of 64, and never detours through Germany.",
+  "room": "lab",
+  "key": "writing-watching-a-language-model-think"
+ },
+ {
+  "path": "/writing/running-a-team-of-ai-agents",
+  "title": "What running a team of AI agents taught me about applied AI in product management",
+  "eyebrow": "Writing · Oct 2026",
+  "line": "One request on October 10, an Instagram post of nebula photos I sent at 1:03 pm, became three finished 4K loop films, four interactive pages and a tested native port before midnight. I steered all of it from my phone.",
+  "key": "writing-running-a-team-of-ai-agents"
+ },
+ {
+  "path": "/writing/when-the-metric-says-yes",
+  "title": "When the metric says yes and your eyes say no",
+  "eyebrow": "Writing · Oct 2026",
+  "line": "A Horsehead Nebula look-dev reached 0.74 shape overlap with the reference photo and matched its overall colour within 2 degrees. It still read as a cartoon sock puppet, so it stayed out of the pack.",
+  "room": "lab",
+  "key": "writing-when-the-metric-says-yes"
+ },
+ {
+  "path": "/writing/one-sim-seven-platforms",
+  "title": "One sim, seven platforms: porting with agents and tests",
+  "eyebrow": "Writing · Oct 2026",
+  "line": "On October 10 one agent ported four interactive nebula simulations from WebGL to Everdust’s native engine in 81 minutes, from its start to its last commit. The headless Mac test passed on its first run.",
+  "key": "writing-one-sim-seven-platforms"
+ },
+ {
+  "path": "/writing/tuning-a-game-with-ai-playtesters",
+  "title": "Tuning a game with panels of AI playtesters",
+  "eyebrow": "Writing · Oct 2026",
+  "line": "Over 21 revisions and 46 cold playthroughs, the AI panel’s mean rose from 5.11 to 7.72 and then plateaued around 7.5 to 7.7, short of the 8.5 stop target. A single tester’s run moved by about ±0.5, so late revisions were statistically level.",
+  "key": "writing-tuning-a-game-with-ai-playtesters"
+ },
+ {
+  "path": "/writing/create-constrained-generation",
+  "title": "Create: a language model, a parts list and a validator",
+  "eyebrow": "Writing · Oct 2026",
+  "line": "On a 20-prompt eval, all 20 generated games were playable. Every first reply fit the schema, 17 passed every check on the first try, and 3 needed their one allowed repair.",
+  "key": "writing-create-constrained-generation"
+ },
+ {
+  "path": "/writing/autoresearch-at-home",
+  "title": "Autoresearch at home: eight search-and-score loops, and where the scorer lied",
+  "eyebrow": "Writing · Oct 2026",
+  "line": "A GPU search tested 2.5 billion random equation systems for chaos, confirmed 3.08 million and named 8. A 64-bit audit then retracted two of our own finds: one leaked 37 percent of its particles, and one from an earlier search always escaped to infinity.",
+  "key": "writing-autoresearch-at-home"
+ },
+ {
+  "path": "/writing/testing-a-vr-game",
+  "title": "Testing a VR game: our bots knew the answer, a person in a headset didn’t",
+  "eyebrow": "Writing · Oct 2026",
+  "line": "The nightly run before my sessions covered 16 suites, 550,948 bot episodes and about 4.2 billion invariant checks, in 14 minutes.",
+  "key": "writing-testing-a-vr-game"
+ },
+ {
+  "path": "/writing/tuning-autotalent",
+  "title": "Tuning an AI recruiting agent: what we measured and what moved",
+  "eyebrow": "Writing · Sep 2026",
+  "line": "Guessed company names were quietly filtering out good candidates: company-filtered searches qualified about 2 percent of profiles, while the same searches without the filter qualified 18 percent.",
+  "key": "writing-tuning-autotalent"
+ },
+ {
+  "path": "/about",
+  "title": "About Seth Pratt",
+  "em": "Seth Pratt",
+  "eyebrow": "Applied AI Product Leader",
+  "line": "Evals · agentic building · product judgment",
+  "portrait": true,
+  "key": "about"
+ },
+ {
+  "path": "/resume",
+  "title": "Résumé",
+  "eyebrow": "Seth Pratt",
+  "line": "NVIDIA · Lyft · Intuit · Meta · Visa",
+  "key": "resume"
+ },
+ {
+  "path": "/how-i-write",
+  "title": "How I write these",
+  "em": "these",
+  "eyebrow": "Writing · Method",
+  "line": "AI-assisted drafting, every number checked against its source",
+  "key": "how-i-write"
+ }
+]
