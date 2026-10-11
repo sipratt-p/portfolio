@@ -1,0 +1,14 @@
+{
+  "video": "map-latent.mp4",
+  "frames": 264,
+  "general_flashes_per_s_mean": 0,
+  "general_flashes_per_s_worst_tile": 1,
+  "red_flashes_per_s": 0,
+  "max_dY_mean_per_frame": 0.0095,
+  "mean_Y_range": [
+    0.0088,
+    0.0635
+  ],
+  "brightness_reversals": 2,
+  "verdict": "PASS"
+}

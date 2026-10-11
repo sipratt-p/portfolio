@@ -1,53 +1,39 @@
-# Seth Pratt — professional-first redesign
+# sethpratt.com
 
-Professional-first redesign, approved for production by Seth on September 5, 2026. The original source and media archive remain preserved separately. Vercel serves only the static export; the Sites manifest remains available for separate private previews.
+Source for [sethpratt.com](https://www.sethpratt.com): Seth Pratt, Applied AI Product Leader. Benchmarks and case studies, dated notes, and a Lab of physics and AI-internals work.
 
-The existing Vercel project is `seth-pratts-projects/portfolio`. Its approved production build enables indexing only when `VERCEL_ENV=production`; preview builds remain noindex. `vercel.json` contains all nine legacy route redirects and the static output configuration. See `docs/SEO-LAUNCH.md` for validation and search follow-up.
+Two rooms, one door: a warm, light **Work** room (evals, agents, inference, products) and a dark **Lab** room (strange attractors, cosmos, life at every scale, inside the machine, live worlds). Dark mode borrows from [everdust.ai](https://everdust.ai): deep space black, warm cream ink, a star-gold accent, and an iridescent teal → magenta → gold gradient used only for hairlines.
 
 ## Structure
-- `/`: professional positioning, three featured projects, two earlier projects, independent products (AutoTalent and Dr. Grey AI), career summary, and contact.
-- `/local-ai`: the independent local AI practice—dual RTX PRO 6000 hardware, model adaptation/evaluation, H3/LTX rendering, M3/ACE-Step music, and open-source interests. Linked from the shared navigation and a restrained homepage note.
-- `/work/[slug]`: five project overviews based on existing portfolio copy, with role and scope made explicit. Unverified numerical impact claims were omitted.
-- `/studio`: twelve static film previews across featured renders, films/music, and the original art collection, plus clearly labeled early experiments.
-- `/studio/[slug]`: a film loads only after explicit play. Native controls, no looping, no autoplay, no scroll-driven video loading.
 
-## Review before a public launch
-- NVIDIA title (AI Product Leader), AI Research scope, and Lyft Level 5 Autonomous Vehicles were confirmed by Seth on September 5, 2026. Confirm remaining dates, location, and career details before public launch.
-- Add approved results and decision-making narratives to the project overviews; do not reintroduce impact percentages without supporting evidence.
-- Confirm permission to publicly show the existing product screenshots.
-- Decide whether the 2025 simulation source links should remain in Studio. They are historical artifacts, not current capability claims.
-- Iteration 2 was production-built and type-checked, with route/asset regression checks and desktop/mobile browser QA. About, Studio, and opt-in video playback were exercised. Review the final content and launch rights before public replacement.
-- Remove the deliberate noindex setting only when the public replacement is approved, and plan redirects for the old art/simulation URLs.
+| Route | What it is | Content |
+|---|---|---|
+| `/` | Home: positioning, proof numbers, flagship + three cards, Shipped row, Lab band, writing, how I work | `app/page.tsx`, `lib/work.ts` |
+| `/start` | Five things to read, in order | `lib/site.ts` |
+| `/work`, `/work/<slug>` | Filterable index; results-first case studies (scribe-bench, video evals) and project pages | `lib/work.ts`, `lib/cases.ts`, `lib/editorial.ts` |
+| `/work/archive` | Earlier product case studies | `lib/portfolio.ts` |
+| `/lab`, `/lab/<series>` | Five series, every piece labelled *Title — TYPE — one measured fact* | `lib/lab.ts` |
+| `/writing`, `/writing/<slug>` | Dated notes with a “What I found” box | `lib/editorial.ts` |
+| `/about`, `/resume`, `/how-i-write` | Bio, career, contact; HTML résumé; the site-wide note on AI-assisted drafting | |
 
-## Local development
-`npm install` then `npm run dev`. `npm run build` creates a static export in `dist/client`. The Sites hosting manifest selects only that public directory; no application server or Server Functions are deployed.
+Legacy URLs (`/notes/*`, `/local-ai`, `/studio/*`, `/projects/*`, the old `/work/*` case studies, `/art/*`, `/simulations*`) 308 to their new homes in `vercel.json`.
 
-The generated dependency stack currently has npm advisories in build/development/server packages (audit performed September 5, 2026). No claim is made that every dependency is vulnerability-free. This deployment is static-only, excludes server intermediates, and has no uploads, auth implementation, forms, API routes, or Server Functions. Reassess and patch these dependencies before using this checkout as a server-backed production application. Keep the development server loopback-only.
+## Develop
 
-The original five video encodes and source imagery come from the preserved portfolio archive. Six newer renders use full-duration web copies from local master files; larger renders were re-encoded for web delivery. Neither the archive nor the source masters were modified.
+```bash
+npm install
+npm run dev                         # vinext dev server
+npm run build                       # static export to dist/client (prebuild writes sitemap, robots, llms.txt, rss.xml)
+node --test tests/*.test.mjs        # content, link, media, copy-rule and SEO checks
+python3 scripts/og.py               # re-render the 1200×630 Open Graph cards in public/og/ (needs Pillow)
+```
 
-## Iteration 2 — September 5, 2026
+Rules the tests enforce: every internal link resolves; Lab loops are silent, at most 6 seconds, and passed the photosensitivity gate; the stylesheet uses an eight-size type scale; ↗ appears only on off-site links; and legacy URLs redirect without catch-alls that would swallow media.
 
-- Native anchor navigation replaces the Vinext client Link wrapper. The original exported wrapper prevented normal navigation and threw `TypeError: e is not a function` on About/Studio clicks; the fix applies to every portfolio link, not just the header.
-- Copper/peach palette drawn from the public AutoTalent CSS (`#c2722a`, `#f9e5d4`, `#fdf5ef`); darker copper `#a86123` is used for readable actions.
-- Independent-work section links directly to AutoTalent and Dr. Grey AI.
-- Studio includes the requested final V7 Spider-Man/Green Goblin cut (Robin = Spider-Man; Seth = Goblin), final Seth/Smith bullet-time fight, H3 Sophia UGC sample (Aug 4), Fable, The Keeper, Second Winter, and the original five art films.
-- Six new full-duration web-viewing copies are included; source masters are unchanged. Each viewing copy is under 25 MB for static hosting. Native sound is opt-in. H3 UGC has English captions; speculative/hallucinated song transcriptions were discarded rather than shipped.
-- `redesign-v1` Git tag and adjacent `iterations/sethpratt-v1-static` preserve the first iteration.
-- Run `node --test tests/portfolio.test.mjs` for navigation/media regression checks.
+## Media
 
-These fan-film sequences contain existing third-party characters/music. This is a private design review; confirm public-release rights before publishing the portfolio publicly. UGC is labeled as AI-generated, not a real customer testimonial.
+Lab stills and loops live in `public/media/lab/` for now. Production media is meant to move to Cloudinary, which the site already uses; swap the paths in `lib/lab.ts` (`img()` and `loopSrc()`) when that happens. Loops play only on hover or tap, never with sound.
 
-## Dark mode and career copy update
+## Hosting
 
-The shared header includes an accessible Dark mode switch on every page and screen size. The initial theme follows the system; an explicit choice is saved locally. A small head script applies the theme before content paints, and system changes remain live until a preference is chosen. Storage restrictions do not prevent toggling. Both palettes retain warm copper accents.
-
-## Local AI and comedy update
-
-Added a text-led Local AI page and a compact homepage entry point; the homepage still embeds no media. The Studio now includes the final 41-second `george_dwight_ai_3clip_final.mp4` as George & Dwight on AI, clearly labeled as an AI-generated Seinfeld/The Office fan parody. Its local master is untouched and the 4.8 MB viewing copy is byte-identical. The four featured films use a two-column desktop grid. All new surfaces inherit both light and dark theme tokens.
-
-Run `node --test tests/*.test.mjs` for the complete regression set.
-
-## Local AI priority update
-
-Long-running, purpose-built agents are now practice 01, presented as a full-width lead item. Video Rendering Agents, Personal Assistant, Media Management Agent, and Coding Agent are explicitly called out. The page introduction, metadata, hardware context, and homepage note lead with agents; model adaptation, inference, video, and music remain as supporting practices 02–05.
+Vercel serves the static export only (`dist/client`). Indexing is enabled only when `PORTFOLIO_PUBLIC_INDEXING=true` and `VERCEL_ENV=production`; every other build is noindex.

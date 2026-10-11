@@ -1,0 +1,14 @@
+{
+  "video": "forking-garden.mp4",
+  "frames": 330,
+  "general_flashes_per_s_mean": 0,
+  "general_flashes_per_s_worst_tile": 0,
+  "red_flashes_per_s": 0,
+  "max_dY_mean_per_frame": 0.0033,
+  "mean_Y_range": [
+    0.0888,
+    0.1055
+  ],
+  "brightness_reversals": 1,
+  "verdict": "PASS"
+}

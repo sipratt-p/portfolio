@@ -7,48 +7,173 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/notes",
+      "destination": "/writing",
+      "permanent": true
+    },
+    {
+      "source": "/notes/:slug",
+      "destination": "/writing/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/local-ai",
+      "destination": "/writing",
+      "permanent": true
+    },
+    {
+      "source": "/projects",
+      "destination": "/work",
+      "permanent": true
+    },
+    {
+      "source": "/projects/autotalent",
+      "destination": "/work/autotalent",
+      "permanent": true
+    },
+    {
+      "source": "/projects/drgrey-ai",
+      "destination": "/work/drgrey-ai",
+      "permanent": true
+    },
+    {
+      "source": "/projects/cue",
+      "destination": "/work/cue",
+      "permanent": true
+    },
+    {
+      "source": "/work/enterprise-ai",
+      "destination": "/work/archive#enterprise-ai",
+      "permanent": true
+    },
+    {
+      "source": "/work/universal-search",
+      "destination": "/work/archive#universal-search",
+      "permanent": true
+    },
+    {
+      "source": "/work/av-validation",
+      "destination": "/work/archive#av-validation",
+      "permanent": true
+    },
+    {
+      "source": "/work/reconcile",
+      "destination": "/work/archive#reconcile",
+      "permanent": true
+    },
+    {
+      "source": "/work/experimentation",
+      "destination": "/work/archive#experimentation",
+      "permanent": true
+    },
+    {
+      "source": "/studio",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/studio/fable",
+      "destination": "/writing/fable-creative-experiments#fable",
+      "permanent": true
+    },
+    {
+      "source": "/studio/the-keeper",
+      "destination": "/writing/fable-creative-experiments#the-keeper",
+      "permanent": true
+    },
+    {
+      "source": "/studio/second-winter",
+      "destination": "/writing/fable-creative-experiments#later-experiments",
+      "permanent": true
+    },
+    {
+      "source": "/studio/bridge-fight",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/studio/matrix-bullet-time",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/studio/h3-ugc",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/studio/george-dwight-ai",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/studio/headlands-journey",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/studio/abstract-flow",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/studio/ego",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/studio/impressionist-dream",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/studio/reflections-in-motion",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
       "source": "/art/headlands-journey",
-      "destination": "/studio/headlands-journey",
+      "destination": "/lab",
       "permanent": true
     },
     {
       "source": "/art/abstract-flow",
-      "destination": "/studio/abstract-flow",
+      "destination": "/lab",
       "permanent": true
     },
     {
       "source": "/art/ego",
-      "destination": "/studio/ego",
+      "destination": "/lab",
       "permanent": true
     },
     {
       "source": "/art/impressionist-dream",
-      "destination": "/studio/impressionist-dream",
+      "destination": "/lab",
       "permanent": true
     },
     {
       "source": "/art/reflections-in-motion",
-      "destination": "/studio/reflections-in-motion",
-      "permanent": true
-    },
-    {
-      "source": "/simulations/fractal-tunnel",
-      "destination": "/studio#fractal-tunnel",
-      "permanent": true
-    },
-    {
-      "source": "/simulations/solar-system",
-      "destination": "/studio#solar-system",
+      "destination": "/lab",
       "permanent": true
     },
     {
       "source": "/art/dreams-of-marin",
-      "destination": "/studio/headlands-journey",
+      "destination": "/lab",
       "permanent": true
     },
     {
       "source": "/simulations",
-      "destination": "/studio#experiments",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/simulations/fractal-tunnel",
+      "destination": "/lab",
+      "permanent": true
+    },
+    {
+      "source": "/simulations/solar-system",
+      "destination": "/lab",
       "permanent": true
     }
   ],
