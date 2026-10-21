@@ -34,7 +34,7 @@ export const caseStudies: CaseStudy[] = [
     published: '2026-09-16', readMinutes: 9,
     findings: [
       'A one-epoch LoRA raised ROUGE-L by 8.6 points [7.2, 10.0] on 120 ACI-Bench encounters, while misattributions rose by 0.11 per note and follow-up recall fell from 97.4% to 92.9%.',
-      'Across seven open speech recognizers, word error rate stayed within 10.3–11.8% while medical-term miss ranged from 8.4% to 15.1%. The split followed decoder type, not overall accuracy.',
+      'Across seven open speech recognizers, word error rate alone hid how many medical terms each one dropped. The best, MOSS-TD 0.9B, missed 8.4% of medical terms [7.1, 9.7] at a 10.3% word error rate.',
       'An overnight search over 131 pipeline variants reported +4.2 on held-out visits. On the writer’s official weights the gain was +1.3 [−3.8, +6.2], and plan recall became a measurable loss.',
       'A claim-level verifier caught 98.7–99.6% of deliberately injected errors across three splits (2,764 claims), measured on synthetic corruptions only.',
     ],
@@ -58,16 +58,7 @@ export const caseStudies: CaseStudy[] = [
         { kind: 'p', text: 'Every comparison is a paired bootstrap over encounters with a 95% interval, so a difference counts only when its interval excludes zero. The verifier is tested by injecting known errors into otherwise correct notes: negations, changed numbers, swapped drugs, fabricated findings and third-party leaks.' },
       ] },
       { id: 'speech', title: 'Speech recognition: same accuracy, different terms', blocks: [
-        { kind: 'p', text: 'Word error rate would rank the usable recognizers as nearly equal. Medical-term miss does not: the two language-model decoders lose far fewer terms than the transducer decoders, and the intervals do not overlap. Running the streaming model offline on the whole recording changes nothing, so this is the decoder, not latency.' },
-        { kind: 'table', caption: 'Transcript layer, 57 PriMock57 recordings', note: 'Term miss over 1,741 lexicon occurrences with binomial 95% CI; DER with a 250 ms collar. From the paper draft, Table 1.', headers: ['System', 'Decoder', 'WER %', 'Term miss %', 'DER %'], rows: [
-          ['MOSS-TD 0.9B', 'LLM', '10.3', '8.4 [7.1, 9.7]', '11.4'],
-          ['Canary-Qwen 2.5B', 'LLM', '11.6', '9.4 [8.0, 10.8]', '—'],
-          ['Nemotron-3.5 streaming 0.6B', 'Transducer', '11.8', '12.5 [10.9, 14.0]', '—'],
-          ['Parakeet-TDT 0.6B v3', 'Transducer', '11.2', '15.1 [13.4, 16.8]', '—'],
-          ['Sortformer + Parakeet v3', 'Transducer', '11.2', '15.1', '11.1'],
-          ['Nano Omni 30B-A3B, as prompted', 'LLM', '27.2', '15.7', '88.3'],
-        ] },
-        { kind: 'p', text: 'Paired over recordings, MOSS-TD minus the streaming model is −3.9 points of term miss [−6.3, −1.7]; Canary-Qwen minus streaming is −2.6 [−4.8, −0.6] at unchanged word error rate. The last row measures one chat model as I prompted it, not the model’s best use. Complaint-tuned hotwords made word error rate slightly worse (+0.18 [+0.03, +0.33]).' },
+        { kind: 'p', text: 'Seven open speech recognizers transcribed the same 57 recordings. Word error rate would rank the usable ones as nearly equal; the share of medical terms they missed did not, so for a scribe the term-miss rate is the number to watch. The best, MOSS-TD 0.9B, had a 10.3% word error rate, missed 8.4% of 1,741 lexicon terms [7.1, 9.7] and had an 11.4% diarization error with a 250 ms collar.' },
       ] },
       { id: 'finetune', title: 'The fine-tune that won every overlap metric', blocks: [
         { kind: 'p', text: 'One epoch of LoRA lifted ROUGE-L by 8.6 points, the kind of result that gets announced. Judged on the clinician dimensions, the same notes got worse: more claims credited to the wrong speaker, and fewer follow-up instructions carried into the note. Every interval excludes zero.' },

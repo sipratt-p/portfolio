@@ -188,7 +188,7 @@
   "path": "/writing/ambient-clinical-documentation-open-weights",
   "title": "Ambient clinical documentation on open weights",
   "eyebrow": "Writing · Sep 2026",
-  "line": "On 57 mock consultations, MOSS-Transcribe-Diarize and Sortformer + Parakeet v3 had similar word error rates (10.3%, 11.2%) but medical-term miss rates of 8.4% and 15.1%.",
+  "line": "On 57 mock consultations, seven open speech systems had similar word error rates but different medical-term miss rates; the best, MOSS-Transcribe-Diarize 0.9B, missed 8.4% of medical terms at a 10.3% word error rate.",
   "key": "writing-ambient-clinical-documentation-open-weights"
  },
  {

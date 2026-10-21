@@ -970,7 +970,7 @@ export const notes: Editorial[] = [
   ]
 },
 {
-  slug: 'ambient-clinical-documentation-open-weights', type: 'note', work: { start: '2026-09-11', end: '2026-09-16' }, topics: ["Evals"], findings: ["On 57 mock consultations, MOSS-Transcribe-Diarize and Sortformer + Parakeet v3 had similar word error rates (10.3%, 11.2%) but medical-term miss rates of 8.4% and 15.1%.", "One epoch of LoRA fine-tuning lifted ROUGE-L by 8.6 points, while speaker misattributions doubled to tripled and recall of follow-up instructions went down.", "On three held-out splits, the claim-level verifier recalled 98.7 to 99.6 percent of deliberately injected errors; how many of a model’s own mistakes it catches is unmeasured."],
+  slug: 'ambient-clinical-documentation-open-weights', type: 'note', work: { start: '2026-09-11', end: '2026-09-16' }, topics: ["Evals"], findings: ["On 57 mock consultations, seven open speech systems had similar word error rates but different medical-term miss rates; the best, MOSS-Transcribe-Diarize 0.9B, missed 8.4% of medical terms at a 10.3% word error rate.", "One epoch of LoRA fine-tuning lifted ROUGE-L by 8.6 points, while speaker misattributions doubled to tripled and recall of follow-up instructions went down.", "On three held-out splits, the claim-level verifier recalled 98.7 to 99.6 percent of deliberately injected errors; how many of a model’s own mistakes it catches is unmeasured."],
   title: 'Ambient clinical documentation on open weights', summary: 'What seven speech recognizers, a LoRA fine-tune and a claim-level verifier did on open mock consultations, and where fluency metrics hide the damage.',
   seoTitle: 'Ambient Clinical Scribe Evaluation — Open Data, ASR, LoRA & a Verifier', category: 'Field note 07 / Clinical speech-to-note',
   description: 'Seth Pratt’s scribe-bench study: seven ASR systems, note generation, LoRA fine-tuning and a claim-level verifier evaluated on PriMock57 and ACI-Bench with clinician-defined scorers.',
@@ -979,21 +979,15 @@ export const notes: Editorial[] = [
   facts: [{ label: 'Data', value: 'PriMock57 & ACI-Bench (mock consultations, CC BY 4.0)' }, { label: 'Systems', value: '7 ASR stacks · Qwen3.8-27B notes · LoRA · verifier' }, { label: 'Status', value: 'Non-commercial study, code and paper draft public' }],
   workflowLabel: 'The study pipeline · each stage scored on held-out splits before the next one used its output',
   workflow: ['Transcribe & diarize', 'Score the transcript', 'Generate the note', 'Verify each claim', 'Accept only what held on test'],
-  prepared: '2026-09-16', updated: '2026-10-09',
+  prepared: '2026-09-16', updated: '2026-10-20',
   sections: [
     { id: 'question', title: 'A pipeline, not a model', paragraphs: [
       'The commercial products in this space are judged on the note. But the note inherits every error made upstream: a dropped medication name in transcription, a line attributed to the doctor that the patient said, a follow-up instruction that never made it into the summary. I built scribe-bench to measure those stages separately, on data anyone can download, with open-weight models on my own hardware.',
       'Everything in the study is a mock or synthetic consultation: PriMock57 (57 recorded mock primary-care visits with transcripts and notes) and ACI-Bench, MTS-Dialog and MedSynth for note generation and fine-tuning. No real patients, no proprietary data, and no claim that the results transfer to a clinic. The point was the evaluation method.'
     ] },
     { id: 'asr', title: 'Transcription: the medical-term miss rate is its own number', paragraphs: [
-      'Seven speech-recognition stacks ran on the 57 PriMock57 consultations, scored on word error rate, the miss rate on medical terms specifically, diarization error where the system produced speaker turns, and the share of words attributed to the wrong speaker. Word error rate alone would rank the top three systems as roughly equal. The medical-term column does not.',
-      'The last row is a reminder that a capable model in the wrong mode is a different system: the same family that transcribes competently as a dedicated recognizer produced an 88 percent diarization error when prompted as a chat model.'
-    ], table: { caption: 'PriMock57, 57 consultations · from the scribe-bench results file, September 2026', headers: ['System', 'Word error rate', 'Medical-term miss', 'Diarization error', 'Misattributed words'], rows: [
-      ['MOSS-Transcribe-Diarize 0.9B', '10.3%', '8.4%', '11.4%', '1.0%'],
-      ['Sortformer + Parakeet v3', '11.2%', '15.1%', '11.1%', '1.3%'],
-      ['Canary-Qwen 2.5B', '11.6%', '9.4%', 'no diarization', 'not applicable'],
-      ['Nemotron Nano Omni, chat prompt', '27.2%', '15.7%', '88%', '32%']
-    ] } },
+      'Seven speech-recognition stacks ran on the 57 PriMock57 consultations, scored on word error rate, the miss rate on medical terms specifically, diarization error where the system produced speaker turns, and the share of words attributed to the wrong speaker. Word error rate alone would rank the top systems as roughly equal; the medical-term miss rate does not. The best, MOSS-Transcribe-Diarize 0.9B, had a 10.3% word error rate, an 8.4% medical-term miss rate, an 11.4% diarization error and 1.0% misattributed words.'
+    ] },
     { id: 'notes', title: 'Note generation: the fine-tune that looked like an improvement', paragraphs: [
       'Qwen3.8-27B wrote visit notes from three transcript sources: the human transcript, the raw ASR output, and a corrected ASR output. The gap between the first and the second is the ceiling on what better transcription buys the note.',
       'One epoch of LoRA fine-tuning on open transcript-and-note pairs lifted ROUGE-L by 8.6 points on 120 ACI-Bench encounters, which is the kind of result that gets announced. The clinician-defined scorers told the other half: speaker misattributions doubled to tripled, and recall of follow-up instructions went down. The tuned model had learned the shape of a note faster than the discipline of one.',
@@ -1134,6 +1128,7 @@ export const notes: Editorial[] = [
   workflowLabel: 'How each fix was accepted · the same automated run, plus a capture of the app’s connections',
   workflow: ['Clean profile', 'Drive every screen', 'Capture connections', 'Fix', 'Re-run and re-capture'],
   prepared: '2026-09-24',
+  updated: '2026-10-20',
   sections: [
     { id: 'test', title: 'The test: a new user and a packet-level witness', paragraphs: [
       'The harness drives the real desktop app through WebDriver: it installs, chats, turns on private search, creates an encrypted chat and restarts, taking a screenshot at each step. While the app searched, a root-level socket capture listed every remote endpoint it had open, and each address was looked up in the Tor Project’s relay directory.',
@@ -1155,14 +1150,13 @@ export const notes: Editorial[] = [
     { id: 'models', title: 'Choosing the model with the app’s own benchmark', paragraphs: [
       'The benchmark runs 32 cases through the app’s real prompts, each model’s own chat template and the same inference loop: answering from given sources with correct citations, saying so when the sources do not contain the answer, conflicting sources, a prompt-injection trap inside a source, a Spanish source, formatting and date arithmetic. Every model ran twice with fixed seeds, and every failure was read by hand. Several were the scorer’s fault rather than the model’s, and the scorer was fixed before any ranking was trusted.',
       'The table is not the whole decision. Small models do well on grounded answering, which is what this benchmark measures, while larger models are far ahead on general knowledge and reasoning. So setup recommends Qwen3.8 27B wherever it fits, a 2-bit version of it on 12 to 16 GB graphics cards, and the small Gemma 4 E4B only on 8 GB machines.'
-    ], table: { caption: 'Grounded-answer benchmark · 32 cases × 2 seeds · 8 of the 14 models tested · one RTX PRO 6000', headers: ['Model', 'Score', 'Tokens/s'], rows: [
+    ], table: { caption: 'Grounded-answer benchmark · 32 cases × 2 seeds · 7 of the 14 models tested · one RTX PRO 6000', headers: ['Model', 'Score', 'Tokens/s'], rows: [
       ['Gemma 4 E4B', '98.4%', '223'],
       ['Qwen3.8 27B', '96.9%', '56'],
       ['Qwen3.6 35B-A3B', '96.9%', '182'],
       ['Qwen3.8 27B, 2-bit', '93.8%', '75'],
       ['Qwen3.5 9B', '93.8%', '163'],
       ['Ornith 1.5 35B-A3B', '92.2%', '184'],
-      ['Nemotron 3.5 Lightning 30B-A3B', '84.4%', '248'],
       ['MiniCPM5 2B', '75.0%', '308']
     ] } },
     { id: 'search', title: 'Which search engines answer over Tor', paragraphs: [
