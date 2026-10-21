@@ -155,6 +155,14 @@ export default function Home() {
             <div className="card-foot">{c.links.map(l => <SmartLink key={l.href} href={l.href}>{l.label}</SmartLink>)}</div>
           </article>)}
         </div>
+        <div className="archive-row" data-reveal="">
+          <div>
+            <p className="kicker">Open models · Sep 2026</p>
+            <h3 className="h3" style={{ marginTop: 6 }}>Eleven small models on Hugging Face, mostly trained on planted-error synthetic data</h3>
+            <p className="body" style={{ marginTop: 6 }}>Verifiers and readers for clinical notes, tables, citations, translations and agent clicks, each with held-out results and its measured limits. One lost to its baseline until real data was added.</p>
+          </div>
+          <SmartLink className="link stretch" href="/work/models">See the models</SmartLink>
+        </div>
       </div>
     </section>
 

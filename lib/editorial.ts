@@ -169,6 +169,132 @@ export const independentProjects: Editorial[] = [
     limitations: 'Personal project, not a shipped product. Accuracy figures are the engine’s own blind scores against DJ-published timestamps on eight mixes and do not generalise beyond those genres. No App Store release, no user study, and the bundled example mixes remain their owners’ work.',
     related: [{ label: 'Field note: finding where songs start inside a DJ mix', href: '/writing/finding-song-starts-in-dj-mixes' }, { label: 'AutoTalent: agentic recruiting with reviewable evidence', href: '/work/autotalent' }],
     product: { name: 'Cue', url: 'https://github.com/sipratt-p/cue-engine', description: 'The open-source engine: song-start detection for DJ mixes, with the accuracy tables and a demo of the app.' }
+  },
+  {
+    slug: 'models', type: 'project', work: { start: '2026-09-27', end: '2026-09-29' }, prepared: '2026-10-20', topics: ['Evals'],
+    findings: [
+      'A table-reading model trained on synthetic pages alone lost to its baseline on real financial tables (AUC .78–.79 against .868). With real tables added to training it reached .906.',
+      'Behind a 27B judge, the clinical note detail checker raised changed details caught from 73.5% to 94.0% on 200 plants written blind, with no added false flags on the 50 faithful test notes.',
+      'Planted-error scores flatter. The grounding checker caught 96.0% of planted errors, but 82.7% on SummEdits, an outside benchmark, with 32.7% false flags and behind the 27B judge.',
+      'On an independently written multilingual set, twelve English keyword rules caught 0.2% of risky agent clicks. The commit detector caught 98.4%, but asked a person for no reason 10.1% of the time.'
+    ],
+    title: 'Open models: verifiers and readers, mostly trained on planted errors.',
+    seoTitle: 'Open Models: Small Verifiers and Readers, with Held-Out Evals and Measured Limits', category: 'Open models',
+    description: 'Eleven Apache-2.0 models and one recipe from Seth Pratt’s lab on Hugging Face: grounding, number, citation and translation checkers, document readers and a click guard for agents, trained mostly on planted-error synthetic data, each with held-out results and measured limits.',
+    lede: 'Eleven licence-clean verifiers and readers, trained by my lab between 27 and 29 September 2026, mostly on planted-error synthetic data we generated ourselves. Each one was tested on held-out sets, usually next to a 27B open model doing the same job, and each model card states where it falls short. All are Apache-2.0 on Hugging Face, along with one recipe for confidential inference.',
+    takeaway: 'Planted errors made exact labels cheap, but the honest test was real data: the table-reading model lost to its baseline until real tables were added to training.',
+    facts: [{ label: 'Built by', value: 'My lab: a team of AI agents I direct' }, { label: 'Released', value: '27–29 September 2026 · Apache-2.0' }, { label: 'On Hugging Face', value: '11 models and 1 recipe' }],
+    workflowLabel: 'The common pattern across the model cards · simplified',
+    workflow: ['Find a slow check in a pipeline', 'Plant errors with exact labels', 'Fine-tune a small open model', 'Test on held-out and outside sets', 'Publish the card with its limits'],
+    sections: [
+      { id: 'how', title: 'How they were made', paragraphs: [
+        'Most of these models take over, pre-filter or double-check a slower step in a pipeline, usually a call to Qwen3.8-27B, an open 27B language model. Each starts from an open base model under Apache-2.0 or MIT, or from scratch, and trains only on data whose terms allow commercial use. That is why the weights can ship under Apache-2.0, where the strongest open grounding and translation-quality checkers are licensed for non-commercial use only.',
+        'The training data is mostly synthetic. A script or a language model writes a document, a claim, a page or a drawing, and one error of a known kind is planted in it: a changed number, a flipped negation, a swapped drug, a dropped clause. Because the error was planted, its label and position are known exactly. Test sets are split by document, trial, company or random seed, so nothing in them was seen in training, and thresholds were set on dev data.',
+        'Two models train on public data instead of our own synthetic data: the legal citation checker and the terminology adapter. Two go beyond small encoders: a full fine-tune of a 0.96B vision-language model, and a LoRA adapter on a 9B language model. Every number below is copied from a model card, with the set it was measured on.'
+      ] },
+      { id: 'synthetic-gap', title: 'Where synthetic data was not enough', paragraphs: [
+        'The clearest lesson came from readconf, the table-reading confidence model. A first version trained only on synthetic pages scored below the reader’s own confidence on real financial tables: AUC .78 to .79 against .868. It beat that baseline, at .906, only after about 3,000 real FinTabNet table images were added to training. That result holds only for tables like those: English financial statements of US-listed companies.',
+        'The other cards show the same gap. A planted-error test set comes from the same generator as the training data, so it flatters the model. Where a card also reports an outside or human-written set, the number drops. The grounding checker catches 96.0% of planted errors at 4.1% false flags, but 82.7% at 32.7% false flags on SummEdits. The number checker catches 97.8% of planted errors in held-out financial tables, but scores 73.8% accuracy on TabFact’s human-written claims. The commit detector flags 5.4% of harmless clicks on held-out kinds of website, and 10.1% on cases written independently.',
+        'So each section below gives the outside or real-data result where the card has one, next to the planted one.'
+      ], takeawayLabel: 'Lesson learned', takeaway: 'Synthetic data gave exact labels. Only real data showed whether the model worked.' },
+      { id: 'grounding', title: 'Grounding checker', paragraphs: [
+        'Checks one sentence of an AI-written summary or answer against its source passage, and says whether the source supports it, contradicts it or does not mention it, with the evidence span. It was built as a cheap first pass in front of a language-model judge, and runs on a CPU.'
+      ], bullets: [
+        'Base: ModernBERT-large (Apache-2.0).',
+        'Training data: 23,056 claim and source pairs. The claims, supported or with one planted error, were written by Qwen3.8-27B and by rules, over drug labels, contracts, Federal Register rules, EU acts and synthetic documents. Every source is public domain, CC0, CC BY 4.0, EU reuse terms or synthetic.',
+        'Held out: on 4,672 planted-error pairs from documents never seen in training, 96.0% caught at 4.1% false flags. On SummEdits (300 items, an outside benchmark with human-checked labels), 82.7% caught at 32.7% false flags.',
+        'Main limit: on SummEdits it is clearly weaker than the 27B judge (92.0% caught at 26.7% false flags), and weakest on conversations. Use it as a first pass, not the only check.'
+      ], links: [{ label: 'decosa-grounding-modernbert-large on Hugging Face', href: 'https://huggingface.co/decosaai/decosa-grounding-modernbert-large' }] },
+      { id: 'note-detail-checker', title: 'Clinical note detail checker', paragraphs: [
+        'Checks one detail in an AI-drafted clinical note, such as a drug, dose, frequency, date or side, against the visit transcript, and says whether it is the same, changed or absent. It settles a language-model judge’s “detail not in the visit” flags. It is a documentation check, not medical advice and not a medical device.'
+      ], bullets: [
+        'Base: the grounding checker above (ModernBERT-large), fine-tuned further.',
+        'Training data: 26,144 pairs labelled by code, from 237 synthetic visits with notes written by Qwen3.8-27B and 61 ACI-Bench training encounters (CC BY 4.0). Changed details were swapped in by rule.',
+        'Held out: on 50 PriMock57 test consultations, the judge caught 36 of 50 changed details alone and 47 of 50 with this model (72% to 94%). On 200 more plants written blind, 73.5% to 94.0%. False flags on the 50 faithful notes stayed at 4 of 1,135 sentences.',
+        'Main limit: the test notes are synthetic, with clean single swaps. On real ACI-Bench transcripts it added about 4 false error flags in 1,500 sentences, from speech-recognition slips and loose paraphrase.'
+      ], links: [{ label: 'decosa-note-detail-checker-modernbert-large on Hugging Face', href: 'https://huggingface.co/decosaai/decosa-note-detail-checker-modernbert-large' }] },
+      { id: 'citation-support', title: 'Legal citation checker (prototype)', paragraphs: [
+        'Scores whether passages from a cited court opinion support a sentence in a legal brief, so a lawyer knows which citations to read against the opinion. It is a prototype trained on 732 pairs, and not legal advice.'
+      ], bullets: [
+        'Base: the grounding checker above (ModernBERT-large), fine-tuned further.',
+        'Training data: public benchmark data, none of it generated by us. Brief sentences and labels from the LePhantomCite training split (CC BY 4.0), with opinion text from the Caselaw Access Project and public court opinions.',
+        'Held out: on 501 pairs from the LePhantomCite eval split, AUC 0.897. At the default threshold it caught 84 of 129 misstated holdings and flagged 19 of 372 supported sentences (5.1%).',
+        'Main limit: most catches are short holdings written by language models. On holdings altered inside real briefs, the model plus a judge caught 12 of 51, fewer than the judge’s own “contradicted” verdict (21), though with 4 false flags against 21.'
+      ], links: [{ label: 'decosa-citation-support-modernbert-large on Hugging Face', href: 'https://huggingface.co/decosaai/decosa-citation-support-modernbert-large' }] },
+      { id: 'number-checker', title: 'Number checker', paragraphs: [
+        'Checks whether the numbers in a sentence match the table or passage it cites: supported, contradicted or not verifiable, with the error type and the cell it read. It is the learned step behind a rule-based number check, for financial narratives, trial summaries and investigation notes.'
+      ], bullets: [
+        'Base: ModernBERT-large (Apache-2.0).',
+        'Training data: about 81,000 claim and evidence pairs over SEC filings and ClinicalTrials.gov results (public domain), FinQA, TAT-QA and TabFact, plus synthetic bank ledgers. Errors were planted in code with known labels. No non-commercial data.',
+        'Held out: on 3,000 planted-error claims from held-out financial tables (EDGAR, FinQA and TAT-QA test splits), 97.8% caught at 2.6% false flags. On 1,999 human-written TabFact claims, 73.8% accuracy.',
+        'Main limit: free-form claims are weaker, with 20.8% false flags on TabFact, and counting and superlatives are still the language model’s ground. It also learned to call “no one in group X died” contradicted, so those claims need a code check.'
+      ], links: [{ label: 'decosa-number-checker-modernbert-large on Hugging Face', href: 'https://huggingface.co/decosaai/decosa-number-checker-modernbert-large' }] },
+      { id: 'cell-pointer', title: 'Table cell pointer', paragraphs: [
+        'Given a paragraph from a clinical study report and its tables, it says which table cell each number reports, without seeing the cell values. Code then compares the written number with that cell. A pointer that sees values tends to point at whichever cell holds the written number, which hides the error. It replaced a language-model call inside a number checker.'
+      ], bullets: [
+        'Base: ModernBERT-base (Apache-2.0).',
+        'Training data: code-generated synthetic study reports with planted number errors, rewrites by Qwen3.8-27B, posted ClinicalTrials.gov results (public, with attribution), TAT-QA (CC BY 4.0) and SEC statements. No human labels.',
+        'Held out: on 30 real phase 3 trials from ClinicalTrials.gov, from conditions not in training (178 planted errors), 176 caught and 97.8% of numbers pointed at the right cell. The 27B judge, shown the values, caught 172, with fewer false flags (2.79 against 4.08 per 100 numbers).',
+        'Main limit: transfer outside clinical reports is weak, at 56.5% right cell on 10-K MD&A text, so it is not ready for financial filings. It has not been tested on a real sponsor report.'
+      ], links: [{ label: 'decosa-cell-pointer-modernbert-base on Hugging Face', href: 'https://huggingface.co/decosaai/decosa-cell-pointer-modernbert-base' }] },
+      { id: 'readconf', title: 'Table-reading confidence (readconf)', paragraphs: [
+        'Ranks the cells of a machine-read table by how likely the reader got them wrong, so a reviewer checks the riskiest cells first. It is a small network under 1 MB, trained from scratch, and runs on a CPU.'
+      ], bullets: [
+        'Base: none. A small network over 63 features that need no ground truth, plus the reader’s text.',
+        'Training data: 3,000 synthetic pages plus about 3,000 real FinTabNet table images (CDLA-Permissive-1.0), all read by PaddleOCR-VL-1.6 and labelled by comparing its output with the ground truth.',
+        'Held out: on 400 real FinTabNet test tables from 26 companies not in training, AUC .906 against .868 for the reader’s own confidence. Reviewing the top 10% of cells finds 69% of the wrong ones, against 56%.',
+        'Main limit: the version trained on synthetic pages alone scored below the reader’s confidence (AUC .78–.79). It is no better than the reader on digit substitutions, and was trained against one reader only.'
+      ], links: [{ label: 'decosa-readconf on Hugging Face', href: 'https://huggingface.co/decosaai/decosa-readconf' }] },
+      { id: 'clinical-events', title: 'Clinical event tagger', paragraphs: [
+        'Tags clinical events, such as visits, procedures, imaging, labs and medicines, and their dates on one page of a machine-read medical record. It feeds a dated chronology that a person then checks against the pages, and replaced a per-page language-model call.'
+      ], bullets: [
+        'Base: ModernBERT-base (Apache-2.0).',
+        'Training data: synthetic only. About 97,000 generated record pages with simulated OCR, fax and handwriting noise, plus 3,222 rendered pages read by a real document reader. No real patient data.',
+        'Held out: on 40 synthetic test packets (818 pages, seeds and templates not seen in training), it found 88.7% of required chronology events, against 81.5% for a per-page 27B model, with 0.10M language-model tokens instead of 1.97M.',
+        'Main limit: it has never been tested on real records. It gets dates right less often than the language model (95.9% against 98.6%) and finds fewer conflicting records (21 against 26 of 40).'
+      ], links: [{ label: 'decosa-clinical-events-modernbert-base on Hugging Face', href: 'https://huggingface.co/decosaai/decosa-clinical-events-modernbert-base' }] },
+      { id: 'oneline-reader', title: 'One-line diagram reader', paragraphs: [
+        'Reads the electrical one-line diagram in a solar or storage interconnection request, including poor scans, and returns the key fields as JSON: voltage, plant limit, inverters, storage, transformer, disconnect, meter and breaker. A reviewer can then check the drawing against the application form without retyping it.'
+      ], bullets: [
+        'Base: PaddleOCR-VL-1.6, a 0.96B vision-language model (Apache-2.0). A full fine-tune, not an adapter.',
+        'Training data: 16,000 synthetic diagrams drawn by a script, with fictional plants and inverter models and random scan damage. No real drawings.',
+        'Held out: on 60 poor scans from seeds never used in training, every field right on 59, against 25 for Qwen3.8-27B with vision. The base model gave no usable JSON on the 12 it was tried on. With random inverter names never seen in training, 50 of 60.',
+        'Main limit: every test drawing comes from the same template as training. No real utility drawing has been scored, so expect missed or invented fields on real ones.'
+      ], links: [{ label: 'decosa-oneline-reader-paddleocr-vl on Hugging Face', href: 'https://huggingface.co/decosaai/decosa-oneline-reader-paddleocr-vl' }] },
+      { id: 'qe', title: 'Translation quality estimation', paragraphs: [
+        'Flags machine translations from English into German, French, Spanish, Italian, Dutch or Polish that change the meaning: a flipped negation, a dropped condition, a changed number, a swapped name. The strong open models for this are licensed for non-commercial use only; this one is not.'
+      ], bullets: [
+        'Base: XLM-RoBERTa-large (MIT).',
+        'Training data: about 100,000 synthetic pairs. Human translations from Tatoeba, the European Medicines Agency and EU legislation (all reusable commercially) and machine translations, each clean or with one planted error. Nothing labelled by people.',
+        'Held out: on planted meaning errors in six languages (562 errors, 192 clean pairs), 84.7% caught at 3.1% false flags. The slower language-model check caught 98.9%, at 27.1% false flags.',
+        'Main limit: on real machine translations of trial summaries it caught 5 of 15 errors, and it caught none of 9 real word-sense mistakes. That real sample is small and had no native-speaker review.'
+      ], links: [{ label: 'decosa-qe-xlmr-large on Hugging Face', href: 'https://huggingface.co/decosaai/decosa-qe-xlmr-large' }] },
+      { id: 'mt-term-lora', title: 'Terminology adapter for EuroLLM-9B', paragraphs: [
+        'A LoRA adapter that makes glossary-constrained translation use the required term in the grammatical form the sentence needs, instead of pasting the dictionary form. English into German, French, Spanish, Italian, Dutch and Polish.'
+      ], bullets: [
+        'Base: EuroLLM-9B-Instruct (Apache-2.0), with a rank-16 LoRA on every layer.',
+        'Training data: public, not synthetic. 13,800 prompts built from professional translations of EU legislation (DGT-TM) and the IATE term base, both reusable under Commission Decision 2011/833/EU. No model-written targets.',
+        'Held out: on 644 sentences from held-out EU documents with 658 held-out terms, the exact inflected form rose from 81.3% to 88.1% (55 terms gained, 10 lost).',
+        'Main limit: without terms it is slightly worse than the base model (0.3 to 1.8 chrF++ lower on FLORES-200), and outside EU legislation the gain is small (427 against 423 of 435 terms).'
+      ], links: [{ label: 'decosa-mt-term-lora-eurollm-9b on Hugging Face', href: 'https://huggingface.co/decosaai/decosa-mt-term-lora-eurollm-9b' }] },
+      { id: 'commit-detector', title: 'Commit detector for browser agents', paragraphs: [
+        'Before a browser or computer-use agent clicks, it says whether the click commits something hard to undo, such as paying, deleting, sending or publishing, so the agent can stop and ask a person. It covers 34 languages and runs on a CPU, with no language-model call.'
+      ], bullets: [
+        'Base: XLM-RoBERTa-large (MIT).',
+        'Training data: 16,566 synthetic examples of a button on a page, for 42 kinds of invented website, written in each language by Qwen3.8-27B. The label is the kind of action the generator was asked to write.',
+        'Held out: on 720 cases written independently from the label definitions (36 language codes), 98.4% of commits caught. Twelve English keyword rules caught 0.2%, and zero-shot Qwen3.8-27B 98.1%.',
+        'Main limit: on that set it asks a person for no reason about 1 time in 10 (10.1%, against 1.4% for the 27B model). It has not been measured on real agent traces.'
+      ], links: [{ label: 'decosa-commit-detector-xlmr-large on Hugging Face', href: 'https://huggingface.co/decosaai/decosa-commit-detector-xlmr-large' }] },
+      { id: 'confidential-qwen-recipe', title: 'Also published: a recipe, not a model', paragraphs: [
+        'confidential-qwen-recipe is a tested recipe for serving Qwen3.8-27B in FP8 inside an Intel TDX confidential VM with an NVIDIA H200 in confidential-computing mode. Clients encrypt prompts to a key the hardware attests, and can check that proof and every answer’s receipt offline. No weights are re-uploaded; the recipe checks the upstream files against a manifest.',
+        'The measured finding is about speed. The common workaround for a vLLM bug under GPU confidential computing is eager mode, which held a single stream at 9.8 tokens per second. CUDA graphs, MTP speculative decoding and an FP8 KV cache gave 140 tokens per second, with output identical to the reference on an 8-prompt correctness set. Through the full encrypted, attested path, 2,169 requests at a concurrency of 32 ran with no errors.'
+      ], bullets: [
+        'Main limit: a TEE proves which code and weights ran, not that the answer is right. The host still sees sizes and timing, and a first-boot policy must be pinned to the measured deployment before it is trusted.'
+      ], links: [{ label: 'confidential-qwen-recipe on Hugging Face', href: 'https://huggingface.co/decosaai/confidential-qwen-recipe' }] }
+    ],
+    basis: 'Prepared October 20, 2026 from the twelve cards at huggingface.co/decosaai, as published 27–29 September 2026. Every number here is copied from a card, which names the held-out set it was measured on; the eleven model cards keep their full results in eval_summary.json. No models were re-run for this page.',
+    limitations: 'Most test sets are synthetic, made by the same generators as the training data; where a card has an outside or real set, this page gives that result too. The language-model baseline is one open model, Qwen3.8-27B, sometimes on a sample. None of these models has been validated for a regulated workflow, and nothing here is medical, legal or financial advice.',
+    related: [{ label: 'scribe-bench: when ROUGE goes up and the notes get worse', href: '/work/scribe-bench' }, { label: 'Autoresearch at home: eight search-and-score loops, and where the scorer lied', href: '/writing/autoresearch-at-home' }]
   }
 ];
 
