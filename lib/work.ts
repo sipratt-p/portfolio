@@ -63,7 +63,7 @@ export const workItems: WorkItem[] = [
   {
     slug: 'serving-kits', title: 'Serving 100B+ open models on two workstation GPUs', topics: ['Inference'], date: '2026-09', kicker: 'Inference',
     summary: 'NVFP4 and FP8, expert offload and speculative decoding on 2× RTX PRO 6000 Blackwell and a Mac Studio, with the traps written down. Three public recipe repos.',
-    chips: ['+38% decode with MTP', 'MTP depth 4: 113.9 → 242.5 tok/s'],
+    chips: ['MTP depth 4: 113.9 → 242.5 tok/s', 'DeepSeek kit built on hikari’s work'],
     primary: '/writing/local-model-performance-engineering',
     links: [{ label: 'Notes', href: '/writing/local-model-performance-engineering' }, { label: 'blackwell-serving-kit', href: 'https://github.com/sipratt-p/blackwell-serving-kit' }, { label: 'dsv4-flash-nvfp4-sm120', href: 'https://github.com/sipratt-p/dsv4-flash-nvfp4-sm120' }, { label: 'omlx-dualane-recipe', href: 'https://github.com/sipratt-p/omlx-dualane-recipe' }],
   },

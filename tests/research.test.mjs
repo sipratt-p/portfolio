@@ -29,3 +29,13 @@ test('Synthetic data and the open models are on the home page, About and the ré
     assert(cv.includes(term), term);
   assert(read('public/llms.txt').includes('small verifier models trained on planted-error synthetic data'));
 });
+
+test('The serving note credits the community work behind its rows, with links to the originals', () => {
+  const n = notes.find(n => n.slug === 'local-model-performance-engineering');
+  const s = n.sections.find(s => s.id === 'serving'); const t = JSON.stringify(s);
+  for (const term of ['hikari', 'Fraser Price', 'drowzeys', 'local-inference-lab', 'measured by hikari', 'measured by drowzeys'])
+    assert(t.includes(term), term);
+  for (const href of ['https://github.com/hikarioyama/dsv4-flash-nvfp4-sm120', 'https://huggingface.co/fraserprice/DeepSeek-V4-Flash-DSpark', 'https://github.com/drowzeys/keys-MAC-oMLX-0.6.1-DualANE-Qwen3.8-27B-Abliterated-oQ4e-MTP'])
+    assert(s.links.some(l => l.href === href), href);
+  assert(!read('lib/work.ts').includes("'+38% decode with MTP'"), 'the +38% chip was hikari’s measurement');
+});

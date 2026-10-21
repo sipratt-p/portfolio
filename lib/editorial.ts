@@ -929,11 +929,12 @@ export const notes: Editorial[] = [
       "id": "serving",
       "title": "What actually serves on the workstation",
       "paragraphs": [
-        "The launch recipes behind this note are public as blackwell-serving-kit, with the DeepSeek work in its own repository. The table is the measured state of each configuration on the two-GPU workstation between April and September 2026: one launcher per row, the single-stream decode rate, and the aggregate rate at the concurrency noted. Rows are not interchangeable: different models, quantizations, engines and dates.",
+        "The launch recipes behind this note are public as blackwell-serving-kit, with the DeepSeek kit in its own repository. The table is the measured state of each configuration on the two-GPU workstation between April and September 2026: one launcher per row, the single-stream decode rate, and the aggregate rate at the concurrency noted. Two rows were measured by the people whose work they come from, and say so. Rows are not interchangeable: different models, quantizations, engines and dates.",
+        "Several rows are built on other people’s work. The DeepSeek NVFP4 kit, its MTP fix and its numbers are hikari’s. The DSpark launch script is Fraser Price’s, run here on a vLLM build from local-inference-lab. The Mac Studio recipe and its numbers are drowzeys’, on oMLX by jundot. My lab’s part is the variants, the fixes and the measurements on this machine; the repositories say file by file which is which.",
         "Two of the findings in the repository are worth stating here. The peer-to-peer workaround described above cost nothing measurable on the DeepSeek serve (185.2 tokens per second with P2P disabled against 185.7 with it on), and a two-minute probe now runs after every kernel update before any engine flag is blamed. And the GLM-5.3-Flash NVFP4 checkpoint did not fit for two independent reasons that are written up separately: a quantization that left the attention stack in BF16, and an SM120 sparse-attention kernel that asserts on models without rotary position dimensions."
       ],
       "table": {
-        "caption": "Measured serving configurations · two RTX PRO 6000 (SM120) unless noted · April–September 2026 · from the blackwell-serving-kit README",
+        "caption": "Measured serving configurations · two RTX PRO 6000 (SM120) unless noted · April–September 2026 · from the blackwell-serving-kit README · two rows measured by their authors, as marked",
         "headers": [
           "Model",
           "Format and engine",
@@ -955,13 +956,13 @@ export const notes: Editorial[] = [
           ],
           [
             "DeepSeek V4-Flash",
-            "NVFP4, community B12X vLLM build with the MTP fix",
+            "NVFP4, hikari’s kit with the MTP fix, community B12X vLLM build; measured by hikari",
             "108.8 to 150.6 tokens/s (+38% from MTP)",
             "—"
           ],
           [
             "DeepSeek V4-Flash",
-            "FP8, DSpark speculative build",
+            "FP8, Fraser Price’s DSpark recipe",
             "182 to 186 tokens/s",
             "201 tokens/s at 4"
           ],
@@ -991,7 +992,7 @@ export const notes: Editorial[] = [
           ],
           [
             "Qwen3.8-27B on a Mac Studio M3 Ultra",
-            "oQ4e, oMLX dual-ANE prefill and MTP",
+            "oQ4e, drowzeys’ oMLX dual-ANE prefill and MTP recipe; measured by drowzeys",
             "81 tokens/s on code, 59 on prose",
             "78 tokens/s at 4; prefill +22% at 32K"
           ]
@@ -1003,12 +1004,24 @@ export const notes: Editorial[] = [
           "href": "https://github.com/sipratt-p/blackwell-serving-kit"
         },
         {
-          "label": "dsv4-flash-nvfp4-sm120: the DeepSeek kit and the MTP investigation",
+          "label": "dsv4-flash-nvfp4-sm120: hikari’s DeepSeek kit and MTP investigation, with our variants",
           "href": "https://github.com/sipratt-p/dsv4-flash-nvfp4-sm120"
         },
         {
-          "label": "omlx-dualane-recipe: the Mac Studio reproduction pack",
+          "label": "omlx-dualane-recipe: drowzeys’ Mac Studio recipe, republished with credit",
           "href": "https://github.com/sipratt-p/omlx-dualane-recipe"
+        },
+        {
+          "label": "The originals: hikari’s dsv4-flash-nvfp4-sm120",
+          "href": "https://github.com/hikarioyama/dsv4-flash-nvfp4-sm120"
+        },
+        {
+          "label": "Fraser Price’s DeepSeek-V4-Flash-DSpark and its run script",
+          "href": "https://huggingface.co/fraserprice/DeepSeek-V4-Flash-DSpark"
+        },
+        {
+          "label": "drowzeys’ oMLX dual-ANE recipe",
+          "href": "https://github.com/drowzeys/keys-MAC-oMLX-0.6.1-DualANE-Qwen3.8-27B-Abliterated-oQ4e-MTP"
         }
       ]
     },
@@ -1073,8 +1086,8 @@ export const notes: Editorial[] = [
       ]
     }
   ],
-  "basis": "Prepared September 5, 2026 from the April concurrent-prefill experiment and timing runner, DeepSeek SM120 bring-up records, the Qwen campaign artifact manifest, the August multi-GPU correctness incident, the August 27 launch-book sweep and quality checks, GLM thinking-budget notes, and current LTX evaluator code. Serving table and code links added September 16, 2026 from the published repositories.",
-  "updated": "2026-09-16",
+  "basis": "Prepared September 5, 2026 from the April concurrent-prefill experiment and timing runner, DeepSeek SM120 bring-up records, the Qwen campaign artifact manifest, the August multi-GPU correctness incident, the August 27 launch-book sweep and quality checks, GLM thinking-budget notes, and current LTX evaluator code. Serving table and code links added September 16, 2026 from the published repositories. Credits for the community work behind three serving rows were added October 20, 2026.",
+  "updated": "2026-10-20",
   "limitations": "All numbers are historical observations from my own hardware and evolving harnesses; none were remeasured for this article. Different suites, checkpoint revisions, cache states and adapter generations are not interchangeable. Kernel contributions are credited as integration and local engineering rather than sole authorship of upstream implementations. The chronology is incomplete and does not support a total-hours claim.",
   "related": [
     {
