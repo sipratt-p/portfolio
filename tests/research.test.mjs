@@ -39,3 +39,11 @@ test('The serving note credits the community work behind its rows, with links to
     assert(s.links.some(l => l.href === href), href);
   assert(!read('lib/work.ts').includes("'+38% decode with MTP'"), 'the +38% chip was hikari’s measurement');
 });
+
+test('The coding-agent note says whose DeepSeek weights and recipe each result used', () => {
+  const n = notes.find(n => n.slug === 'local-agent-evaluations'); const t = JSON.stringify(n);
+  for (const term of ['apetersson', 'drowzeys', 'Fraser Price', 'three builds']) assert(t.includes(term), term);
+  for (const href of ['https://huggingface.co/apetersson/DeepSeek-V4-Flash-0731-Abliterated-FP8', 'https://huggingface.co/drowzeys/keys-DeepSeekV4-Flash-GA-0731-Dspark-Abliterated-Anchored-Tensors'])
+    assert(t.includes(href), href);
+  assert(!t.includes("'DeepSeek V4-Flash (abliterated), DSpark drafts'"));
+});
