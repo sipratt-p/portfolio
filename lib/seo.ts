@@ -28,7 +28,7 @@ export const identityGraph = {
         'https://x.com/sethprattsf',
         'https://everdust.ai',
       ],
-      knowsAbout: ['AI evaluation', 'Benchmarks', 'Applied AI', 'AI agents', 'LLM inference', 'Ambient clinical documentation', 'Physics simulation'] },
+      knowsAbout: ['AI evaluation', 'Benchmarks', 'Synthetic data', 'Model fine-tuning', 'Applied AI', 'AI agents', 'LLM inference', 'Ambient clinical documentation', 'Physics simulation'] },
     { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, name: 'Seth Pratt', url: `${SITE_URL}/`, publisher: { '@id': PERSON_ID } }
   ]
 };

@@ -33,7 +33,7 @@ await writeFile('public/robots.txt',`# Allow crawling so page-level noindex can 
 const byDate=[...notes].sort((a,b)=>workDate(b).localeCompare(workDate(a)));
 const llms=`# Seth Pratt
 
-> Applied AI Product Leader, currently on NVIDIA's GenAI platform. Seth builds AI systems and measures what they actually do: open benchmarks for clinical scribes and coding agents, large open models served on workstation GPUs, and physics simulations at 100 million particles, built with a small studio of AI agents across five machines.
+> Applied AI Product Leader, currently on NVIDIA's GenAI platform. Seth builds AI systems and measures what they actually do: open benchmarks for clinical scribes and coding agents, small verifier models trained on planted-error synthetic data, large open models served on workstation GPUs, and physics simulations at 100 million particles, built with a small studio of AI agents across five machines.
 
 Every number on the site links to the file it came from. Negative results and retractions are kept. Contact: sipratt@gmail.com.
 
