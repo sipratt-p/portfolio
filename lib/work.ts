@@ -18,6 +18,13 @@ export const workItems: WorkItem[] = [
     links: [{ label: 'Case study', href: '/work/scribe-bench' }, { label: 'Code', href: 'https://github.com/sipratt-p/scribe-bench' }],
   },
   {
+    slug: 'models', title: 'Open models: verifiers and readers, mostly trained on planted errors', topics: ['Evals'], date: '2026-09', kicker: 'Evals · Synthetic data',
+    summary: 'Eleven Apache-2.0 models on Hugging Face for checking notes, tables, citations, translations and agent clicks. Each has held-out results, a 27B baseline where there is one, and its measured limits.',
+    chips: ['11 models + 1 recipe', 'details caught 73.5% → 94.0%'],
+    primary: '/work/models',
+    links: [{ label: 'The models', href: '/work/models' }, { label: 'Hugging Face', href: 'https://huggingface.co/decosaai' }],
+  },
+  {
     slug: 'video-evals', title: 'When the lip-sync score picked the worse take', topics: ['Evals', 'Agents'], date: '2026-08', kicker: 'Evals · Video',
     summary: 'Measurement gates for AI-generated video: why ranking takes on SyncNet alone rewarded mouth noise, and the tiered suite that now checks every render.',
     chips: ['4 tiers · 54 checks', '26 of 59 clips: extra speech'],

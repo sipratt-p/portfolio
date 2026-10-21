@@ -88,7 +88,7 @@ const og=[
  {path:'/work',title:'Everything here has a run behind it.',em:'run',eyebrow:'Work',line:'Evals · Agents · Inference · Products'},
  {path:'/work/archive',title:'Earlier product work',eyebrow:'Work · Archive',line:'NVIDIA · Lyft · Intuit'},
  ...caseStudies.map(c=>({path:`/work/${c.slug}`,title:c.h1.join(''),em:c.h1[1],eyebrow:`Case study · ${c.crumb}`,line:chip(c.slug)})),
- ...independentProjects.map(p=>({path:`/work/${p.slug}`,title:p.title.replace(/\.$/,''),eyebrow:'Work · Products',line:chip(p.slug)})),
+ ...independentProjects.map(p=>({path:`/work/${p.slug}`,title:p.title.replace(/\.$/,''),eyebrow:p.topics?.includes('Products')?'Work · Products':`Work · ${p.category}`,line:chip(p.slug)})),
  {path:'/lab',title:'The Lab',em:'Lab',eyebrow:'Physics, lifeforms and live worlds',line:'The same measurement habit, pointed at light and gravity',room:'lab',image:'attr-discoveries-ii'},
  ...labSeries.map(s=>({path:`/lab/${s.slug}`,title:s.name,em:s.em,eyebrow:`The Lab · Series ${s.n}`,line:`${s.hero.title} — ${s.hero.fact}`,room:'lab',image:s.hero.image})),
  {path:'/writing',title:'Notes with the numbers left in.',em:'numbers',eyebrow:'Writing',line:'Evals · Agents · Inference · Lab'},

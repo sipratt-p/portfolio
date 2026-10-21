@@ -8,8 +8,8 @@ const compile = p => transpileModule(read(p),{compilerOptions:{module:ModuleKind
 const dataUrl = code => `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`;
 const {notes,independentProjects} = await import(dataUrl(compile('lib/editorial.ts')));
 test('Original editorial content has sources, limitations, unique slugs and working local relationships',()=>{
- assert.equal(notes.length,20); assert.equal(independentProjects.length,3);
- const all = [...notes,...independentProjects]; assert.equal(new Set(all.map(e=>e.slug)).size,23);
+ assert.equal(notes.length,20); assert.equal(independentProjects.length,4);
+ const all = [...notes,...independentProjects]; assert.equal(new Set(all.map(e=>e.slug)).size,24);
  for(const e of all){
   assert(e.basis.length>100); assert(e.limitations.length>80); assert(e.sections.length>=5);
   const count=e.sections.flatMap(s=>s.paragraphs).join(' ').split(/\s+/).length;assert(count>=280,`${e.slug}: ${count} words`);
@@ -163,4 +163,22 @@ test('testing-a-vr-game images exist and are small', () => {
  const imgs=[n.featureImage,...n.sections.map(s=>s.image).filter(Boolean)];
  assert(imgs.length>=7);
  for(const im of imgs){const f='public'+im.src;assert(statSync(f).size>10000&&statSync(f).size<400000,f);assert(im.alt.length>20&&im.caption.length>20);}
+});
+
+test('Open models page lists all twelve Hugging Face cards with a held-out result and a limit each, in plain words',()=>{
+ const p=independentProjects.find(p=>p.slug==='models');assert(p);assert.equal(p.prepared,'2026-10-20');
+ const ids=['decosa-grounding-modernbert-large','decosa-note-detail-checker-modernbert-large','decosa-citation-support-modernbert-large','decosa-number-checker-modernbert-large','decosa-cell-pointer-modernbert-base','decosa-readconf','decosa-clinical-events-modernbert-base','decosa-oneline-reader-paddleocr-vl','decosa-qe-xlmr-large','decosa-mt-term-lora-eurollm-9b','decosa-commit-detector-xlmr-large','confidential-qwen-recipe'];
+ const hrefs=p.sections.flatMap(s=>(s.links??[]).map(l=>l.href));
+ assert.deepEqual(hrefs,ids.map(id=>'https://huggingface.co/decosaai/'+id));
+ for(const s of p.sections.filter(s=>s.links)){
+  const b=(s.bullets??[]).join(' ');
+  assert(b.includes('Main limit:'),`${s.id}: no limit`);
+  if(s.id!=='confidential-qwen-recipe')for(const k of ['Base:','Training data:','Held out:'])assert(b.includes(k),`${s.id}: no ${k}`);
+ }
+ const t=JSON.stringify(p);
+ for(const term of ['.78','.868','.906','73.5%','94.0%','82.7%','32.7%','98.4%','10.1%','81.3%','88.1%','prototype','a recipe, not a model'])assert(t.includes(term),term);
+ assert(!t.includes('—'),'no em dashes');
+ assert(!/published research|\bI trained\b|state-of-the-art|cutting-edge|diagnos/i.test(t));
+ const card=read('lib/work.ts');assert(card.includes("slug: 'models'"));assert(card.includes("primary: '/work/models'"));
+ assert(read('app/page.tsx').includes('href="/work/models"'),'linked from the home page');
 });

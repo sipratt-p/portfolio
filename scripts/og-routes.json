@@ -68,6 +68,13 @@
   "key": "work-cue"
  },
  {
+  "path": "/work/models",
+  "title": "Open models: verifiers and readers, mostly trained on planted errors",
+  "eyebrow": "Work · Open models",
+  "line": "11 models + 1 recipe · details caught 73.5% → 94.0%",
+  "key": "work-models"
+ },
+ {
   "path": "/lab",
   "title": "The Lab",
   "em": "Lab",
