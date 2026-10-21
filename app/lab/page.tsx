@@ -26,10 +26,10 @@ export default function Lab() {
           <div className="card-body">
             <p className="kicker">The app</p>
             <h2 className="h2 card-title"><a href={EVERDUST} target="_blank" rel="noreferrer">Everdust<span className="sr-only"> (opens in a new tab)</span></a> <span className="dim">the app these live in</span></h2>
-            <p className="body">A physics-driven music visualizer and playground for Vision Pro, iPhone and Mac, where every world is a live simulation.</p>
+            <p className="body">A particle universe simulator and space science games for iPhone, iPad, Mac, Apple TV and Vision Pro, where every world is a live simulation that moves with music.</p>
             <div className="card-row" style={{ justifyContent: 'flex-start', gap: 16, flexWrap: 'wrap', marginTop: 8 }}>
               <SmartLink className="btn btn-sm btn-secondary above" href={EVERDUST}>everdust.ai</SmartLink>
-              <span className="tiny">App Store release pending</span>
+              <span className="tiny">Free TestFlight beta · App Store release pending</span>
             </div>
           </div>
         </article>

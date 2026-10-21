@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, statSync } from 'node:fs';
+import { readFileSync, statSync, readdirSync } from 'node:fs';
 import { transpileModule, ModuleKind, ScriptTarget } from 'typescript';
 import { spawnSync } from 'node:child_process';
 const read = p => readFileSync(p,'utf8');
@@ -8,8 +8,8 @@ const compile = p => transpileModule(read(p),{compilerOptions:{module:ModuleKind
 const dataUrl = code => `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`;
 const {notes,independentProjects} = await import(dataUrl(compile('lib/editorial.ts')));
 test('Original editorial content has sources, limitations, unique slugs and working local relationships',()=>{
- assert.equal(notes.length,20); assert.equal(independentProjects.length,4);
- const all = [...notes,...independentProjects]; assert.equal(new Set(all.map(e=>e.slug)).size,24);
+ assert.equal(notes.length,20); assert.equal(independentProjects.length,6);
+ const all = [...notes,...independentProjects]; assert.equal(new Set(all.map(e=>e.slug)).size,26);
  for(const e of all){
   assert(e.basis.length>100); assert(e.limitations.length>80); assert(e.sections.length>=5);
   const count=e.sections.flatMap(s=>s.paragraphs).join(' ').split(/\s+/).length;assert(count>=280,`${e.slug}: ${count} words`);
@@ -181,4 +181,24 @@ test('Open models page lists all twelve Hugging Face cards with a held-out resul
  assert(!/published research|\bI trained\b|state-of-the-art|cutting-edge|diagnos/i.test(t));
  const card=read('lib/work.ts');assert(card.includes("slug: 'models'"));assert(card.includes("primary: '/work/models'"));
  assert(read('app/page.tsx').includes('href="/work/models"'),'linked from the home page');
+});
+
+test('Decosa and Everdust have sourced project pages, Work cards and a home feature, with their limits and honest status',()=>{
+ const d=independentProjects.find(p=>p.slug==='decosa'),e=independentProjects.find(p=>p.slug==='everdust');assert(d&&e);
+ for(const p of [d,e]){assert.equal(p.prepared,'2026-10-20');assert(p.facts.some(f=>f.value==='My lab: a team of AI agents I direct'),p.slug);}
+ const ds=JSON.stringify(d),es=JSON.stringify(e);
+ for(const term of ['86 tools','69 were scored','17 of 19','3,329','249 of 249','paused at launch','not public yet','AGPL-3.0-or-later','does not prove','not real-world performance','/work/models'])assert(ds.includes(term),term);
+ assert.equal(d.product.url,'https://decosa.ai');
+ for(const term of ['3.17 million','754K','4,025','October 13 to 18, 2026','first week of reels','App Store release is pending','free public beta on TestFlight','https://www.instagram.com/everdustapp/','not installs'])assert(es.includes(term),term);
+ assert.equal(e.product.url,'https://everdust.ai');assert.equal(e.product.os,'iOS, iPadOS, macOS, tvOS, visionOS');
+ for(const s of [ds,es]){assert(!s.includes('—'),'no em dashes');assert(!/customer|revenue|testnet|crypto|token sale/i.test(s));}
+ const work=read('lib/work.ts');for(const t of ["primary: '/work/decosa'","primary: '/work/everdust'",'App Store release pending','https://www.instagram.com/everdustapp/'])assert(work.includes(t),t);
+ const home=read('app/page.tsx');for(const t of ['href="/work/decosa"','href="/work/everdust"','What I’m building'])assert(home.includes(t),t);
+ for(const f of ['public/projects/decosa/decosa-home.jpg','public/projects/decosa/decosa-home-800.jpg'])assert(statSync(f).size>20000&&statSync(f).size<400000,f);
+});
+
+test('Sotto stays off the site until it is public',()=>{
+ const walk=d=>readdirSync(d,{withFileTypes:true}).flatMap(x=>x.isDirectory()?walk(d+'/'+x.name):[d+'/'+x.name]);
+ for(const f of [...walk('app'),...walk('components/portfolio'),...walk('lib')].filter(f=>/\.(tsx?|css)$/.test(f)))assert(!/sotto/i.test(read(f)),f);
+ for(const f of ['public/llms.txt','public/sitemap.xml','scripts/og-routes.json'])assert(!/sotto/i.test(read(f)),f);
 });

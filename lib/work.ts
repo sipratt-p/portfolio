@@ -25,6 +25,20 @@ export const workItems: WorkItem[] = [
     links: [{ label: 'The models', href: '/work/models' }, { label: 'Hugging Face', href: 'https://huggingface.co/decosaai' }],
   },
   {
+    slug: 'decosa', title: 'Decosa: AI tools that do one job and show their work', topics: ['Products', 'Evals'], date: '2026-10', kicker: 'Products · My company',
+    summary: 'My applied-AI company: 86 tools on open models and an API in the OpenAI format, with a signed receipt for every hosted model call and each tool’s accuracy, cost and time published with its caveats.',
+    chips: ['86 tools · 69 scored held out', 'a signed receipt per model call'],
+    primary: '/work/decosa',
+    links: [{ label: 'Project', href: '/work/decosa' }, { label: 'decosa.ai', href: 'https://decosa.ai' }, { label: 'Open models', href: '/work/models' }],
+  },
+  {
+    slug: 'everdust', title: 'Everdust', topics: ['Products'], date: '2026-10', kicker: 'Products · Shipped',
+    summary: 'A particle universe simulator, 11 space science games and 14 narrated science stories for iPhone, iPad, Mac, Apple TV and Vision Pro, where every world is a live simulation. In its first week of reels, October 13–18, 2026, 21 Instagram reels drew 3.17M views.',
+    chips: ['App Store release pending', 'free TestFlight beta', '3.17M reel views in week one'],
+    primary: '/work/everdust',
+    links: [{ label: 'Project', href: '/work/everdust' }, { label: 'everdust.ai', href: 'https://everdust.ai' }, { label: 'Instagram', href: 'https://www.instagram.com/everdustapp/' }, { label: 'The Lab', href: '/lab' }],
+  },
+  {
     slug: 'video-evals', title: 'When the lip-sync score picked the worse take', topics: ['Evals', 'Agents'], date: '2026-08', kicker: 'Evals · Video',
     summary: 'Measurement gates for AI-generated video: why ranking takes on SyncNet alone rewarded mouth noise, and the tiered suite that now checks every render.',
     chips: ['4 tiers · 54 checks', '26 of 59 clips: extra speech'],
@@ -103,13 +117,6 @@ export const workItems: WorkItem[] = [
     links: [{ label: 'elmoseo.com', href: 'https://elmoseo.com' }],
   },
   {
-    slug: 'everdust', title: 'Everdust', topics: ['Products'], date: '2026-10', kicker: 'Products · Shipped',
-    summary: 'A physics-driven music visualizer and playground for Vision Pro, iPhone and Mac, where every world is a live simulation. The Lab pieces live here.',
-    chips: ['App Store release pending'],
-    primary: 'https://everdust.ai',
-    links: [{ label: 'everdust.ai', href: 'https://everdust.ai' }, { label: 'The Lab', href: '/lab' }, { label: 'Notes', href: '/writing/one-sim-seven-platforms' }, { label: 'VR evals', href: '/writing/testing-a-vr-game' }],
-  },
-  {
     slug: 'create', title: 'Create', topics: ['Products', 'Agents'], date: '2026-10', kicker: 'Products · Agents',
     summary: 'Describe a world, get a playable simulation: a language model writes a recipe from registered physics primitives, and a validator checks it before it runs.',
     chips: ['20/20 playable in our eval', '~$0.29 per game'],
@@ -120,7 +127,7 @@ export const workItems: WorkItem[] = [
 
 /** The "Shipped" row on the home page. */
 export const shipped = [
-  { name: 'Everdust', status: 'App Store release pending', body: 'A physics-driven music visualizer and playground for Vision Pro, iPhone and Mac.', href: 'https://everdust.ai', linkLabel: 'everdust.ai' },
+  { name: 'Everdust', status: 'App Store release pending', body: 'A particle universe simulator and space science games for iPhone, iPad, Mac, Apple TV and Vision Pro.', href: 'https://everdust.ai', linkLabel: 'everdust.ai' },
   { name: 'Create', status: '20/20 playable in our eval', body: 'Describe a world, get a playable simulation, for about $0.29 a game.', href: 'https://everdust.ai', linkLabel: 'everdust.ai' },
   { name: 'ElmoSEO', status: 'Live, with paying customers', body: 'An SEO service built for AI search.', href: 'https://elmoseo.com', linkLabel: 'elmoseo.com' },
   { name: 'Dr. Grey', status: 'Live', body: 'Pick a goal and see which supplements have the strongest research, in plain words.', href: 'https://drgrey.ai', linkLabel: 'drgrey.ai' },
