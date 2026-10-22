@@ -8,7 +8,7 @@ import { shipped } from '@/lib/work';
 import { notes } from '@/lib/editorial';
 import { EVERDUST } from '@/lib/site';
 
-export const metadata = pageMetadata('/', 'Seth Pratt — Applied AI Product Leader', 'Seth Pratt builds AI systems and measures what they actually do: clinical-scribe and coding-agent benchmarks, large open models on workstation GPUs, and physics at 100 million particles.', { absolute: true });
+export const metadata = pageMetadata('/', 'Seth Pratt — Applied AI Product Leader', 'Seth Pratt builds AI systems and measures what they actually do: clinical-scribe and coding-agent benchmarks, small verifier models trained on synthetic data, large open models on workstation GPUs, and physics at 100 million particles.', { absolute: true });
 
 const note = (slug: string) => {
   const n = notes.find(x => x.slug === slug);
@@ -83,7 +83,7 @@ export default function Home() {
         <div className="rise">
           <p className="eyebrow dotted">Applied AI · Evals · Agents · Simulation</p>
           <h1 className="h1">I build AI systems and <em>measure</em> what they actually do.</h1>
-          <p className="lead">Applied AI product leader, currently on NVIDIA’s GenAI platform. Outside work I benchmark clinical scribes and coding agents, look inside language models, and simulate physics at 100 million particles.</p>
+          <p className="lead">Applied AI product leader, currently on NVIDIA’s GenAI platform. Outside work I benchmark clinical scribes and coding agents, train small verifier models on synthetic data, look inside language models, and simulate physics at 100 million particles.</p>
           <p className="hero-team">I do it with a team of AI agents: two leads and their helpers, working almost around the clock. <a className="inline-link" href={TEAM}>What it taught me about applied AI in product management</a></p>
           <div className="actions">
             <a className="btn btn-primary" href="/start">Start here <span className="arr in" aria-hidden="true">→</span></a>

@@ -509,7 +509,7 @@ export const notes: Editorial[] = [
     related: [{ label: 'How the rendering agent survives a failed job', href: '/writing/long-running-ai-agents' }, { label: 'Why I also evaluate the coding harness', href: '/writing/local-agent-evaluations' }]
   },
   {
-    slug: 'local-agent-evaluations', type: 'note', work: { start: '2026-08-05', end: '2026-09-17', label: 'August–September 2026' }, topics: ["Evals", "Agents"], findings: ["An extractor bug executed an unfinished draft from the reasoning trace: the recorded score was 17/100; re-scoring the identical final-answer bytes produced 97/100.", "Three runs of one Qwen configuration on four hard tasks scored 392/400, 359/400 and 389/400, a mean of 380/400, with two runaway fuzz subprocesses interrupted.", "Without a thinking-budget proxy, GLM-5.3-Flash reasoned for 65,536 tokens and scored 4/100; with an 8K thinking budget, its three runs averaged 372 of 400.", "On Ornith-1.5-35B-A3B, refusal ablation that left the token embedding alone kept the coding suite at 489/500; adding the embedding edit dropped it to 400/500."], title: 'Benchmarking local coding agents', summary: 'Lessons from repeated coding tasks, model adaptation, and a grading bug that changed the result without changing the answer.',
+    slug: 'local-agent-evaluations', type: 'note', work: { start: '2026-08-05', end: '2026-09-17', label: 'August–September 2026' }, topics: ["Evals", "Agents"], findings: ["An extractor bug executed an unfinished draft from the reasoning trace: the recorded score was 17/100; re-scoring the identical final-answer bytes produced 97/100.", "Three runs of one Qwen configuration on four hard tasks scored 392/400, 359/400 and 389/400, a mean of 380/400, with two runaway fuzz subprocesses interrupted.", "Without a thinking-budget proxy, GLM-5.3-Flash reasoned for 65,536 tokens and scored 4/100; with an 8K thinking budget, its three runs averaged 372 of 400.", "On Ornith-1.5-35B-A3B, refusal ablation that left the token embedding alone kept the coding suite at 489/500; adding the embedding edit dropped it to 400/500.", "Across three builds of DeepSeek V4-Flash, direct-API runs scored 453 to 459 out of 500 and runs inside agent harnesses 481 to 495; a 32,000-token output cap alone took one build down to 376."], title: 'Benchmarking local coding agents', summary: 'Lessons from repeated coding tasks, model adaptation, and a grading bug that changed the result without changing the answer.',
     seoTitle: 'Local Coding Agent Evals — Harness Bugs, Reliability & Model Adaptation', category: 'Field note 03 / Local model evaluation',
     description: 'What Seth Pratt’s local coding-agent evaluations revealed about answer extraction, repeated runs, operator intervention, quantization, and model adaptation.',
     lede: 'I run local models to do real work, so I care about completed, verifiable artifacts. The model matters. So do the harness, its configuration, and the way the result gets graded.',
@@ -533,9 +533,22 @@ export const notes: Editorial[] = [
       ], table: { caption: 'Four hard tasks, same agent harness, three runs each · two RTX PRO 6000 · August–September 2026', headers: ['Model and serving path', 'Runs (/400)', 'Mean', 'What the mean hides'], rows: [
         ['Qwen3.8-Flash-Next, FP8, TP2, MTP depth 4', '392 / 359 / 389', '380', 'Zero degenerate generations; two runaway test subprocesses were interrupted and the agent adapted'],
         ['GLM-5.3-Flash TR3-4bpw, 8K thinking budget', '389 / 359 / 369', '372', 'Needed a thinking-budget proxy; without one it reasoned for 65,536 tokens and scored 4/100'],
-        ['DeepSeek V4-Flash (abliterated), DSpark drafts', '287 / 197 / 382', '289', 'Three degenerate generations in twelve tasks; spec decoding and the ablation were not isolated'],
+        ['DeepSeek V4-Flash 0731, apetersson’s abliterated build, DSpark drafts', '287 / 197 / 382', '289', 'Three degenerate generations in twelve tasks; spec decoding and the ablation were not isolated'],
         ['Qwen3.8-Flash-Next, NVFP4, one GPU', '274 / 359 / 268', '300', 'Parity on two tasks, a consistent partial on one, a collapse on the JSON parser in two runs']
       ] }, links: [{ label: 'coding-agent-bench: tasks, runners and 82 result records', href: 'https://github.com/sipratt-p/coding-agent-bench' }, { label: 'The results table with every run', href: 'https://github.com/sipratt-p/coding-agent-bench/blob/main/results/RESULTS.md' }, { label: 'model-comparison: local open-weight models against Codex and Claude Code on six work prompts', href: 'https://github.com/sipratt-p/model-comparison' }] },
+      { id: 'harness-effects', title: 'The harness, the sampler and the engine move the score', paragraphs: [
+        'The same model scores very differently depending on what wraps it. On the five core tasks, DeepSeek V4-Flash scored 453 to 459 out of 500 through the direct API and 481 to 495 inside agent harnesses: Prime Agent, Claude Code, OpenClaw and the official dsh. That is a harness effect of 25 to 40 points on a suite that is already near its ceiling. These runs span three builds of the model: DeepSeek’s own DSpark weights and abliterated 0731 builds by apetersson and drowzeys, all served with Fraser Price’s DSpark recipe. One Prime Agent run scored 394 because the agent wrote no file, and the same model scored 376 when the request carried a 32,000-token output cap.',
+        'Sampling settings were part of the experiment by accident. Every direct-API runner sent temperature 0, while the models’ own configs said 1.0 and the harnesses sent no temperature at all. At temperature 0, Qwen3.8-Flash-Next never finished 2 of the 5 core tasks; the parser task spiralled to 130,000 and then 153,000 tokens. At temperature 1.0, two identical back-to-back runs of one regex task scored 98 and 13 out of 100. Every leaderboard row had started as a single run, so the repository now reports means over three runs and shows each one.',
+        'The serving engine can look like the model. On the core suite the same Qwen3.8-27B weights scored 62 to 63 out of 500 on llama.cpp’s CUDA path and 193 on vLLM FP8 with MTP speculative decoding, against 387 on vLLM FP8 in eager mode and 478 with NVFP4 and MTP. The run notes put both collapses down to engine bugs on that hybrid-SSM architecture, a spurious end-of-sequence token on the CUDA path and FP8 draft-and-verify numerics with MTP, not to the model.'
+      ], table: { caption: 'Same weights, different wrapper · five core tasks (/500), single runs unless a range is shown · from the coding-agent-bench README', headers: ['Model and serving path', 'Score (/500)'], rows: [
+        ['DeepSeek V4-Flash, direct API, no output cap', '453–459'],
+        ['DeepSeek V4-Flash, direct API, 32,000-token cap', '376'],
+        ['DeepSeek V4-Flash inside agent harnesses', '481–495'],
+        ['Qwen3.8-27B, llama.cpp CUDA', '62–63'],
+        ['Qwen3.8-27B, vLLM FP8 with MTP', '193'],
+        ['Qwen3.8-27B, vLLM FP8, eager mode', '387'],
+        ['Qwen3.8-27B, vLLM NVFP4 with MTP', '478']
+      ] }, takeaway: 'Report the harness, the sampling settings, the output cap and the engine with every score, and run it three times.', links: [{ label: 'coding-agent-bench README: findings and harness lessons', href: 'https://github.com/sipratt-p/coding-agent-bench#findings' }, { label: 'Which DeepSeek build each result used (the README’s Credits)', href: 'https://github.com/sipratt-p/coding-agent-bench#credits' }, { label: 'apetersson’s abliterated DeepSeek-V4-Flash-0731 build', href: 'https://huggingface.co/apetersson/DeepSeek-V4-Flash-0731-Abliterated-FP8' }, { label: 'drowzeys’ abliterated DeepSeek-V4-Flash-0731 build', href: 'https://huggingface.co/drowzeys/keys-DeepSeekV4-Flash-GA-0731-Dspark-Abliterated-Anchored-Tensors' }, { label: 'Fraser Price’s DSpark recipe', href: 'https://huggingface.co/fraserprice/DeepSeek-V4-Flash-DSpark' }] },
       { id: 'comparisons', title: 'Do not let a harness limit become a model verdict', paragraphs: [
         'A timeout, output-length limit, malformed tool exchange, and incorrect implementation are different events. I keep inconclusive runs visible and separate from completed-task scores. They still matter operationally—someone waiting for an answer experienced an unfinished task—but they are not interchangeable evidence of reasoning failure.',
         'Some older comparison tables assigned a low floor to interrupted or missing-artifact runs. I would not reuse those totals as a clean model ranking. The statuses, final files, and intervention notes need to travel with the score.'
@@ -558,9 +571,9 @@ export const notes: Editorial[] = [
         'The decision the evidence supports, and the claims it cannot support.'
       ] }
     ],
-    basis: 'Prepared September 5, 2026 from my August 26 answer-extraction incident, August 27 Prime head-to-head run tables and intervention notes, and local-model operating records. The 17→97 correction is a recorded re-score, not a new run for this page. Cross-model table and code links added September 16, 2026 from the published repository.',
+    basis: 'Prepared September 5, 2026 from my August 26 answer-extraction incident, August 27 Prime head-to-head run tables and intervention notes, and local-model operating records. The 17→97 correction is a recorded re-score, not a new run for this page. Cross-model table and code links added September 16, 2026 from the published repository. The harness, sampling and engine effects were added October 20, 2026 from the repository’s README; some of those rows are marked there as from run notes.',
     limitations: 'Four difficult coding tasks are a narrow sample. These historical results do not establish a general model ranking, statistical significance, or present-day vendor capability. No new benchmark was run for this article.',
-    updated: '2026-09-23',
+    updated: '2026-10-20',
     related: [{ label: 'The same evaluation problem in H3 and LTX video', href: '/writing/evaluating-agentic-video' }, { label: 'Building long-running task-specific agents', href: '/writing/long-running-ai-agents' }]
   },
   {
@@ -916,11 +929,12 @@ export const notes: Editorial[] = [
       "id": "serving",
       "title": "What actually serves on the workstation",
       "paragraphs": [
-        "The launch recipes behind this note are public as blackwell-serving-kit, with the DeepSeek work in its own repository. The table is the measured state of each configuration on the two-GPU workstation between April and September 2026: one launcher per row, the single-stream decode rate, and the aggregate rate at the concurrency noted. Rows are not interchangeable: different models, quantizations, engines and dates.",
+        "The launch recipes behind this note are public as blackwell-serving-kit, with the DeepSeek kit in its own repository. The table is the measured state of each configuration on the two-GPU workstation between April and September 2026: one launcher per row, the single-stream decode rate, and the aggregate rate at the concurrency noted. Two rows were measured by the people whose work they come from, and say so. Rows are not interchangeable: different models, quantizations, engines and dates.",
+        "Several rows are built on other people’s work. The DeepSeek NVFP4 kit, its MTP fix and its numbers are hikari’s. The DSpark launch script is Fraser Price’s, run here on a vLLM build from local-inference-lab. The Mac Studio recipe and its numbers are drowzeys’, on oMLX by jundot. My lab’s part is the variants, the fixes and the measurements on this machine; the repositories say file by file which is which.",
         "Two of the findings in the repository are worth stating here. The peer-to-peer workaround described above cost nothing measurable on the DeepSeek serve (185.2 tokens per second with P2P disabled against 185.7 with it on), and a two-minute probe now runs after every kernel update before any engine flag is blamed. And the GLM-5.3-Flash NVFP4 checkpoint did not fit for two independent reasons that are written up separately: a quantization that left the attention stack in BF16, and an SM120 sparse-attention kernel that asserts on models without rotary position dimensions."
       ],
       "table": {
-        "caption": "Measured serving configurations · two RTX PRO 6000 (SM120) unless noted · April–September 2026 · from the blackwell-serving-kit README",
+        "caption": "Measured serving configurations · two RTX PRO 6000 (SM120) unless noted · April–September 2026 · from the blackwell-serving-kit README · two rows measured by their authors, as marked",
         "headers": [
           "Model",
           "Format and engine",
@@ -942,13 +956,13 @@ export const notes: Editorial[] = [
           ],
           [
             "DeepSeek V4-Flash",
-            "NVFP4, community B12X vLLM build with the MTP fix",
+            "NVFP4, hikari’s kit with the MTP fix, community B12X vLLM build; measured by hikari",
             "108.8 to 150.6 tokens/s (+38% from MTP)",
             "—"
           ],
           [
             "DeepSeek V4-Flash",
-            "FP8, DSpark speculative build",
+            "FP8, Fraser Price’s DSpark recipe",
             "182 to 186 tokens/s",
             "201 tokens/s at 4"
           ],
@@ -978,7 +992,7 @@ export const notes: Editorial[] = [
           ],
           [
             "Qwen3.8-27B on a Mac Studio M3 Ultra",
-            "oQ4e, oMLX dual-ANE prefill and MTP",
+            "oQ4e, drowzeys’ oMLX dual-ANE prefill and MTP recipe; measured by drowzeys",
             "81 tokens/s on code, 59 on prose",
             "78 tokens/s at 4; prefill +22% at 32K"
           ]
@@ -990,12 +1004,24 @@ export const notes: Editorial[] = [
           "href": "https://github.com/sipratt-p/blackwell-serving-kit"
         },
         {
-          "label": "dsv4-flash-nvfp4-sm120: the DeepSeek kit and the MTP investigation",
+          "label": "dsv4-flash-nvfp4-sm120: hikari’s DeepSeek kit and MTP investigation, with our variants",
           "href": "https://github.com/sipratt-p/dsv4-flash-nvfp4-sm120"
         },
         {
-          "label": "omlx-dualane-recipe: the Mac Studio reproduction pack",
+          "label": "omlx-dualane-recipe: drowzeys’ Mac Studio recipe, republished with credit",
           "href": "https://github.com/sipratt-p/omlx-dualane-recipe"
+        },
+        {
+          "label": "The originals: hikari’s dsv4-flash-nvfp4-sm120",
+          "href": "https://github.com/hikarioyama/dsv4-flash-nvfp4-sm120"
+        },
+        {
+          "label": "Fraser Price’s DeepSeek-V4-Flash-DSpark and its run script",
+          "href": "https://huggingface.co/fraserprice/DeepSeek-V4-Flash-DSpark"
+        },
+        {
+          "label": "drowzeys’ oMLX dual-ANE recipe",
+          "href": "https://github.com/drowzeys/keys-MAC-oMLX-0.6.1-DualANE-Qwen3.8-27B-Abliterated-oQ4e-MTP"
         }
       ]
     },
@@ -1060,8 +1086,8 @@ export const notes: Editorial[] = [
       ]
     }
   ],
-  "basis": "Prepared September 5, 2026 from the April concurrent-prefill experiment and timing runner, DeepSeek SM120 bring-up records, the Qwen campaign artifact manifest, the August multi-GPU correctness incident, the August 27 launch-book sweep and quality checks, GLM thinking-budget notes, and current LTX evaluator code. Serving table and code links added September 16, 2026 from the published repositories.",
-  "updated": "2026-09-16",
+  "basis": "Prepared September 5, 2026 from the April concurrent-prefill experiment and timing runner, DeepSeek SM120 bring-up records, the Qwen campaign artifact manifest, the August multi-GPU correctness incident, the August 27 launch-book sweep and quality checks, GLM thinking-budget notes, and current LTX evaluator code. Serving table and code links added September 16, 2026 from the published repositories. Credits for the community work behind three serving rows were added October 20, 2026.",
+  "updated": "2026-10-20",
   "limitations": "All numbers are historical observations from my own hardware and evolving harnesses; none were remeasured for this article. Different suites, checkpoint revisions, cache states and adapter generations are not interchangeable. Kernel contributions are credited as integration and local engineering rather than sole authorship of upstream implementations. The chronology is incomplete and does not support a total-hours claim.",
   "related": [
     {

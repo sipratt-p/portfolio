@@ -8,7 +8,7 @@ import { contacts, EVERDUST } from '@/lib/site';
 export const metadata = pageMetadata('/about', 'About', 'Seth Pratt, Applied AI Product Leader, currently on NVIDIA’s GenAI platform. Outside work he benchmarks clinical scribes and coding agents, serves large open models, and runs a small studio of AI agents.');
 
 const good = [
-  { h: 'Evals & measurement', b: 'Golden sets, claim-level scorers, injected-error tests and paired-bootstrap intervals, with the failures written down.', proof: 'Proof: scribe-bench', href: '/work/scribe-bench' },
+  { h: 'Evals & measurement', b: 'Golden sets, claim-level scorers, injected-error tests and paired-bootstrap intervals, synthetic data with exact labels and held-out splits, with the failures written down.', proof: 'Proof: scribe-bench', href: '/work/scribe-bench' },
   { h: 'Agentic building', b: 'A fleet of AI coding agents across five machines, run on written specs and measured gates.', proof: 'Proof: coding-agent-bench', href: '/writing/local-agent-evaluations' },
   { h: 'Product judgment', b: 'Platforms and products shipped at NVIDIA, Lyft, Intuit, Meta and Visa.', proof: 'Proof: the résumé', href: '/resume' },
 ];
@@ -24,7 +24,7 @@ export default function About() {
           <h1 className="h1-page" style={{ marginTop: 16 }}>About</h1>
           <div className="bio">
             <p>I’m an applied AI product leader, currently on NVIDIA’s GenAI platform. Before that I built products at Lyft, Intuit, Meta and Visa.</p>
-            <p>Outside work, I build and measure AI systems: I benchmark clinical scribes and coding agents, serve large open models on workstation GPUs, and run a small studio of AI agents that makes <SmartLink className="inline-link" href={EVERDUST}>Everdust</SmartLink> and the physics work in <a className="inline-link" href="/lab">the Lab</a>.</p>
+            <p>Outside work, I build and measure AI systems: I benchmark clinical scribes and coding agents, train small verifier models on planted-error synthetic data, serve large open models on workstation GPUs, and run a small studio of AI agents that makes <SmartLink className="inline-link" href={EVERDUST}>Everdust</SmartLink> and the physics work in <a className="inline-link" href="/lab">the Lab</a>.</p>
           </div>
         </div>
       </section>
