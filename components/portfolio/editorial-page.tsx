@@ -61,7 +61,7 @@ export default function EditorialPage({ entry }: { entry: Editorial }) {
     ...(entry.product ? { about: {
       '@type': 'SoftwareApplication', '@id': entry.product.url + '/#application', name: entry.product.name,
       url: entry.product.url, description: entry.product.description, creator: { '@id': PERSON_ID },
-      applicationCategory: 'WebApplication', operatingSystem: 'Web browser'
+      applicationCategory: entry.product.category ?? 'WebApplication', operatingSystem: entry.product.os ?? 'Web browser'
     } } : {})
   };
   const toc = [

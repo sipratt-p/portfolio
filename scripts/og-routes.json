@@ -75,6 +75,20 @@
   "key": "work-models"
  },
  {
+  "path": "/work/decosa",
+  "title": "Decosa: AI tools that do one job and show their work",
+  "eyebrow": "Work · Products",
+  "line": "86 tools · 69 scored held out · a signed receipt per model call",
+  "key": "work-decosa"
+ },
+ {
+  "path": "/work/everdust",
+  "title": "Everdust: live physics worlds that move with your music",
+  "eyebrow": "Work · Products",
+  "line": "App Store release pending · free TestFlight beta · 3.17M reel views in week one",
+  "key": "work-everdust"
+ },
+ {
   "path": "/lab",
   "title": "The Lab",
   "em": "Lab",

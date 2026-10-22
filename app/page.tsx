@@ -166,6 +166,48 @@ export default function Home() {
       </div>
     </section>
 
+    <section className="section" style={{ paddingTop: 0 }} aria-labelledby="building-h">
+      <div className="wrap">
+        <div className="sec-head"><h2 className="h2" id="building-h">What I’m building</h2><span className="small">My company and my app, built by my lab: a team of AI agents I direct</span></div>
+        <div className="flagships">
+          <article className="card flagship hoverable" data-reveal="">
+            <div className="flag-media"><img src="/projects/decosa/decosa-home.jpg" srcSet="/projects/decosa/decosa-home-800.jpg 800w, /projects/decosa/decosa-home.jpg 1600w" sizes="(max-width: 900px) 100vw, 50vw" alt="The decosa.ai home page: “AI that does the job, and shows its work”, beside a sample brief check that lists problems before filing and a signed record" width="1600" height="900" loading="lazy" decoding="async" style={{ width: '100%', height: 'auto' }}/></div>
+            <div className="card-body">
+              <div className="card-row"><p className="kicker">My company · decosa.ai</p><span className="date">Oct 2026</span></div>
+              <h3 className="h2 card-title"><a href="/work/decosa">Decosa: AI tools that do one job and show their work</a></h3>
+              <p className="body">86 tools on open models, from checking a brief before filing to filling a form from your own papers, and an API in the OpenAI format. Every hosted model call comes back with a signed receipt, and every tool publishes its accuracy, cost and time.</p>
+              <dl className="result">
+                <div><dt>Measured</dt><dd><span className="num">69</span> of <span className="num">86</span> tools scored on held-out cases</dd></div>
+                <div><dt>Brief check</dt><dd><span className="num">17</span> of <span className="num">19</span> planted fake citations caught, held out</dd></div>
+              </dl>
+            </div>
+            <div className="card-foot">
+              <SmartLink href="/work/decosa">About Decosa</SmartLink>
+              <SmartLink href="https://decosa.ai">decosa.ai</SmartLink>
+              <SmartLink href="/work/models">Its open models</SmartLink>
+            </div>
+          </article>
+          <article className="card flagship hoverable" data-reveal="">
+            <div className="flag-media"><img src="/media/lab/img/everdust-app.jpg" srcSet="/media/lab/img/everdust-app-800.jpg 800w, /media/lab/img/everdust-app.jpg 1600w" sizes="(max-width: 900px) 100vw, 50vw" alt="Everdust on Vision Pro and iPhone: a particle galaxy, iridescent soap film, a comet and a gas giant" width="1600" height="900" loading="lazy" decoding="async" style={{ width: '100%', height: 'auto' }}/></div>
+            <div className="card-body">
+              <div className="card-row"><p className="kicker">My app · Everdust</p><span className="date">Oct 2026</span></div>
+              <h3 className="h2 card-title"><a href="/work/everdust">Everdust: live physics worlds that move with your music</a></h3>
+              <p className="body">A particle universe simulator with 11 space science games and 14 narrated science stories, for iPhone, iPad, Mac, Apple TV and Vision Pro. Free public beta on TestFlight; App Store release pending.</p>
+              <dl className="result">
+                <div><dt>Reels</dt><dd><span className="num">3.17M</span> views on 21 reels in its first week (Oct 13–18, 2026)</dd></div>
+                <div><dt>Top reel</dt><dd><span className="num">754K</span> views</dd></div>
+              </dl>
+            </div>
+            <div className="card-foot">
+              <SmartLink href="/work/everdust">About Everdust</SmartLink>
+              <SmartLink href="https://everdust.ai">everdust.ai</SmartLink>
+              <SmartLink href="https://www.instagram.com/everdustapp/">Instagram</SmartLink>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section className="section" style={{ paddingTop: 0 }} aria-labelledby="how-h">
       <div className="wrap how" data-reveal="">
         <div>
@@ -222,7 +264,7 @@ export default function Home() {
             <a className="btn btn-secondary" href="/lab">Enter the Lab <span className="arr in" aria-hidden="true">→</span></a>
             <a className="btn btn-secondary" href="/lab#live">Try it live <span className="arr in" aria-hidden="true">→</span></a>
           </div>
-          <p>Space and maths pieces run in your browser or in Vision Pro. Most of the Lab lives in Everdust, a physics-driven music visualizer for Vision Pro and iPhone. <SmartLink href={EVERDUST}>everdust.ai</SmartLink></p>
+          <p>Space and maths pieces run in your browser or in Vision Pro. Most of the Lab lives in Everdust, a particle universe simulator for iPhone, iPad, Mac, Apple TV and Vision Pro. <SmartLink href={EVERDUST}>everdust.ai</SmartLink></p>
         </div>
       </div>
     </section>

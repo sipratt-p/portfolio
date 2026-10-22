@@ -37,7 +37,9 @@ export type Editorial = {
   /** When the underlying work happened (ISO dates). `end` is the sort and publication date; `label` overrides the displayed range. */
   work?: { start: string; end: string; label?: string };
   sections: Section[]; basis: string; limitations: string;
-  related: ReadingLink[]; product?: { name: string; url: string; description: string };
+  related: ReadingLink[];
+  /** The product a project page is about. `category` and `os` feed its JSON-LD (default: a web app in a browser). */
+  product?: { name: string; url: string; description: string; category?: string; os?: string };
   /** "What I found": 3–5 measured bullets shown before the body. */
   findings?: string[];
   /** Writing index filters. */
@@ -295,6 +297,109 @@ export const independentProjects: Editorial[] = [
     basis: 'Prepared October 20, 2026 from the twelve cards at huggingface.co/decosaai, as published 27–29 September 2026. Every number here is copied from a card, which names the held-out set it was measured on; the eleven model cards keep their full results in eval_summary.json. No models were re-run for this page.',
     limitations: 'Most test sets are synthetic, made by the same generators as the training data; where a card has an outside or real set, this page gives that result too. The language-model baseline is one open model, Qwen3.8-27B, sometimes on a sample. None of these models has been validated for a regulated workflow, and nothing here is medical, legal or financial advice.',
     related: [{ label: 'scribe-bench: when ROUGE goes up and the notes get worse', href: '/work/scribe-bench' }, { label: 'Autoresearch at home: eight search-and-score loops, and where the scorer lied', href: '/writing/autoresearch-at-home' }]
+  },
+  {
+    slug: 'decosa', type: 'project', work: { start: '2026-09-25', end: '2026-10-11', label: 'September–October 2026' }, prepared: '2026-10-20', topics: ['Products', 'Evals'],
+    findings: [
+      'On October 20, 85 of Decosa’s 86 tools had an eval of their own, and 69 were scored on cases held out from tuning.',
+      'Check a brief before filing caught 17 of 19 planted fake citations in held-out real briefs, at about $0.015 and a 12-second median per brief.',
+      'In a one-day pilot on a rented confidential GPU, 3,329 sealed requests ran with no errors, and 249 of 249 sealed receipts checked out offline.',
+      'Every hosted model call returns a signed receipt with hashes of what went in and out. The docs also say what it does not prove: which weights an outside provider ran.'
+    ],
+    title: 'Decosa: AI tools that do one job and show their work.',
+    seoTitle: 'Decosa: Applied AI Tools on Open Models, with Signed Receipts and Public Evals', category: 'Independent product / Applied AI company',
+    description: 'Decosa, Seth Pratt’s applied-AI company: 86 tools that each do one job on open models, an API in the OpenAI format, a signed receipt for every hosted model call, and each tool’s accuracy, cost and time published with its caveats.',
+    lede: 'Decosa is my company. It makes AI tools that each do one real job, such as checking a brief before filing or filling a form from your own papers, on open-weight models and through an API in the OpenAI format. Every hosted model call comes back with a signed receipt, and every tool publishes its accuracy, cost and time on its own test set, with the caveats.',
+    takeaway: 'An AI tool is easier to trust when every result points at its source, every model call leaves a signed receipt, and its accuracy, cost and time are published with the caveats.',
+    facts: [{ label: 'Built by', value: 'My lab: a team of AI agents I direct' }, { label: 'Live', value: 'decosa.ai · public since 11 October 2026' }, { label: 'Open', value: 'Own models Apache-2.0 · self-host code AGPL-3.0, source on request' }],
+    workflowLabel: 'How a Decosa tool goes live · simplified from the public site',
+    workflow: ['Pick a job a professional does by hand', 'Build the tool on open models', 'Score it on its own test set', 'Publish accuracy, cost and time', 'Sign a receipt for every model call'],
+    sections: [
+      { id: 'what', title: 'What Decosa is', paragraphs: [
+        'Decosa makes AI tools that each do one job a professional already does by hand: digest a deposition, check a brief before filing, appeal a denial, fill a form from your own papers. They are grouped by the work they serve, from legal, healthcare, finance and HR to compliance, operations, life sciences and creative work. Every one opens on a sample, so you can see a real run before you sign up.',
+        'Under the tools are open-weight models, named with their versions and licences on each tool’s page, so anyone can run the same models themselves. The tools are also an API in the OpenAI chat format: any OpenAI SDK or coding agent works once its base URL points at Decosa. Usage is paid in credits of one US dollar each, and a new key gets a small free daily budget to try it.',
+        'There are 86 tools, 73 of them live and 13 in preview. A separate Labs page lists 22 more working tools that have not cleared the bar yet, labelled that way.'
+      ], links: [{ label: 'Browse the tools on decosa.ai', href: 'https://decosa.ai/tools' }] },
+      { id: 'receipts', title: 'A signed receipt for every model call', paragraphs: [
+        'Every hosted model call from a Decosa tool comes with a receipt: which model served the request, hashes of exactly what went in and came out, and the token counts, signed with an Ed25519 key that Decosa publishes. Receipts hold hashes and signatures, never the text, and anyone can check one on the site or through the API.',
+        'The docs are plain about what that proves. A receipt shows that Decosa signed the record, that nothing in it changed afterwards, and what Decosa sent and received. It does not prove which weights an outside provider ran, or that the provider kept no copy. A self-hosted box signs its own receipts with a key it makes on first start, which is an attestation by that box, not a proof that the model ran.'
+      ], links: [{ label: 'What a Decosa receipt proves, and what it doesn’t', href: 'https://decosa.ai/docs/receipts' }] },
+      { id: 'measured', title: 'Measured in public', paragraphs: [
+        'Every tool shows its time per task, cost per task and accuracy on a test set, with the dataset, what was held out, the caveats and the date. A nightly check re-runs the hosted tools on their samples. On October 20, 85 of the 86 tools had an eval of their own, 69 were scored on cases held out from tuning, and 73 had passed a fresh self-host setup run end to end.',
+        'Two examples, with their limits. Check a brief before filing caught 17 of 19 planted fake citations (89%) in held-out excerpts of real Solicitor General briefs, and called 19 of 511 items in unaltered real briefs problems when they were not (3.7%). The set is small, so the intervals are wide. Fill a form from your papers wrote 1 wrong answer in 491 (0.20%) on 50 held-out synthetic PDF forms, and its eval says real flat forms will be harder.',
+        'Most tool evals use synthetic or public test sets. The accuracy page says so directly: a synthetic test set is not real-world performance, so run your own sample first.'
+      ], links: [{ label: 'Accuracy for every Decosa tool', href: 'https://decosa.ai/metrics' }] },
+      { id: 'models', title: 'Open models, including our own', paragraphs: [
+        'Hosted calls go encrypted to Decosa’s API server. The open models are run by NEAR AI through OpenRouter, with Reka AI as the only fallback, under Decosa’s account and with zero data retention requested, and nothing is used for training. Each receipt names who served the call.',
+        'Where no open model was good enough under a licence that allows commercial use, my lab trained its own. Eleven small verifiers and readers are on Hugging Face under Apache-2.0, and two of them are already building blocks in the API: citation support and note-detail checking. Their held-out results and limits are on the models page.'
+      ], links: [{ label: 'The eleven open models, with their held-out results', href: '/work/models' }, { label: 'Hosted API: who serves each model', href: 'https://decosa.ai/developers#serving' }] },
+      { id: 'private-data', title: 'Self-hosted, sealed or confidential', paragraphs: [
+        'For data that cannot go to an ordinary hosted service there are three routes, at different stages. Self-hosting runs a tool and its model on your own NVIDIA GPU or Mac, with nothing sent to Decosa. It is in early access and on request, and its code is licensed AGPL-3.0-or-later, though the source is not public yet.',
+        'A sealed tier encrypted each prompt on the user’s machine with HPKE (RFC 9180) and decrypted it only on a model server Decosa operated, so Decosa’s API forwarded only ciphertext. It is paused at launch: hosted calls now run on outside providers, so there is no Decosa server to decrypt on, and the sealed endpoints are off rather than falling back to plain text.',
+        'It returns as a confidential tier, with the model and the decryption inside a hardware-attested enclave. In a one-day pilot on 27–28 September 2026, on a rented NVIDIA H200 in an Intel TDX confidential VM, 3,329 sealed requests ran with no errors, 33 of 33 tools ran end to end through the enclave on their samples, and 249 of 249 sealed receipts checked out offline. There is no permanent confidential node yet. It is a tested pilot, offered by arrangement, and not yet for patient data.'
+      ], links: [{ label: 'The confidential option and the pilot’s numbers', href: 'https://decosa.ai/confidential' }, { label: 'The recipe behind the pilot, on Hugging Face', href: 'https://huggingface.co/decosaai/confidential-qwen-recipe' }] },
+      { id: 'family', title: 'Apps by Decosa', paragraphs: [
+        'Decosa, Inc. makes Everdust, the physics and music app. Five more apps come from the same team and keep their own products and accounts: Cue Mixtapes, Snug, AutoTalent, ElmoSEO and Dr. Grey. The hard part under each, its engine, is moving into Decosa one at a time, so every app and every Decosa tool can use it. Next are the mix cue engine from Cue, the room engine from Snug, the signed decision record from AutoTalent, the site-check engine from ElmoSEO and the evidence engine from Dr. Grey.',
+        'Everdust already uses the same kind of stack. Its scene Creator, in beta on TestFlight, builds scenes with open models that Decosa can serve, DeepSeek V4 Flash for its Quick mode, called through OpenRouter for now rather than Decosa’s own hosting.'
+      ], links: [{ label: 'Everdust: live physics worlds that move with your music', href: '/work/everdust' }, { label: 'Apps by Decosa', href: 'https://decosa.ai/family' }] },
+      { id: 'not-yet', title: 'What is not there yet', paragraphs: [
+        'Several hosted services are switched off for now, among them live transcription, the document reader, translation and Studio renders. Tool pages that need one show a recorded run and say so. The sealed tier is paused, the confidential tier is a pilot, self-hosting is on request until the code and container images are published, and the site’s chat guide is off.',
+        'What exists is the public site, the API, the published evals with their caveats, and the open models. This page makes no claims about who uses them.'
+      ] }
+    ],
+    basis: 'Prepared October 20, 2026 from the live decosa.ai site and docs as read that day (home, about, accuracy, pricing, receipts, sealed tier, self-hosting, the confidential option, Apps by Decosa and llms.txt) and the model cards at huggingface.co/decosaai. Numbers on decosa.ai change as tools are re-measured; the ones here are as read on October 20.',
+    limitations: 'Decosa is my own company, so this page is not independent. Most tool evals use synthetic or public test sets, which the site itself says are not real-world performance. Hosted calls run on outside providers, and a receipt does not prove which weights they ran. Self-hosting is on request, and its source is not public yet.',
+    related: [{ label: 'Open models: verifiers and readers, mostly trained on planted errors', href: '/work/models' }, { label: 'Everdust: live physics worlds that move with your music', href: '/work/everdust' }],
+    product: { name: 'Decosa', url: 'https://decosa.ai', description: 'Try a tool on a sample, read the accuracy page, or get an API key.' }
+  },
+  {
+    slug: 'everdust', type: 'project', work: { start: '2026-09-30', end: '2026-10-18', label: 'September–October 2026' }, prepared: '2026-10-20', topics: ['Products'],
+    findings: [
+      'In its first week of reels, October 13–18, 2026, @everdustapp posted 21 Instagram reels that drew 3.17M views. The top reel drew 754K.',
+      'On a 20-prompt eval of Create, all 20 generated games were playable, at a median $0.29 a game.',
+      'One agent ported four interactive nebula simulations from the web to the native engine in 81 minutes, and the headless Mac test passed on its first run.',
+      'Every VR build I played on October 10 had passed its bots, yet about 30 of the 30 issues I hit in the headset had escaped every eval.'
+    ],
+    title: 'Everdust: live physics worlds that move with your music.',
+    seoTitle: 'Everdust: Live Physics Worlds, Space Science Games and Narrated Stories', category: 'Independent product / Physics and music app',
+    description: 'Seth Pratt’s Everdust, made by Decosa, Inc.: a particle universe simulator with 11 space science games and 14 narrated science stories for iPhone, iPad, Mac, Apple TV and Vision Pro, where every world is a live simulation that moves with music.',
+    lede: 'Everdust is a particle universe simulator where every world is a live simulation that moves with your music, from colliding galaxies to a slime mold with no brain. It runs on iPhone, iPad, Mac, Apple TV and Vision Pro, and Decosa, Inc., my company, makes it. It is in a free public beta on TestFlight while the App Store release is pending.',
+    takeaway: 'Every world is a live simulation, not a video, and the games and the narrated stories run on that same physics.',
+    facts: [{ label: 'Built by', value: 'My lab: a team of AI agents I direct' }, { label: 'Platforms', value: 'iPhone, iPad, Mac, Apple TV and Vision Pro' }, { label: 'Status', value: 'Free TestFlight beta · App Store release pending' }],
+    workflowLabel: 'How a world gets into Everdust · simplified from the notes linked below',
+    workflow: ['Prototype the physics on the web', 'Port it to the native engine', 'Check parity on every platform', 'Test with bots and in the headset', 'Release it in the beta'],
+    sections: [
+      { id: 'what', title: 'What it is', paragraphs: [
+        'Everdust is a particle universe simulator. Every world in it is a live simulation, not a video: galaxies colliding, a black hole you can feed, living fluids, a slime mold that thinks without a brain. The music does not sit on top of the worlds; it moves their physics. In Ferrofluid the bass is the magnet, so the spikes rise past a threshold and sharpen as the bass swells.',
+        'The engine has 121 live scenes. Around them are 11 space science games built on the same simulations, three of them for two players, and 14 narrated science stories in which every chapter is a simulation you can reach into while the narrator explains it. Two of the stories, Anatomy of a Thought I and II, follow one prompt through a small language model and through one about 16 times larger, the same question as my interactive paper.'
+      ], links: [{ label: 'everdust.ai', href: 'https://everdust.ai' }, { label: 'Watching a language model think (interactive paper)', href: '/writing/watching-a-language-model-think' }] },
+      { id: 'platforms', title: 'One engine, five Apple platforms and Quest', paragraphs: [
+        'Everdust is in a free public beta on TestFlight for iPhone, iPad, Mac, Apple TV and Vision Pro, and Meta Quest has an alpha list. The App Store release is pending. In the headset the worlds become things to handle: in the Vision Pro beta you can pinch a galaxy’s core and throw it into another, or carry a black hole and watch the stars bend.',
+        'One shader source compiles to Metal for the five Apple platforms and to SPIR-V for Quest. AI agents port each new world from a web prototype to the native engine, and parity tests between platforms keep the ports honest. On October 10 one agent ported four interactive nebula simulations in 81 minutes, and the tests caught a power function that returned NaN on Metal.'
+      ], links: [{ label: 'One sim, seven platforms: porting with agents and tests', href: '/writing/one-sim-seven-platforms' }] },
+      { id: 'create', title: 'Create: describe a world, get a game', paragraphs: [
+        'Create turns a sentence into a playable game. A language model writes the game as data from a list of registered physics parts, and a validator proves that every level can be won, and that the first can be lost, before anyone sees it. On a 20-prompt eval all 20 games were playable, at a median $0.29 a game.',
+        'In the app, the scene Creator is in beta on TestFlight. Its Quick mode runs on an open model, DeepSeek V4 Flash, through OpenRouter for now.'
+      ], links: [{ label: 'Create: a language model, a parts list and a validator', href: '/writing/create-constrained-generation' }] },
+      { id: 'testing', title: 'Tested by bots, AI panels and a person in a headset', paragraphs: [
+        'The nightly run before my headset sessions covered 550,948 bot episodes and about 4.2 billion invariant checks. They still missed what a person finds: on October 10 every build I played had passed its bots, and about 30 of the 30 issues I hit in the headset had escaped every eval. Each escaped issue becomes a new eval the same day.',
+        'For tuning, panels of AI playtesters scored 21 revisions of one VR physics game. Their mean rose from 5.11 to 7.72 and then stalled short of the 8.5 target. The mechanic they praised most made the game too easy, which a noisy bot and my first play in the headset showed.'
+      ], links: [{ label: 'Testing a VR game: our bots knew the answer, a person in a headset didn’t', href: '/writing/testing-a-vr-game' }, { label: 'Tuning a game with panels of AI playtesters', href: '/writing/tuning-a-game-with-ai-playtesters' }] },
+      { id: 'lab', title: 'Where the Lab lives', paragraphs: [
+        'Most of the pieces in my Lab live in Everdust: the strange attractors our own search found, the simulated nebulae, the black holes and the artificial life. The space and maths pieces also run in a browser at everdust.ai/play, and the engine renders seamless 4K physics loops for stages, streams and edits.'
+      ], links: [{ label: 'The Lab', href: '/lab' }, { label: 'Try the live pieces on everdust.ai/play', href: 'https://everdust.ai/play' }] },
+      { id: 'reels', title: 'The first week of reels', paragraphs: [
+        'In its first week of reels, from October 13 to 18, 2026, the @everdustapp Instagram account posted 21 reels that drew 3.17 million views. The most watched, the second part of a series on how the continents moved, drew 754K. Four reels passed 400K: that one, the first parts of two “2×” what-if series (671K and 578K), and the first continents reel (461K).',
+        'Nearly all of those views came from people who did not follow the account: 99.6% for the top reel. The account had 4,025 followers on October 20. A week of views is attention, not installs, and says nothing yet about who keeps the app.'
+      ], links: [{ label: '@everdustapp on Instagram', href: 'https://www.instagram.com/everdustapp/' }] },
+      { id: 'not-claiming', title: 'What I am not claiming', paragraphs: [
+        'There is no App Store listing yet, so there are no ratings or download numbers here. Reel views are Instagram’s own counts for one week. The bot runs and AI panel scores above are evals of builds, not reviews from players.'
+      ] }
+    ],
+    basis: 'Prepared October 20, 2026 from the live everdust.ai site, the Apps by Decosa page on decosa.ai, the field notes linked on this page, and the @everdustapp Instagram insights for the 21 reels posted October 13–18, pulled on October 20.',
+    limitations: 'Everdust is my own product, so this page is not independent. Reel views are Instagram’s own counts for one week and are not installs or users. The app is in a public beta with no App Store listing yet. Eval numbers come from the field notes, each with its own scope.',
+    related: [{ label: 'Decosa: AI tools that do one job and show their work', href: '/work/decosa' }, { label: 'One sim, seven platforms: porting with agents and tests', href: '/writing/one-sim-seven-platforms' }, { label: 'The Lab: physics, lifeforms and live worlds', href: '/lab' }],
+    product: { name: 'Everdust', url: 'https://everdust.ai', description: 'Join the free beta on TestFlight, or try the live worlds in your browser.', category: 'GameApplication', os: 'iOS, iPadOS, macOS, tvOS, visionOS' }
   }
 ];
 
