@@ -13,7 +13,7 @@ const independent = [
   { t: 'coding-agent-bench', d: '82 scored runs of local models and agent harnesses; found and fixed a grading bug that scored an answer 17/100 (the same answer, re-scored, got 97/100), and measured a 25 to 40 point harness effect on one model.', href: '/writing/local-agent-evaluations' },
   { t: 'Serving kits', d: 'Recipes for 100B+ open models on 2× RTX PRO 6000 and a Mac Studio: NVFP4/FP8, offload, MTP speculative decoding.', href: '/writing/local-model-performance-engineering' },
   { t: 'Confidential Research Platform', d: 'A local, encrypted AI assistant with private search, tested end to end with packet captures; 584 tests.', href: '/writing/private-local-ai-assistant' },
-  { t: 'Shipped products', d: 'Decosa (decosa.ai: 86 AI tools on open models, each with published accuracy and a signed receipt per model call), Everdust (iPhone, iPad, Mac, Apple TV and Vision Pro; free TestFlight beta, App Store release pending), Create, ElmoSEO (live, paying customers), Cue, AutoTalent, Dr. Grey.', href: '/work' },
+  { t: 'Shipped products', d: 'Decosa (decosa.ai: 86 AI tools on open models, each with published accuracy and a signed receipt per model call), Everdust (live on Apple Vision Pro and Google Play; free TestFlight beta for iPhone, iPad, Mac and Apple TV), Create, ElmoSEO (live, paying customers), Cue, AutoTalent, Dr. Grey.', href: '/work' },
 ];
 
 export default function Resume() {

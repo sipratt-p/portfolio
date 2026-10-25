@@ -192,7 +192,7 @@ export default function Home() {
             <div className="card-body">
               <div className="card-row"><p className="kicker">My app · Everdust</p><span className="date">Oct 2026</span></div>
               <h3 className="h2 card-title"><a href="/work/everdust">Everdust: live physics worlds that move with your music</a></h3>
-              <p className="body">A particle universe simulator with 11 space science games and 14 narrated science stories, for iPhone, iPad, Mac, Apple TV and Vision Pro. Free public beta on TestFlight; App Store release pending.</p>
+              <p className="body">A particle universe simulator with 11 space science games and 14 narrated science stories, live on Apple Vision Pro and Google Play, with iPhone, iPad, Mac and Apple TV in a free TestFlight beta.</p>
               <dl className="result">
                 <div><dt>Reels</dt><dd><span className="num">3.17M</span> views on 21 reels in its first week (Oct 13–18, 2026)</dd></div>
                 <div><dt>Top reel</dt><dd><span className="num">754K</span> views</dd></div>
