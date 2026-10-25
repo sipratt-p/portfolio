@@ -266,7 +266,7 @@ export default function Home() {
             <a className="btn btn-secondary" href="/lab">Enter the Lab <span className="arr in" aria-hidden="true">→</span></a>
             <a className="btn btn-secondary" href="/lab#live">Try it live <span className="arr in" aria-hidden="true">→</span></a>
           </div>
-          <p>Space and maths pieces run in your browser or in Vision Pro. Most of the Lab lives in Everdust, a particle universe simulator for iPhone, iPad, Mac, Apple TV and Vision Pro. <SmartLink href={EVERDUST}>everdust.ai</SmartLink></p>
+          <p>Space and maths pieces run in your browser or in Vision Pro. Most of the Lab lives in Everdust, a particle universe simulator, live on Apple Vision Pro and Android (iPhone, iPad, Mac and Apple TV are in App Store review). <SmartLink href={EVERDUST}>everdust.ai</SmartLink></p>
         </div>
       </div>
     </section>
