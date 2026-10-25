@@ -33,10 +33,10 @@ export const workItems: WorkItem[] = [
   },
   {
     slug: 'everdust', title: 'Everdust', topics: ['Products'], date: '2026-10', kicker: 'Products · Shipped',
-    summary: 'A particle universe simulator, 11 space science games and 14 narrated science stories for iPhone, iPad, Mac, Apple TV and Vision Pro, where every world is a live simulation. In its first week of reels, October 13–18, 2026, 21 Instagram reels drew 3.17M views.',
-    chips: ['App Store release pending', 'free TestFlight beta', '3.17M reel views in week one'],
+    summary: 'A particle universe simulator, 11 space science games and 14 narrated science stories, live on Apple Vision Pro and Android and in beta on iPhone, iPad, Mac and Apple TV, where every world is a live simulation. In its first week of reels, October 13–18, 2026, 21 Instagram reels drew 3.17M views.',
+    chips: ['Live on Apple Vision Pro and Google Play', 'free TestFlight beta for iPhone, iPad, Mac, Apple TV', '3.17M reel views in week one'],
     primary: '/work/everdust',
-    links: [{ label: 'Project', href: '/work/everdust' }, { label: 'everdust.ai', href: 'https://everdust.ai' }, { label: 'Instagram', href: 'https://www.instagram.com/everdustapp/' }, { label: 'The Lab', href: '/lab' }],
+    links: [{ label: 'Project', href: '/work/everdust' }, { label: 'everdust.ai', href: 'https://everdust.ai' }, { label: 'App Store', href: 'https://apps.apple.com/us/app/everdust-space-science-games/id6818004038' }, { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=ai.decosa.everdust' }, { label: 'Instagram', href: 'https://www.instagram.com/everdustapp/' }, { label: 'The Lab', href: '/lab' }],
   },
   {
     slug: 'video-evals', title: 'When the lip-sync score picked the worse take', topics: ['Evals', 'Agents'], date: '2026-08', kicker: 'Evals · Video',
@@ -127,7 +127,7 @@ export const workItems: WorkItem[] = [
 
 /** The "Shipped" row on the home page. */
 export const shipped = [
-  { name: 'Everdust', status: 'App Store release pending', body: 'A particle universe simulator and space science games for iPhone, iPad, Mac, Apple TV and Vision Pro.', href: 'https://everdust.ai', linkLabel: 'everdust.ai' },
+  { name: 'Everdust', status: 'Live on Apple Vision Pro and Google Play', body: 'A particle universe simulator and space science games, free on Vision Pro and Android. iPhone, iPad, Mac and Apple TV are in a free beta.', href: 'https://everdust.ai', linkLabel: 'everdust.ai', stores: [{ label: 'App Store', href: 'https://apps.apple.com/us/app/everdust-space-science-games/id6818004038' }, { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=ai.decosa.everdust' }] },
   { name: 'Create', status: '20/20 playable in our eval', body: 'Describe a world, get a playable simulation, for about $0.29 a game.', href: 'https://everdust.ai', linkLabel: 'everdust.ai' },
   { name: 'ElmoSEO', status: 'Live, with paying customers', body: 'An SEO service built for AI search.', href: 'https://elmoseo.com', linkLabel: 'elmoseo.com' },
   { name: 'Dr. Grey', status: 'Live', body: 'Pick a goal and see which supplements have the strongest research, in plain words.', href: 'https://drgrey.ai', linkLabel: 'drgrey.ai' },
