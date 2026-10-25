@@ -239,7 +239,9 @@ export default function Home() {
             <p className="status">{s.status}</p>
             <h3 className="h3 card-title"><a href={s.href} target="_blank" rel="noreferrer">{s.name}<span className="sr-only"> (opens in a new tab)</span></a></h3>
             <p className="body">{s.body}</p>
-            <span className="link" aria-hidden="true">{s.linkLabel} <span className="arr out">↗</span></span>
+            {'stores' in s
+              ? <span className="link ship-stores">{s.stores.map(l => <a key={l.href} href={l.href} target="_blank" rel="noreferrer">{l.label} <span className="arr out" aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span></a>)}</span>
+              : <span className="link" aria-hidden="true">{s.linkLabel} <span className="arr out">↗</span></span>}
           </article>)}
         </div>
       </div>

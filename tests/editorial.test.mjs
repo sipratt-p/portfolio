@@ -189,10 +189,10 @@ test('Decosa and Everdust have sourced project pages, Work cards and a home feat
  const ds=JSON.stringify(d),es=JSON.stringify(e);
  for(const term of ['86 tools','69 were scored','17 of 19','3,329','249 of 249','paused at launch','not public yet','AGPL-3.0-or-later','does not prove','not real-world performance','/work/models'])assert(ds.includes(term),term);
  assert.equal(d.product.url,'https://decosa.ai');
- for(const term of ['3.17 million','754K','4,025','October 13 to 18, 2026','first week of reels','App Store release is pending','free public beta on TestFlight','https://www.instagram.com/everdustapp/','not installs'])assert(es.includes(term),term);
- assert.equal(e.product.url,'https://everdust.ai');assert.equal(e.product.os,'iOS, iPadOS, macOS, tvOS, visionOS');
+ for(const term of ['3.17 million','754K','4,025','October 13 to 18, 2026','first week of reels','live on the App Store for Apple Vision Pro','free public beta on TestFlight','https://www.instagram.com/everdustapp/','not installs'])assert(es.includes(term),term);
+ assert.equal(e.product.url,'https://everdust.ai');assert.equal(e.product.os,'visionOS, Android');
  for(const s of [ds,es]){assert(!s.includes('—'),'no em dashes');assert(!/customer|revenue|testnet|crypto|token sale/i.test(s));}
- const work=read('lib/work.ts');for(const t of ["primary: '/work/decosa'","primary: '/work/everdust'",'App Store release pending','https://www.instagram.com/everdustapp/'])assert(work.includes(t),t);
+ const work=read('lib/work.ts');for(const t of ["primary: '/work/decosa'","primary: '/work/everdust'",'Live on Apple Vision Pro and Google Play','https://www.instagram.com/everdustapp/'])assert(work.includes(t),t);
  const home=read('app/page.tsx');for(const t of ['href="/work/decosa"','href="/work/everdust"','What I’m building'])assert(home.includes(t),t);
  for(const f of ['public/projects/decosa/decosa-home.jpg','public/projects/decosa/decosa-home-800.jpg'])assert(statSync(f).size>20000&&statSync(f).size<400000,f);
 });

@@ -140,7 +140,7 @@ test('SEO basics: OG card per route, large Twitter cards, sitemap lastmod, llms.
 
 test('Shipped row and Work index carry the agreed products and statuses', () => {
   assert.deepEqual(shipped.map(s => s.name), ['Everdust', 'Create', 'ElmoSEO', 'Dr. Grey', 'Cue']);
-  assert(shipped.find(s => s.name === 'Everdust').status.includes('App Store release pending'));
+  assert(shipped.find(s => s.name === 'Everdust').status.includes('Live on Apple Vision Pro and Google Play'));
   for (const slug of ['scribe-bench', 'video-evals', 'coding-agent-bench', 'live-copilot', 'serving-kits', 'ai-playtesters', 'confidential-research-platform', 'refusal-ablation', 'cue', 'autotalent', 'drgrey-ai', 'elmoseo', 'everdust', 'create'])
     assert(workItems.some(w => w.slug === slug), slug);
 });
