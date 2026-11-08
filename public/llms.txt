@@ -23,7 +23,7 @@ Every number on the site links to the file it came from. Negative results and re
 - [Confidential Research Platform](https://www.sethpratt.com/writing/private-local-ai-assistant): A local, encrypted AI assistant with private search over Tor or your own VPN, tested end to end from clean installs with packet captures. (584 tests; 32-case model benchmark)
 - [Cue](https://www.sethpratt.com/work/cue): A mixtape app for iPhone and an open engine that finds where each song starts inside a DJ mix, scored against DJ-published timestamps. (99/190 starts within 10 s)
 - [AutoTalent](https://www.sethpratt.com/work/autotalent): Agentic recruiting: candidate search agents, MCP integrations, and workflows for outreach and pipeline management, with recruiters in control of decisions. (web · CLI · MCP)
-- [Dr. Grey AI](https://www.sethpratt.com/work/drgrey-ai): An evidence-focused research tool for exploring supplements, clinical studies and health topics, with evidence grading. (live; evidence grading)
+- [Winnowleaf](https://www.sethpratt.com/work/drgrey-ai): An evidence-focused research tool for exploring supplements, clinical studies and health topics, with evidence grading. (live; evidence grading)
 - [ElmoSEO](https://elmoseo.com): An SEO service for the age of AI search. Live, with paying customers. (live · paying customers)
 - [Create](https://everdust.ai): Describe a world, get a playable simulation: a language model writes a recipe from registered physics primitives, and a validator checks it before it runs. (20/20 playable in our eval; ~$0.29 per game)
 - [Archive](https://www.sethpratt.com/work/archive): earlier product case studies

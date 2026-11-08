@@ -103,11 +103,11 @@ export const workItems: WorkItem[] = [
     links: [{ label: 'Project', href: '/work/autotalent' }, { label: 'autotalent.ai', href: 'https://autotalent.ai' }, { label: 'Tuning notes', href: '/writing/tuning-autotalent' }],
   },
   {
-    slug: 'drgrey-ai', title: 'Dr. Grey AI', topics: ['Products'], date: '2026-10', kicker: 'Products · Shipped',
+    slug: 'drgrey-ai', title: 'Winnowleaf', topics: ['Products'], date: '2026-10', kicker: 'Products · Shipped',
     summary: 'An evidence-focused research tool for exploring supplements, clinical studies and health topics, with evidence grading.',
     chips: ['live', 'evidence grading'],
     primary: '/work/drgrey-ai',
-    links: [{ label: 'Project', href: '/work/drgrey-ai' }, { label: 'drgrey.ai', href: 'https://drgrey.ai' }],
+    links: [{ label: 'Project', href: '/work/drgrey-ai' }, { label: 'winnowleaf.com', href: 'https://winnowleaf.com' }],
   },
   {
     slug: 'elmoseo', title: 'ElmoSEO', topics: ['Products'], date: '2026-10', kicker: 'Products · Shipped',
@@ -130,6 +130,6 @@ export const shipped = [
   { name: 'Everdust', status: 'Live on Apple Vision Pro and Google Play', body: 'A particle universe simulator and space science games, free on Vision Pro and Android. iPhone, iPad, Mac and Apple TV are in a free beta.', href: 'https://everdust.ai', linkLabel: 'everdust.ai', stores: [{ label: 'App Store', href: 'https://apps.apple.com/us/app/everdust-space-science-games/id6818004038' }, { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=ai.decosa.everdust' }] },
   { name: 'Create', status: '20/20 playable in our eval', body: 'Describe a world, get a playable simulation, for about $0.29 a game.', href: 'https://everdust.ai', linkLabel: 'everdust.ai' },
   { name: 'ElmoSEO', status: 'Live, with paying customers', body: 'An SEO service built for AI search.', href: 'https://elmoseo.com', linkLabel: 'elmoseo.com' },
-  { name: 'Dr. Grey', status: 'Live', body: 'Pick a goal and see which supplements have the strongest research, in plain words.', href: 'https://drgrey.ai', linkLabel: 'drgrey.ai' },
+  { name: 'Winnowleaf', status: 'Live', body: 'Pick a goal and see which supplements have the strongest research, in plain words.', href: 'https://winnowleaf.com', linkLabel: 'winnowleaf.com' },
   { name: 'Cue', status: 'iOS app + open engine', body: 'A mixtape app, and an open engine that finds where songs start in DJ mixes.', href: 'https://github.com/sipratt-p/cue-engine', linkLabel: 'cue-engine' },
 ] as const;

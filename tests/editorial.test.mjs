@@ -26,10 +26,10 @@ test('Agent evaluations do not hide human intervention or turn timeouts into a v
 });
 test('Project pages retain descriptive product links without assigning medical credentials',()=>{
  assert.equal(independentProjects[0].product.url,'https://autotalent.ai');
- assert.equal(independentProjects[1].product.url,'https://drgrey.ai');
+ assert.equal(independentProjects[1].product.url,'https://winnowleaf.com');
  assert.equal(independentProjects[2].product.url,'https://github.com/sipratt-p/cue-engine');
  assert(JSON.stringify(independentProjects[1]).includes('not a claim to medical authorship'));
- const work=read('lib/work.ts');for(const url of ['https://autotalent.ai','https://drgrey.ai',"'/work/autotalent'","'/work/drgrey-ai'"])assert(work.includes(url),url);
+ const work=read('lib/work.ts');for(const url of ['https://autotalent.ai','https://winnowleaf.com',"'/work/autotalent'","'/work/drgrey-ai'"])assert(work.includes(url),url);
 });
 test('Indexing requires both explicit approval flag and Vercel production environment',()=>{
  const url=dataUrl(compile('lib/seo.ts'));

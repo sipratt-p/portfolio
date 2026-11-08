@@ -82,14 +82,14 @@ export const independentProjects: Editorial[] = [
     ],
     basis: 'Prepared September 5, 2026 from AutoTalent’s public product, CLI and documentation pages, and my August 2026 recruiting-pipeline wiki. Search-agent and MCP scope confirmed September 6, 2026. The sourcing pilot is separate from the product.',
     limitations: 'Independent project, not employer work. Product documentation describes capabilities, not independently verified hiring outcomes. This overview does not reproduce candidate records or private sourcing data.',
-    related: [ { label: 'How we tuned it: what we measured and what moved', href: '/writing/tuning-autotalent' },{ label: 'How I design long-running agents', href: '/writing/long-running-ai-agents' }, { label: 'Dr. Grey: a different problem of evidence and trust', href: '/work/drgrey-ai' }],
+    related: [ { label: 'How we tuned it: what we measured and what moved', href: '/writing/tuning-autotalent' },{ label: 'How I design long-running agents', href: '/writing/long-running-ai-agents' }, { label: 'Winnowleaf: a different problem of evidence and trust', href: '/work/drgrey-ai' }],
     product: { name: 'AutoTalent', url: 'https://autotalent.ai', description: 'Explore AutoTalent’s search agents, MCP integrations, and recruiting workflows.' }
   },
   {
-    slug: 'drgrey-ai', type: 'project', work: { start: '2026-01-31', end: '2026-08-20' }, topics: ["Products"], title: 'Dr. Grey: making research easier to inspect.',
-    seoTitle: 'Dr. Grey AI — Building an Evidence Research Product', category: 'Independent product / Research tools',
-    description: 'The product and engineering thinking behind Dr. Grey AI: research discovery, source-linked evidence, consistent data, and clear limits.',
-    lede: 'Dr. Grey is my research-discovery project. The product challenge is to make a complicated body of evidence navigable without making uncertainty disappear along the way.',
+    slug: 'drgrey-ai', type: 'project', work: { start: '2026-01-31', end: '2026-08-20' }, topics: ["Products"], title: 'Winnowleaf: making research easier to inspect.',
+    seoTitle: 'Winnowleaf (formerly Dr. Grey AI) — Building an Evidence Research Product', category: 'Independent product / Research tools',
+    description: 'The product and engineering thinking behind Winnowleaf, formerly Dr. Grey AI: research discovery, source-linked evidence, consistent data, and clear limits.',
+    lede: 'Winnowleaf (called Dr. Grey until November 2026) is my research-discovery project. The product challenge is to make a complicated body of evidence navigable without making uncertainty disappear along the way.',
     takeaway: 'A useful research interface should make it easier to question an answer, not merely easier to read one.',
     facts: [{ label: 'My role', value: 'Independent builder & product direction' }, { label: 'Focus', value: 'Research discovery & evidence presentation' }, { label: 'Scope', value: 'Educational information, not clinical advice' }],
     workflowLabel: 'Reader journey · simplified from the public product, not a clinical decision pathway',
@@ -101,7 +101,7 @@ export const independentProjects: Editorial[] = [
       ] },
       { id: 'experience', title: 'What the product exposes', paragraphs: [
         'The public product organizes supplement and condition research around reported outcomes. Its methodology describes PubMed-indexed sources, links to research papers, and A–D evidence grades. These are navigation and explanation mechanisms; a grade is not a personalized treatment recommendation.'
-      ], links: [{ label: 'Read Dr. Grey’s research methodology', href: 'https://drgrey.ai/about' }, { label: 'Explore the supplement research directory', href: 'https://drgrey.ai/supplements' }] },
+      ], links: [{ label: 'Read Winnowleaf’s research methodology', href: 'https://winnowleaf.com/about' }, { label: 'Explore the supplement research directory', href: 'https://winnowleaf.com/supplements' }] },
       { id: 'architecture', title: 'The engineering behind an evidence interface', paragraphs: [
         'The local implementation uses a Next.js application over a SQLite-backed research dataset. It has explicit representations for citations, outcomes, and research metrics. That creates a practical engineering obligation: a detail page, a directory summary, and a search result should not silently tell different stories about the same underlying data.',
         'The direction is a shared research read model rather than disconnected summaries. Source projection, grade aggregation, and page presentation need to agree. These are software consistency concerns, separate from whether a study or a grading method is scientifically sound.'
@@ -114,16 +114,16 @@ export const independentProjects: Editorial[] = [
       { id: 'limits', title: 'Where the boundary belongs', paragraphs: [
         'The public methodology explicitly notes incomplete research coverage, periodic updates, and an inability to account for individual circumstances. Those limitations belong near the experience, not only in a footer.',
         'Clinical validation, named qualified review, and freshness of the underlying evidence are distinct responsibilities. This case study describes the product work; it does not certify that every grade or citation has been independently reviewed.'
-      ], links: [{ label: 'Read Dr. Grey’s medical disclaimer', href: 'https://drgrey.ai/disclaimer' }] },
+      ], links: [{ label: 'Read Winnowleaf’s medical disclaimer', href: 'https://winnowleaf.com/disclaimer' }] },
       { id: 'outcomes', title: 'A real product, without invented impact numbers', paragraphs: [
         'The observable output is a public research-browsing experience and its methodology. I am not attaching patient outcomes, accuracy percentages, or audience-growth claims to it without supporting measurements.',
-        'I also used Dr. Grey as a subject in my LTX UGC production experiments. Those experiments taught me about speech, lip-sync, and take selection—not supplement efficacy. Keeping those two kinds of evidence separate is part of telling the project honestly.'
+        'I also used the product, then called Dr. Grey, as a subject in my LTX UGC production experiments. Those experiments taught me about speech, lip-sync, and take selection—not supplement efficacy. Keeping those two kinds of evidence separate is part of telling the project honestly.'
       ], links: [{ label: 'What H3 and LTX video evaluation actually caught', href: '/writing/evaluating-agentic-video' }] }
     ],
-    basis: 'Prepared September 5, 2026 from Dr. Grey’s public methodology and research pages, read-only inspection of the local application, and my UGC Factory experiment records. Product implementation is evolving.',
+    basis: 'Prepared September 5, 2026 from the public methodology and research pages of Dr. Grey (renamed Winnowleaf in November 2026), read-only inspection of the local application, and my UGC Factory experiment records. Product implementation is evolving.',
     limitations: 'Educational research product. This page provides no medical advice or clinical validation. It describes my independent product work, not a medical qualification or an employer-endorsed service.',
     related: [{ label: 'AutoTalent: agentic recruiting with reviewable evidence', href: '/work/autotalent' }],
-    product: { name: 'Dr. Grey AI', url: 'https://drgrey.ai', description: 'Explore the research interface, sources, and methodology.' }
+    product: { name: 'Winnowleaf', url: 'https://winnowleaf.com', description: 'Explore the research interface, sources, and methodology.' }
   }
   ,
   {
@@ -339,7 +339,7 @@ export const independentProjects: Editorial[] = [
         'It returns as a confidential tier, with the model and the decryption inside a hardware-attested enclave. In a one-day pilot on 27–28 September 2026, on a rented NVIDIA H200 in an Intel TDX confidential VM, 3,329 sealed requests ran with no errors, 33 of 33 tools ran end to end through the enclave on their samples, and 249 of 249 sealed receipts checked out offline. There is no permanent confidential node yet. It is a tested pilot, offered by arrangement, and not yet for patient data.'
       ], links: [{ label: 'The confidential option and the pilot’s numbers', href: 'https://decosa.ai/confidential' }, { label: 'The recipe behind the pilot, on Hugging Face', href: 'https://huggingface.co/decosaai/confidential-qwen-recipe' }] },
       { id: 'family', title: 'Apps by Decosa', paragraphs: [
-        'Decosa, Inc. makes Everdust, the physics and music app. Five more apps come from the same team and keep their own products and accounts: Cue Mixtapes, Snug, AutoTalent, ElmoSEO and Dr. Grey. The hard part under each, its engine, is moving into Decosa one at a time, so every app and every Decosa tool can use it. Next are the mix cue engine from Cue, the room engine from Snug, the signed decision record from AutoTalent, the site-check engine from ElmoSEO and the evidence engine from Dr. Grey.',
+        'Decosa, Inc. makes Everdust, the physics and music app. Five more apps come from the same team and keep their own products and accounts: Cue Mixtapes, Snug, AutoTalent, ElmoSEO and Winnowleaf. The hard part under each, its engine, is moving into Decosa one at a time, so every app and every Decosa tool can use it. Next are the mix cue engine from Cue, the room engine from Snug, the signed decision record from AutoTalent, the site-check engine from ElmoSEO and the evidence engine from Winnowleaf.',
         'Everdust already uses the same kind of stack. Its scene Creator, in the Vision Pro app and the TestFlight beta, builds scenes with open models that Decosa can serve, DeepSeek V4 Flash for its Quick mode, called through OpenRouter for now rather than Decosa’s own hosting.'
       ], links: [{ label: 'Everdust: live physics worlds that move with your music', href: '/work/everdust' }, { label: 'Apps by Decosa', href: 'https://decosa.ai/family' }] },
       { id: 'not-yet', title: 'What is not there yet', paragraphs: [
@@ -474,7 +474,7 @@ export const notes: Editorial[] = [
         'In a June 12 Dr. Grey UGC experiment, selecting the best of two takes by lip-sync confidence brought back lip-smacking that the earlier single-take version did not have. The selected take scored better on correspondence between mouth movement and audio. That did not mean it sounded better.',
         'The LTX path could regenerate audio for each take, so the selector was not comparing the same soundtrack against different visuals. A better correspondence score could accompany a worse listening experience. Even a GOOD quality label did not remove the problem.',
         'The recorded remedy was to keep the candidate takes, reassemble from the cleaner ones, and investigate a separate mouth-noise penalty. That penalty was a proposed durable fix in those notes, not a validated universal solution. The durable lesson is already usable: do not optimize take selection on lip-sync alone.'
-      ], links: [{ label: 'The Dr. Grey product behind those UGC experiments', href: '/work/drgrey-ai' }, { label: 'The gate and the best-of-K code behind this experiment', href: 'https://github.com/sipratt-p/ugc-factory-core' }] },
+      ], links: [{ label: 'Winnowleaf (then Dr. Grey), the product behind those UGC experiments', href: '/work/drgrey-ai' }, { label: 'The gate and the best-of-K code behind this experiment', href: 'https://github.com/sipratt-p/ugc-factory-core' }] },
       { id: 'sequence', title: 'Evaluate the edit, not just its ingredients', paragraphs: [
         'The April LTX cross-version experiments found that per-frame face quality improved while some assembled transitions became much worse on flow-discontinuity measurements. A more elaborate splice and re-encode path was a suspect, not a proven isolated cause.',
         'Last-frame conditioning improved several measured first transitions in that experiment. It did not establish that every later seam was fixed. This is why I retain shot-level, boundary-level, and whole-sequence evidence rather than reducing a film to one average score.',
